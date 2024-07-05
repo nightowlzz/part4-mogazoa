@@ -1,24 +1,28 @@
-import { AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 
-// 응답에서 에러메시지를 추출해 문자열로 리턴합니다.
 export const extractErrorMessage = (response: AxiosResponse): string => {
-  let errorMessage = 'extractErrorMessage 함수 에러';
-
-  // 에러 타입이 JSON일경우
   if (response.headers['content-type']?.includes('application/json')) {
     const errorData = response.data;
-    errorMessage = errorData.message || JSON.stringify(errorData);
-    // 에러 타입이 문자열일 경우
-  } else {
-    errorMessage = response.statusText || '알 수 없는 오류가 발생했습니다.';
+    return errorData.message || JSON.stringify(errorData);
   }
-  return errorMessage;
+  return response.statusText || '알 수 없는 오류가 발생했습니다.';
 };
 
-// 응답이 정상인지 검사하고 에러가 발생하면 에러 메세지를 문자열로 리턴합니다.
-export function handleErrorResponse(response: AxiosResponse): string | undefined {
-  if (response.status < 200 || response.status >= 300) {
-    let errorMessage = extractErrorMessage(response);
-    return errorMessage;
+export function handleErrorResponse(error: unknown): string {
+  if (axios.isAxiosError(error)) {
+    if (error.response) {
+      return extractErrorMessage(error.response);
+    }
+    if (error.request) {
+      return '서버로부터 응답을 받지 못했습니다.';
+    }
+    return '요청 설정 중 오류가 발생했습니다: ' + error.message;
   }
+  if (error instanceof Error) {
+    return error.message;
+  }
+  if (typeof error === 'string') {
+    return error;
+  }
+  return '알 수 없는 오류가 발생했습니다.';
 }
