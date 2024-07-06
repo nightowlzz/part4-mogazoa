@@ -1,48 +1,41 @@
-import { useQuery, useMutation } from 'react-query';
+import { useQuery, useMutation, UseQueryOptions, UseMutationOptions } from '@tanstack/react-query';
 import axiosInstance from "../utils/axiosInstance";
 import { handleErrorResponse } from "../utils/errorHandler";
+import { HttpMethod } from '@/types/data';
 
 interface RequestConfig<TData> {
   url: string;
-  method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
+  method: HttpMethod;
   data?: TData;
 }
 
-async function fetchData<TData = any, TResponse = any>({
-  url,
-  method,
-  data
-}: RequestConfig<TData>): Promise<TResponse> {
-  const response = await axiosInstance({ url, method, data });
+async function fetchData<TData = any, TResponse = any>(config: RequestConfig<TData>): Promise<TResponse> {
+  const response = await axiosInstance(config);
   return response.data;
 }
 
-export function useDataQuery<TParams = void, TResponse = any>(
+export function useDataQuery<TQueryFnData = unknown, TError = unknown, TData = TQueryFnData>(
   queryKey: readonly unknown[],
   url: string,
-  params?: TParams
+  params?: any,
+  options?: Omit<UseQueryOptions<TQueryFnData, TError, TData>, 'queryKey' | 'queryFn'>
 ) {
-  return useQuery({
+  return useQuery<TQueryFnData, TError, TData>({
     queryKey,
-    queryFn: () => fetchData<TParams, TResponse>({
-      url,
-      method: 'GET',
-      data: params
-    }),
-    onError: (error) => {
-      const errorMessage = handleErrorResponse(error);
-      alert(errorMessage);
-    },
+    queryFn: () => fetchData({ url, method: 'GET', data: params }),
+    ...options,
   });
 }
 
-export function useDataMutation<TData = any, TResponse = any>() {
-  return useMutation({
-    mutationFn: (config: RequestConfig<TData>) =>
-      fetchData<TData, TResponse>(config),
+export function useDataMutation<TData = unknown, TError = unknown, TVariables extends RequestConfig<TData> = RequestConfig<TData>>(
+  options?: Omit<UseMutationOptions<TData, TError, TVariables>, 'mutationFn'>
+) {
+  return useMutation<TData, TError, TVariables>({
+    mutationFn: fetchData,
     onError: (error) => {
       const errorMessage = handleErrorResponse(error);
       alert(errorMessage);
     },
+    ...options,
   });
 }

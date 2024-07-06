@@ -314,3 +314,5 @@ export interface AuthResponse {
     createdAt: string;
   };
 }
+
+export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';

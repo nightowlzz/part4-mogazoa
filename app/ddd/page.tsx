@@ -1,7 +1,5 @@
-'use client';
+import MyPageComponent from './Test';
 
-import { useSignUp } from '../../services/login';
-
-export default function SignUpPage() {
-  const signUp = useSignUp();
+export default function page() {
+  return <MyPageComponent />;
 }

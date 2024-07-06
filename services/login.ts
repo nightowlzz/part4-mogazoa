@@ -1,7 +1,5 @@
 import { useDataMutation } from './common';
-import { SignUpRequest, AuthResponse } from '../types/data';
-
-type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
+import { SignUpRequest, AuthResponse, HttpMethod } from '../types/data';
 
 interface SignUpConfig {
   method?: HttpMethod;

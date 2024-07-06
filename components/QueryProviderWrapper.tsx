@@ -1,15 +1,10 @@
 'use client';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryStreamedHydration } from '@tanstack/react-query-next-experimental';
-import { useState } from 'react';
+import React from 'react';
+
+const queryClient = new QueryClient();
 
 export default function QueryProviderWrapper({ children }: { children: React.ReactNode }) {
-  const [queryClient] = useState(() => new QueryClient());
-
-  return (
-    <QueryClientProvider client={queryClient}>
-      <ReactQueryStreamedHydration>{children}</ReactQueryStreamedHydration>
-    </QueryClientProvider>
-  );
+  return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }
