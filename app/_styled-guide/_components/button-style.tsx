@@ -51,7 +51,7 @@ export default function ButtonStyle() {
             href="/"
             className={cn(
               buttonVariants({ variant: 'nav', size: 'sm' }),
-              `${false ? 'border-[#353542] bg-[#252530] text-[#F1F1F5]' : ''}`,
+              `${false ? 'border-[#353542] bg-[#252530] text-white' : ''}`,
             )}
           >
             회원가입
@@ -60,7 +60,7 @@ export default function ButtonStyle() {
             href="/"
             className={cn(
               buttonVariants({ variant: 'nav', size: 'sm' }),
-              `${false ? 'border-[#353542] bg-[#252530] text-[#F1F1F5]' : ''}`,
+              `${false ? 'border-[#353542] bg-[#252530] text-white' : ''}`,
             )}
           >
             회원가입
@@ -69,7 +69,7 @@ export default function ButtonStyle() {
             href="/"
             className={cn(
               buttonVariants({ variant: 'nav', size: 'sm' }),
-              `${false ? 'border-[#353542] bg-[#252530] text-[#F1F1F5]' : ''}`,
+              `${false ? 'border-[#353542] bg-[#252530] text-white' : ''}`,
             )}
           >
             회원가입
@@ -96,13 +96,13 @@ export default function ButtonStyle() {
       {/* 프로필 탭 버튼 */}
       <h3 className="text-[18px] font-bold text-white pt-8">프로필 탭 버튼</h3>
       <div className="flex gap-5 bg-black/80 my-4">
-        <Button variant="text" className={`text-[#6E6E82] ${true && 'text-[#F1F1F5]'}`}>
+        <Button variant="text" className={`text-gray-600 ${true && 'text-white'}`}>
           리뷰 남긴 상품
         </Button>
-        <Button variant="text" className={`text-[#6E6E82]`}>
+        <Button variant="text" className={`text-gray-600`}>
           등록한 상품
         </Button>
-        <Button variant="text" className={`text-[#6E6E82]`}>
+        <Button variant="text" className={`text-gray-600`}>
           찜한 상품
         </Button>
       </div>

@@ -101,7 +101,7 @@ export default function InputStyle() {
                               </Button>
                             ) : (
                               <span>
-                                <FcPicture color="text-[#6E6E82]" size={34} />
+                                <FcPicture color="text-gray-600" size={34} />
                               </span>
                             )}
                           </FormLabel>
@@ -158,7 +158,7 @@ export default function InputStyle() {
                 <FormControl>
                   <Textarea placeholder="리뷰를 작성해 주세요" />
                 </FormControl>
-                <FormDescription className="absolute bottom-5 right-5 text-sm text-[#6E6E82]">
+                <FormDescription className="absolute bottom-5 right-5 text-sm text-gray-600">
                   2/30
                 </FormDescription>
                 <FormMessage />
