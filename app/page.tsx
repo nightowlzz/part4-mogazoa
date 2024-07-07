@@ -1,14 +1,13 @@
-import UserProfile from './_styled-guide/_components/profile-style';
+import Loading from './_styled-guide/_components/loading';
+import Logo from './_styled-guide/_components/logo';
+import StyledGuide from './_styled-guide/page';
+import Profile from '@/app/_styled-guide/_components/profile';
 
 export default function Home() {
   return (
-    <UserProfile
-      image="/assets/images/example-profile.svg"
-      nickname="surisuri마수리"
-      description="세상에 리뷰 못할 제품은 없다. surisuri마수리와 함께라면 당신도 프로쇼핑러!
-안녕하세요, 별점의 화신 surisuri마수리입니다!"
-      followeesCount={762}
-      followersCount={102}
-    />
+    <div>
+      Home
+      <StyledGuide />
+    </div>
   );
 }

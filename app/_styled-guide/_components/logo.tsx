@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import styles from '@/app/styles/logo-styles.module.scss';
+import styles from '@/components/ui/styles/logo.module.scss';
 
-export default function LogoStyle() {
+export default function Logo() {
   return (
     <Image
       src="/assets/images/logo.svg"

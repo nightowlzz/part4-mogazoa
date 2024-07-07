@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import styles from '@/app/styles/loading-style.module.scss';
+import styles from '@/components/ui/styles/loading.module.scss';
 
-export default function LoadingStyle() {
+export default function Loading() {
   return (
     <Image
       src="/assets/images/loading.svg"
