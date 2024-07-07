@@ -316,3 +316,12 @@ export interface AuthResponse {
 }
 
 export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
+
+export interface Config {
+  method?: HttpMethod;
+  url?: string;
+}
+
+export interface RequestConfig<T> extends Config {
+  data: T;
+}
