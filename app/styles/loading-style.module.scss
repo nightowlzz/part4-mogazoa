@@ -1,0 +1,9 @@
+.loading {
+  width: 79px;
+  height: 73px;
+
+  @media (min-width: 1024px) {
+    width: 87px;
+    height: 84px;
+  }
+}
