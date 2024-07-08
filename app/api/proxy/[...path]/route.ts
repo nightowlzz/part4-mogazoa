@@ -3,11 +3,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 async function handleRequest(request: NextRequest, params: { path: string[] }) {
-  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://mogazoa-api.vercel.app';
-  const teamNickname = process.env.NEXT_PUBLIC_TEAM_NICKNAME || '5-6';
+  const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const teamNickname = process.env.NEXT_PUBLIC_TEAM_NICKNAME;
   const targetUrl = `${apiBaseUrl}/${teamNickname}/${params.path.join('/')}`;
-
-  console.log('Proxying request to:', targetUrl); // 디버깅을 위한 로그
 
   const headers = new Headers(request.headers);
 
