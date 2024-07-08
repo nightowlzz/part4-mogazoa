@@ -6,7 +6,7 @@ import { useOauthSignUp, useOauthSignIn } from '@/hooks/auth';
 
 const OAuthTestPage: React.FC = () => {
   const [appKey, setAppKey] = useState<string>('');
-  const [provider, setProvider] = useState<string>('google');
+  const [provider, setProvider] = useState<'google' | 'kakao'>('google');
   const [redirectUri, setRedirectUri] = useState<string>('');
   const [token, setToken] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
@@ -42,7 +42,7 @@ const OAuthTestPage: React.FC = () => {
         />
         <select
           value={provider}
-          onChange={(e) => setProvider(e.target.value)}
+          onChange={(e) => setProvider(e.target.value as 'google' | 'kakao')}
           className="border rounded px-2 py-1 mr-2"
         >
           <option value="google">Google</option>

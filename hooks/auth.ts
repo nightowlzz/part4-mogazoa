@@ -29,19 +29,21 @@ export const useSignIn = (
 };
 
 export const useOauthSignUp = (
+  provider: 'google' | 'kakao',
   options?: Omit<UseMutationOptions<AuthResponse, AxiosError, OauthSignUpRequest>, 'mutationFn'>,
 ) => {
   const method = 'post';
-  const url = `/auth/oauthSignUp`;
+  const url = `/auth/oauthSignUp/${provider}`;
   const mutation = useDataMutation<OauthSignUpRequest, AuthResponse>(url, method, options);
   return (data: OauthSignUpRequest) => mutation.mutate(data);
 };
 
 export const useOauthSignIn = (
+  provider: 'google' | 'kakao',
   options?: Omit<UseMutationOptions<AuthResponse, AxiosError, OauthSignInRequest>, 'mutationFn'>,
 ) => {
   const method = 'post';
-  const url = `/auth/oauthSignIn`;
+  const url = `/auth/oauthSignIn/${provider}`;
   const mutation = useDataMutation<OauthSignInRequest, AuthResponse>(url, method, options);
   return (data: OauthSignInRequest) => mutation.mutate(data);
 };

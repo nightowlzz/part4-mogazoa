@@ -14,7 +14,7 @@ const ProductTestPage: React.FC = () => {
     data: productDetail,
     isLoading: detailLoading,
     error: detailError,
-  } = useGetProductDetail(selectedProductId || 0, {}, { enabled: !!selectedProductId });
+  } = useGetProductDetail(selectedProductId || 0, {});
   const createProduct = useCreateProduct();
 
   const { control, handleSubmit } = useForm<ProductUpdateRequest>();
