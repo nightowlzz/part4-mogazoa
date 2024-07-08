@@ -4,7 +4,6 @@ export const setCookie = (name: string, value: string, days: number) => {
     expirationDate.setDate(expirationDate.getDate() + days);
     const cookie = `${name}=${encodeURIComponent(value)}; expires=${expirationDate.toUTCString()}; path=/; SameSite=Lax`;
     document.cookie = cookie;
-    console.log(`Cookie set: ${name}`); // 디버깅용 로그
   } catch (error) {
     console.error('Error setting cookie:', error); // 디버깅용 로그
   }
@@ -23,5 +22,4 @@ export const getCookie = (name: string): string | null => {
 
 export const removeCookie = (name: string) => {
   document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-  console.log(`Cookie removed: ${name}`);
 };

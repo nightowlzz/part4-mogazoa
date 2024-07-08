@@ -20,7 +20,6 @@ instance.interceptors.response.use(
   (response) => {
     if (response.data && response.data.accessToken) {
       setCookie('accessToken', response.data.accessToken, 7);
-      console.log('AccessToken set from response');
     }
     return response;
   },

@@ -37,7 +37,6 @@ const AuthTestPage: React.FC = () => {
     onSuccess: (data) => {
       if (data.accessToken) {
         setCookie('accessToken', data.accessToken, 7);
-        console.log('AccessToken set in cookie');
       }
     },
   });
@@ -45,7 +44,6 @@ const AuthTestPage: React.FC = () => {
     onSuccess: (data) => {
       if (data.accessToken) {
         setCookie('accessToken', data.accessToken, 7);
-        console.log('AccessToken set in cookie');
       }
     },
   });
