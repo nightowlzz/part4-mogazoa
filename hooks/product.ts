@@ -6,11 +6,16 @@ import {
   ReviewListResponse,
   Config,
 } from '../types/data';
-import { UseQueryOptions, QueryKey, UseMutationOptions } from '@tanstack/react-query';
+import {
+  UseQueryOptions,
+  QueryKey,
+  UseMutationOptions,
+  UseMutationResult,
+} from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 export const useGetProducts = (
-  params: { keyword?: string; category?: number; order?: string; cursor?: number },
+  params?: { keyword?: string; category?: number; order?: undefined; cursor?: number },
   config: Config = {},
   options?: Omit<
     UseQueryOptions<ProductsListResponse, AxiosError, ProductsListResponse, QueryKey>,
@@ -18,11 +23,12 @@ export const useGetProducts = (
   >,
 ) => {
   const { url = '/products' } = config;
-  return useDataQuery<typeof params, ProductsListResponse>(
-    ['products', params],
+  return useDataQuery<undefined, ProductsListResponse>(
+    ['products'],
     url,
-    params,
+    undefined,
     options,
+    params,
   );
 };
 
@@ -35,7 +41,7 @@ export const useGetProductDetail = (
   >,
 ) => {
   const { url = `/products/` } = config;
-  return useDataQuery<void, ProductDetailResponse>(
+  return useDataQuery<undefined, ProductDetailResponse>(
     ['productDetail', productId],
     `${url}/${productId}`,
     undefined,
@@ -45,7 +51,7 @@ export const useGetProductDetail = (
 
 export const useGetProductReviews = (
   productId: number,
-  params: { order?: string; cursor?: number },
+  params?: { order?: undefined; cursor?: number },
   config: Config = {},
   options?: Omit<
     UseQueryOptions<ReviewListResponse, AxiosError, ReviewListResponse, QueryKey>,
@@ -53,11 +59,12 @@ export const useGetProductReviews = (
   >,
 ) => {
   const { url = '/products' } = config;
-  return useDataQuery<typeof params, ReviewListResponse>(
-    ['productReviews', productId, params],
+  return useDataQuery<undefined, ReviewListResponse>(
+    ['productReviews', productId],
     `${url}/${productId}/reviews`,
-    params,
+    undefined,
     options,
+    params,
   );
 };
 
@@ -68,7 +75,7 @@ export const useCreateProduct = (
     'mutationFn'
   >,
 ) => {
-  const { method = 'POST', url = '/products' } = config;
+  const { method = 'post', url = '/products' } = config;
   const mutation = useDataMutation<ProductUpdateRequest, ProductDetailResponse>(
     url,
     method,
@@ -85,7 +92,7 @@ export const useUpdateProduct = (
     'mutationFn'
   >,
 ) => {
-  const { method = 'PATCH', url = '/products' } = config;
+  const { method = 'patch', url = '/products' } = config;
   const mutation = useDataMutation<ProductUpdateRequest, ProductDetailResponse>(
     `${url}/${productId}`,
     method,
@@ -98,26 +105,26 @@ export const useFavoriteProduct = (
   productId: number,
   config: Config = {},
   options?: Omit<UseMutationOptions<ProductDetailResponse, AxiosError, void>, 'mutationFn'>,
-) => {
-  const { method = 'POST', url = '/products' } = config;
+): (() => void) => {
+  const { method = 'post', url = '/products' } = config;
   const mutation = useDataMutation<void, ProductDetailResponse>(
     `${url}/${productId}/favorite`,
     method,
     options,
   );
-  return mutation.mutate();
+  return () => mutation.mutate();
 };
 
 export const useUnfavoriteProduct = (
   productId: number,
   config: Config = {},
   options?: Omit<UseMutationOptions<ProductDetailResponse, AxiosError, void>, 'mutationFn'>,
-) => {
-  const { method = 'DELETE', url = '/products' } = config;
+): (() => void) => {
+  const { method = 'delete', url = '/products' } = config;
   const mutation = useDataMutation<void, ProductDetailResponse>(
     `${url}/${productId}/favorite`,
     method,
     options,
   );
-  return mutation.mutate();
+  return () => mutation.mutate();
 };

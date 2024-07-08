@@ -11,5 +11,5 @@ export const useGetCategories = (
   >,
 ) => {
   const { url = '/categories' } = config;
-  return useDataQuery<void, CategoryResponse[]>(['categories'], url, undefined, options);
+  return useDataQuery<undefined, CategoryResponse[]>(['categories'], url, undefined, options);
 };

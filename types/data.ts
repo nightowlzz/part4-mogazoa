@@ -315,7 +315,7 @@ export interface AuthResponse {
   };
 }
 
-export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'DELETE';
+export type HttpMethod = 'get' | 'post' | 'patch' | 'delete';
 
 export interface Config {
   method?: HttpMethod;
@@ -324,4 +324,11 @@ export interface Config {
 
 export interface RequestConfig<T> extends Config {
   data: T;
+}
+
+export interface Params {
+  keyword?: string;
+  category?: number;
+  order?: 'recent' | 'rating' | 'reviewCount';
+  cursor?: number;
 }

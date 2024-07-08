@@ -7,16 +7,16 @@ export const useFollowUser = (
   config: Config = {},
   options?: Omit<UseMutationOptions<FollowResponse, AxiosError, FollowRequest>, 'mutationFn'>,
 ) => {
-  const { method = 'POST', url = '/follow' } = config;
+  const { method = 'post', url = '/follow' } = config;
   const mutation = useDataMutation<FollowRequest, FollowResponse>(url, method, options);
   return (data: FollowRequest) => mutation.mutate(data);
 };
 
-export const useUnfollowUser = (
+export const useUnFollowUser = (
   config: Config = {},
   options?: Omit<UseMutationOptions<FollowResponse, AxiosError, FollowRequest>, 'mutationFn'>,
 ) => {
-  const { method = 'DELETE', url = '/follow' } = config;
+  const { method = 'delete', url = '/follow' } = config;
   const mutation = useDataMutation<FollowRequest, FollowResponse>(url, method, options);
   return (data: FollowRequest) => mutation.mutate(data);
 };
