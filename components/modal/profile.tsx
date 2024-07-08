@@ -21,11 +21,8 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { FaStar } from 'react-icons/fa6';
 import { ImFilePicture } from 'react-icons/im';
-import { RiCloseFill } from 'react-icons/ri';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Input } from '../ui/input';
@@ -41,7 +38,7 @@ export default function Profile() {
   });
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.success('전송 되었습니다.');
-    toast.error('전송 실패 ㄴ하였습니다.');
+    toast.error('전송 실패 하였습니다.');
   }
   return (
     <Dialog>

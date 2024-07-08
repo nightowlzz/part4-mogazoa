@@ -1,6 +1,5 @@
-import InputStyle from './_components/input-style';
 import ButtonStyle from './_components/button-style';
-import { Dialog } from '@/components/ui/dialog';
+import InputStyle from './_components/input-style';
 import ModalList from './_components/modal-list';
 
 export default function StyledGuide() {

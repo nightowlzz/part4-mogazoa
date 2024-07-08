@@ -39,7 +39,7 @@ export default function Product() {
   });
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.success('전송 되었습니다.');
-    toast.error('전송 실패 ㄴ하였습니다.');
+    toast.error('전송 실패 하였습니다.');
   }
   return (
     <Dialog>
