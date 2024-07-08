@@ -7,7 +7,7 @@ import { RiKakaoTalkFill } from 'react-icons/ri';
 
 export default function ButtonStyle() {
   return (
-    <div className="">
+    <div>
       <hr />
       <div className="py-4">
         <Button>그라데이션 버튼</Button>

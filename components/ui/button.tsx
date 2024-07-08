@@ -15,7 +15,7 @@ const buttonVariants = cva(
           'border border-gray-500 text-gray-500 md:text-base lg:text-lg hover:bg-transparent font-semibold hover:border-[#353542] hover:text-gray-600',
         outlineBlue: `${styled['gradient-button']}`,
         outlineRed:
-          'border border-pink text-pink font-semibold md:text-base lg:text-lg hover:border-[#b91d71] hover:text-[#b91d71]',
+          'border font-semibold md:text-base lg:text-lg border-[#353542] text-[#6E6E82] hover:text-pink ',
         circleBlue:
           'bg-gradation-secondary text-white rounded-[50em] w-[60px] h-[50px] hover:bg-gradation-secondary-hover',
         nav: 'border text-gray-600 border-transparent text-sm hover:border-[#353542] hover:bg-[#252530] hover:text-white font-semibold lg:text-base',

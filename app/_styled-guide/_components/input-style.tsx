@@ -13,9 +13,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { ImFilePicture } from 'react-icons/im';
 import { PiEyeSlashLight, PiEyeThin } from 'react-icons/pi';
-import { RiCloseFill } from 'react-icons/ri';
-import { FcPicture } from 'react-icons/fc';
 import { z } from 'zod';
 
 const FormSchema = z.object({
@@ -37,7 +36,7 @@ export default function InputStyle() {
     },
   });
   return (
-    <div className="">
+    <div>
       <Form {...form}>
         <form className="mt-10">
           <div className="flex gap-[80px]">
@@ -79,15 +78,16 @@ export default function InputStyle() {
                 control={form.control}
                 name="image"
                 render={({ field }) => (
-                  <FormItem className="md:pt-2">
-                    <div className="relative flex w-[140px] md:w-[160px] h-[140px] md:h-[160px]">
+                  <FormItem className="order-3">
+                    <div className="relative flex h-[140px] md:h-[135px] lg:h-[160px] w-[140px] md:w-[135px] lg:w-[160px]">
                       <FormControl>
                         <>
-                          <Input id="picture" type="file" accept="image/*" />
+                          <Input id="picture" type="file" multiple accept="image/*" />
                           {/* label bg로 image 보이게*/}
                           <FormLabel
                             htmlFor="picture"
-                            className={`absolute left-[1px] top-[1px] flex items-center justify-center h-[138px] w-[138px] md:h-[158px] md:w-[158px] cursor-pointer rounded-lg bg-[#252530] border border-[#353542] bg-center bg-no-repeat`}
+                            className={`absolute right-[1px] top-[1px] flex items-center justify-center cursor-pointer rounded-lg bg-[#252530] border border-[#353542] bg-center bg-no-repeat z-[1]`}
+                            style={{ width: 'calc(100% - 2px)', height: 'calc(100% - 2px)' }}
                           >
                             {/* 삭제버튼 */}
                             {false ? (
@@ -96,12 +96,10 @@ export default function InputStyle() {
                                 variant="icon"
                                 size="auto"
                                 className="absolute right-1 top-1 flex items-center justify-center h-7 w-7 rounded-lg bg-black/50 p-1"
-                              >
-                                <RiCloseFill color="text-white" size={18} />
-                              </Button>
+                              ></Button>
                             ) : (
                               <span>
-                                <FcPicture color="text-gray-600" size={34} />
+                                <ImFilePicture className="text-gray-600" size={34} />
                               </span>
                             )}
                           </FormLabel>
@@ -132,13 +130,9 @@ export default function InputStyle() {
                     <Button asChild variant="icon" size="auto">
                       <span className="absolute top-2.5 md:top-5 right-5">
                         {true ? (
-                          <PiEyeSlashLight
-                            color={'#9FA6B2'}
-                            size={22}
-                            className="hover:fill-[#ddd]"
-                          />
+                          <PiEyeSlashLight size={22} className="hover:fill-[#ddd] text-gray-500" />
                         ) : (
-                          <PiEyeThin color={'#9FA6B2'} size={22} className="hover:fill-[#ddd]" />
+                          <PiEyeThin size={22} className="hover:fill-[#ddd] " />
                         )}
                       </span>
                     </Button>
