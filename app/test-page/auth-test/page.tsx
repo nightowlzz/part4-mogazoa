@@ -33,18 +33,22 @@ const FormField: React.FC<FormFieldProps> = ({ name, control, label, type = 'tex
 );
 
 const AuthTestPage: React.FC = () => {
-  const signIn = useSignIn(
-    {},
-    {
-      onSuccess: (data) => {
-        if (data.accessToken) {
-          setCookie('accessToken', data.accessToken, 7);
-          console.log('AccessToken set in cookie');
-        }
-      },
+  const signIn = useSignIn({
+    onSuccess: (data) => {
+      if (data.accessToken) {
+        setCookie('accessToken', data.accessToken, 7);
+        console.log('AccessToken set in cookie');
+      }
     },
-  );
-  const signUp = useSignUp();
+  });
+  const signUp = useSignUp({
+    onSuccess: (data) => {
+      if (data.accessToken) {
+        setCookie('accessToken', data.accessToken, 7);
+        console.log('AccessToken set in cookie');
+      }
+    },
+  });
 
   const { control: controlSignIn, handleSubmit: handleSubmitSignIn } = useForm<SignInRequest>();
 
