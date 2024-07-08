@@ -6,10 +6,10 @@ import { UseMutationOptions } from '@tanstack/react-query';
 type UploadImageFunction = (data: FormData) => Promise<UploadImageResponse>;
 
 export const useUploadImage = (
-  config: Config = {},
   options?: Omit<UseMutationOptions<UploadImageResponse, AxiosError, FormData>, 'mutationFn'>,
 ): UploadImageFunction => {
-  const { method = 'post', url = '/images/upload' } = config;
+  const method = 'post';
+  const url = '/images/upload';
   const mutation = useDataMutation<FormData, UploadImageResponse>(url, method, {
     ...options,
     headers: {

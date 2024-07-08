@@ -10,22 +10,21 @@ import { UseMutationOptions } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 export const usePostReview = (
-  config: Config = {},
   options?: Omit<UseMutationOptions<ReviewResponse, AxiosError, PostReviewRequest>, 'mutationFn'>,
 ) => {
-  const { method = 'post', url = '/reviews' } = config;
+  const method = 'post';
+  const url = '/reviews';
   const mutation = useDataMutation<PostReviewRequest, ReviewResponse>(url, method, options);
   return (data: PostReviewRequest) => mutation.mutate(data);
 };
 
 export const useUpdateReview = (
   reviewId: number,
-  config: Config = {},
   options?: Omit<UseMutationOptions<ReviewResponse, AxiosError, UpdateReviewRequest>, 'mutationFn'>,
 ) => {
-  const { method = 'patch', url = '/reviews' } = config;
+  const method = 'patch';
   const mutation = useDataMutation<UpdateReviewRequest, ReviewResponse>(
-    `${url}/${reviewId}`,
+    `/reviews/${reviewId}`,
     method,
     options,
   );
@@ -34,12 +33,11 @@ export const useUpdateReview = (
 
 export const useDeleteReview = (
   reviewId: number,
-  config: Config = {},
   options?: Omit<UseMutationOptions<DeleteReviewResponse, AxiosError, void>, 'mutationFn'>,
 ): (() => void) => {
-  const { method = 'delete', url = '/reviews' } = config;
+  const method = 'delete';
   const mutation = useDataMutation<void, DeleteReviewResponse>(
-    `${url}/${reviewId}`,
+    `/reviews/${reviewId}`,
     method,
     options,
   );
@@ -48,12 +46,11 @@ export const useDeleteReview = (
 
 export const useLikeReview = (
   reviewId: number,
-  config: Config = {},
   options?: Omit<UseMutationOptions<ReviewResponse, AxiosError, void>, 'mutationFn'>,
 ): (() => void) => {
-  const { method = 'post', url = '/reviews' } = config;
+  const method = 'post';
   const mutation = useDataMutation<void, ReviewResponse>(
-    `${url}/${reviewId}/like`,
+    `/reviews/${reviewId}/like`,
     method,
     options,
   );
@@ -62,12 +59,11 @@ export const useLikeReview = (
 
 export const useUnlikeReview = (
   reviewId: number,
-  config: Config = {},
   options?: Omit<UseMutationOptions<ReviewResponse, AxiosError, void>, 'mutationFn'>,
 ): (() => void) => {
-  const { method = 'delete', url = '/reviews' } = config;
+  const method = 'delete';
   const mutation = useDataMutation<void, ReviewResponse>(
-    `${url}/${reviewId}/like`,
+    `/reviews/${reviewId}/like`,
     method,
     options,
   );

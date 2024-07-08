@@ -5,7 +5,6 @@ import {
   UpdateUserRequest,
   RankedUserResponse,
   FollowersResponse,
-  Config,
   ProductsListResponse,
 } from '../types/data';
 import { UseQueryOptions, UseMutationOptions, QueryKey } from '@tanstack/react-query';

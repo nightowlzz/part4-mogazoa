@@ -4,12 +4,11 @@ import { CategoryResponse, Config } from '../types/data';
 import { UseQueryOptions, QueryKey } from '@tanstack/react-query';
 
 export const useGetCategories = (
-  config: Config = {},
   options?: Omit<
     UseQueryOptions<CategoryResponse[], AxiosError, CategoryResponse[], QueryKey>,
     'queryKey' | 'queryFn'
   >,
 ) => {
-  const { url = '/categories' } = config;
+  const url = '/categories';
   return useDataQuery<undefined, CategoryResponse[]>(['categories'], url, undefined, options);
 };

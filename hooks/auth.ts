@@ -11,47 +11,37 @@ import {
 import { UseMutationOptions } from '@tanstack/react-query';
 
 export const useSignUp = (
-  config: Config = {},
   options?: Omit<UseMutationOptions<AuthResponse, AxiosError, SignUpRequest>, 'mutationFn'>,
 ) => {
-  const { method = 'post', url = '/auth/signUp' } = config;
+  const method = 'post';
+  const url = '/auth/signUp';
   const mutation = useDataMutation<SignUpRequest, AuthResponse>(url, method, options);
   return (data: SignUpRequest) => mutation.mutate(data);
 };
 
 export const useSignIn = (
-  config: Config = {},
   options?: Omit<UseMutationOptions<AuthResponse, AxiosError, SignInRequest>, 'mutationFn'>,
 ) => {
-  const { method = 'post', url = '/auth/signIn' } = config;
+  const method = 'post';
+  const url = '/auth/signIn';
   const mutation = useDataMutation<SignInRequest, AuthResponse>(url, method, options);
   return (data: SignInRequest) => mutation.mutate(data);
 };
 
 export const useOauthSignUp = (
-  provider: string,
-  config: Config = {},
   options?: Omit<UseMutationOptions<AuthResponse, AxiosError, OauthSignUpRequest>, 'mutationFn'>,
 ) => {
-  const { method = 'post', url = '/auth/signUp' } = config;
-  const mutation = useDataMutation<OauthSignUpRequest, AuthResponse>(
-    `${url}/${provider}`,
-    method,
-    options,
-  );
+  const method = 'post';
+  const url = `/auth/oauthSignUp`;
+  const mutation = useDataMutation<OauthSignUpRequest, AuthResponse>(url, method, options);
   return (data: OauthSignUpRequest) => mutation.mutate(data);
 };
 
 export const useOauthSignIn = (
-  provider: string,
-  config: Config = {},
   options?: Omit<UseMutationOptions<AuthResponse, AxiosError, OauthSignInRequest>, 'mutationFn'>,
 ) => {
-  const { method = 'post', url = '/auth/signIn' } = config;
-  const mutation = useDataMutation<OauthSignInRequest, AuthResponse>(
-    `${url}/${provider}`,
-    method,
-    options,
-  );
+  const method = 'post';
+  const url = `/auth/oauthSignIn`;
+  const mutation = useDataMutation<OauthSignInRequest, AuthResponse>(url, method, options);
   return (data: OauthSignInRequest) => mutation.mutate(data);
 };
