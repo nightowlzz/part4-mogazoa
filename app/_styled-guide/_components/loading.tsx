@@ -9,6 +9,6 @@ export default function Loading() {
       className={styles.loading}
       width={87}
       height={84}
-    ></Image>
+    />
   );
 }
