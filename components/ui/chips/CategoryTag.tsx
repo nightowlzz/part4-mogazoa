@@ -14,7 +14,7 @@ function CategoryTag({ categoryName, categoryId = 2 }: TagProps) {
 
   return (
     <div
-      className={`flex items-center justify-self-center sm:px-[10px] px-2 py-1 sm:h-[29px] h-[22px] w-fit rounded-lg sm:rounded-md text-xs sm:text-lg ${textColorClass} ${bgColorClass}`}
+      className={`flex items-center justify-self-center lg:px-[0.625rem] px-2 py-1 lg:h-[1.813rem] h-[1.375rem] w-fit rounded-lg lg:rounded-md text-xs lg:text-lg ${textColorClass} ${bgColorClass}`}
     >
       {categoryName}
     </div>

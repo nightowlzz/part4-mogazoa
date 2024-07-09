@@ -63,12 +63,15 @@ const config = {
         gray: {
           500: '#9FA6B2',
           600: '#6E6E82',
+          700: '#333233',
         },
         blue: '#5097FA',
         indigo: '#5363FF',
         yellow: '#FFC83C',
         green: '#05D58B',
+        greenBg: '#23362f',
         pink: '#FF2F9F',
+        pinkBg: '#3c2631',
         red: '#FF0000',
         tagColor: {
           '0': '#C5D17C',
