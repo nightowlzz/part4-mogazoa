@@ -20,6 +20,7 @@ export const FormField: React.FC<FormFieldProps> = ({
     name={name}
     control={control}
     rules={rules}
+    defaultValue=""
     render={({ field, fieldState: { error } }) => (
       <div>
         <label htmlFor={name} className="block mb-1">

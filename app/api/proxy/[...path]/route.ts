@@ -1,5 +1,3 @@
-// app/api/proxy/[...path]/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 
 async function handleRequest(request: NextRequest, params: { path: string[] }) {
@@ -9,21 +7,34 @@ async function handleRequest(request: NextRequest, params: { path: string[] }) {
 
   const headers = new Headers(request.headers);
 
-  // CORS 관련 헤더 처리
   headers.delete('Origin');
 
-  // Authorization 헤더 처리
   const authHeader = headers.get('Authorization');
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return NextResponse.json({ error: 'Invalid or missing Authorization header' }, { status: 401 });
   }
 
   try {
+    let body;
+    if (request.method !== 'GET' && request.method !== 'HEAD') {
+      const clonedRequest = request.clone();
+      body = await clonedRequest.text();
+
+      try {
+        const jsonBody = JSON.parse(body);
+        if (jsonBody.teamId) {
+          jsonBody.teamId = '5-6';
+          body = JSON.stringify(jsonBody);
+        }
+      } catch (e) {
+        console.warn('o');
+      }
+    }
+
     const response = await fetch(targetUrl, {
       method: request.method,
       headers: headers,
-      body:
-        request.method !== 'GET' && request.method !== 'HEAD' ? await request.text() : undefined,
+      body: body,
     });
 
     if (!response.ok) {
@@ -35,6 +46,11 @@ async function handleRequest(request: NextRequest, params: { path: string[] }) {
     }
 
     const data = await response.json();
+
+    if (data.user && data.user.teamId) {
+      data.user.teamId = '5-6';
+    }
+
     return NextResponse.json(data);
   } catch (error) {
     console.error('Error in proxy server:', error);
@@ -48,7 +64,6 @@ async function handleRequest(request: NextRequest, params: { path: string[] }) {
   }
 }
 
-// HTTP 메서드 핸들러들
 export async function GET(request: NextRequest, { params }: { params: { path: string[] } }) {
   return handleRequest(request, params);
 }
