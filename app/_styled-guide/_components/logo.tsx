@@ -1,14 +1,12 @@
 import Image from 'next/image';
-import styles from '@/components/ui/styles/logo.module.scss';
+import Link from 'next/link';
 
 export default function Logo() {
   return (
-    <Image
-      src="/assets/images/logo.svg"
-      alt="Logo"
-      className={styles.logo}
-      width={166}
-      height={28}
-    />
+    <Link href="/">
+      <div className="relative w-[112px] md:w-[138px] lg:w-[166px] h-[18px] md:h-[24px] lg:h-[28px]">
+        <Image src="/assets/images/logo.svg" alt="Logo" fill />
+      </div>
+    </Link>
   );
 }
