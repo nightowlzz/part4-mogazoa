@@ -8,7 +8,7 @@ interface FollowerProfileProps {
 export function Follower({ image, nickname }: FollowerProfileProps) {
   return (
     <div className="flex gap-5 items-center">
-      <Avatar className="w-12 h-12 lg:w-13 lg:h-13">
+      <Avatar className="w-12 h-12 lg:w-[52px] lg:h-[52px]">
         <AvatarImage src={image} alt={`Profile of ${nickname}`} />
         <AvatarFallback>
           <span>{nickname[0]}</span>
