@@ -1,5 +1,3 @@
-// app/api/proxy/[...path]/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
 
 async function handleRequest(request: NextRequest, params: { path: string[] }) {
@@ -9,10 +7,8 @@ async function handleRequest(request: NextRequest, params: { path: string[] }) {
 
   const headers = new Headers(request.headers);
 
-  // CORS 관련 헤더 처리
   headers.delete('Origin');
 
-  // Authorization 헤더 처리
   const authHeader = headers.get('Authorization');
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return NextResponse.json({ error: 'Invalid or missing Authorization header' }, { status: 401 });

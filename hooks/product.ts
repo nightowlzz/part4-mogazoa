@@ -4,13 +4,11 @@ import {
   ProductUpdateRequest,
   ProductDetailResponse,
   ReviewListResponse,
-  Config,
 } from '../types/data';
 import {
   UseQueryOptions,
   QueryKey,
   UseMutationOptions,
-  UseMutationResult,
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 

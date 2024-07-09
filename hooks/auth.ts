@@ -6,7 +6,6 @@ import {
   OauthSignUpRequest,
   OauthSignInRequest,
   AuthResponse,
-  Config,
 } from '../types/data';
 import { UseMutationOptions } from '@tanstack/react-query';
 

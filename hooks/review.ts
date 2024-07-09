@@ -4,7 +4,6 @@ import {
   UpdateReviewRequest,
   ReviewResponse,
   DeleteReviewResponse,
-  Config,
 } from '../types/data';
 import { UseMutationOptions } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
