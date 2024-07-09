@@ -145,6 +145,8 @@ const config = {
       backgroundImage: (theme) => ({
         gradation: 'linear-gradient(to right, #5097FA, #5363FF)',
         'gradation-hover': 'linear-gradient(to right, #353542, #353542)',
+        'gradation-secondary': 'linear-gradient(to right, #5097FA, #5363FF)',
+        'gradation-secondary-hover': 'linear-gradient(to right, #3a8bfc, #2b40fd)',
       }),
       borderRadius: {
         lg: 'var(--radius)',
