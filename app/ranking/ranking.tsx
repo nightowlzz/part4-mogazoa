@@ -7,11 +7,7 @@ import axios from 'axios';
 interface User {
   id: number;
   nickname: string;
-  description: string;
   image: string;
-  createdAt: string;
-  updatedAt: string;
-  teamId: string;
   followersCount: number;
   reviewCount: number;
 }
@@ -34,7 +30,7 @@ export function Ranking() {
 
   return (
     <div className="bg-black-600">
-      <div className="text-white mb-7 text-sm lg:text-base">리뷰어 랭킹</div>
+      <h2 className="text-white mb-7 text-sm lg:text-base">리뷰어 랭킹</h2>
       <ul className="lg:space-y-7 flex lg:flex-col">
         {rankings.slice(0, 5).map((user) => (
           <li key={user.id} className="flex gap-[10px] mr-5 items-center">
@@ -43,10 +39,10 @@ export function Ranking() {
               <AvatarFallback>{user.nickname.charAt(0)}</AvatarFallback>
             </Avatar>
             <div className="flex flex-col">
-              <div className="text-white text-sm lg:text-base">{user.nickname}</div>
+              <p className="text-white text-sm lg:text-base">{user.nickname}</p>
               <div className="flex lg:text-xs gap-[15px] font-light text-gray-500 text-[10px]">
-                <div>팔로워 {user.followersCount}</div>
-                <div>리뷰 {user.reviewCount}</div>
+                <p>팔로워 {user.followersCount}</p>
+                <p>리뷰 {user.reviewCount}</p>
               </div>
             </div>
           </li>
