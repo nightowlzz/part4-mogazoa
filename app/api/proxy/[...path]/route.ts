@@ -15,11 +15,26 @@ async function handleRequest(request: NextRequest, params: { path: string[] }) {
   }
 
   try {
+    let body;
+    if (request.method !== 'GET' && request.method !== 'HEAD') {
+      const clonedRequest = request.clone();
+      body = await clonedRequest.text();
+
+      try {
+        const jsonBody = JSON.parse(body);
+        if (jsonBody.teamId) {
+          jsonBody.teamId = '5-6';
+          body = JSON.stringify(jsonBody);
+        }
+      } catch (e) {
+        console.warn('o');
+      }
+    }
+
     const response = await fetch(targetUrl, {
       method: request.method,
       headers: headers,
-      body:
-        request.method !== 'GET' && request.method !== 'HEAD' ? await request.text() : undefined,
+      body: body,
     });
 
     if (!response.ok) {
@@ -31,6 +46,11 @@ async function handleRequest(request: NextRequest, params: { path: string[] }) {
     }
 
     const data = await response.json();
+
+    if (data.user && data.user.teamId) {
+      data.user.teamId = '5-6';
+    }
+
     return NextResponse.json(data);
   } catch (error) {
     console.error('Error in proxy server:', error);
@@ -44,7 +64,6 @@ async function handleRequest(request: NextRequest, params: { path: string[] }) {
   }
 }
 
-// HTTP 메서드 핸들러들
 export async function GET(request: NextRequest, { params }: { params: { path: string[] } }) {
   return handleRequest(request, params);
 }
