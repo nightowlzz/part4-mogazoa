@@ -1,36 +1,20 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## 코딩 컨벤션
 
-## Getting Started
+`FLOW`에 적힌 코딩 컨벤션 공지를 보시고 작성을 부탁드립니다!
+ESLINT를 활용해서 코드의 스타일을 맞춰서 잘 작성해 주시면 크게 문제없을 것 같습니다.
 
-First, run the development server:
+## 브랜치 전략
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+main브랜치는 최종적으로 안정성 잡혔을 때 dev브랜치에서 main으로 pr 날릴 예정입니다.
+feature/기능 혹은 feature-이슈(으)로 브랜치 만드셔서 작업하신 후 dev로 pr 넣어주세요!
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## PR 양식
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+PR 날리실 때는 Conversation에는 사전에 약속한 양식대로 작성해 주시고
+Comment 기능을 통해 로직별로 간단하게 설명을 '꼭' 부탁드립니다.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 코드 리뷰
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+코드 리뷰를 2개 이상 받은 코드만 머지하기로 한 만큼 다들 코드 리뷰를 적극 참여 부탁드립니다.
+코드 리뷰에 딱히 간단한 기능이면 고생하셨습니다. 혹은 이모지 정도 달아주시면 감사하겠습니다.
+(코드 리뷰가 적극적으로 이루어져야 개발에 속도가 붙습니다.)
