@@ -1,5 +1,7 @@
 import InputStyle from './_components/input-style';
 import ButtonStyle from './_components/button-style';
+import { ProductCard } from './_components/card-product';
+import { ActivityReview } from './_components/activity-review';
 
 export default function StyledGuide() {
   return (
