@@ -12,12 +12,12 @@ const CategoryFilter = (props: CategoryFilterProps) => {
   const { category } = props;
 
   return (
-    <div className="flex items-center align-middle px-[10px] md:px-3 py-[6px] w-fit bg-black-450 border-gray-650 border rounded-full">
+    <div className="flex items-center align-middle px-3 py-[6px] w-fit bg-black-450 border-gray-650 border rounded-full">
       <TbTriangleSquareCircle className="text-gray-500 mr-[5px] h-[18px] w-[18px]" />
       {category ? (
-        <span className="text-gray-500 text-sm md:text-lg">{category}</span>
+        <span className="text-gray-500 text-sm">{category}</span>
       ) : (
-        <span className="text-gray-600 text-sm md:text-lg">카테고리</span>
+        <span className="text-gray-600 text-sm">카테고리</span>
       )}
     </div>
   );

@@ -21,7 +21,7 @@ const Thumbs = (props: ThumbsProps) => {
   return (
     <button
       onClick={handleClick}
-      className="flex items-center px-[10px] md:px-3 py-[6px] w-fit bg-black-450 border-gray-650 border rounded-full"
+      className="flex items-center px-[10px] lg:px-3 py-[6px] w-fit bg-black-450 border-gray-650 border rounded-full"
     >
       {liked ? (
         <RiThumbUpFill className="text-blue mr-[5px] " />
@@ -29,9 +29,9 @@ const Thumbs = (props: ThumbsProps) => {
         <RiThumbUpLine className="text-gray-500 mr-[5px]" />
       )}
       {liked ? (
-        <span className="text-indigo text-sm md:text-lg font-mono">{likes}</span>
+        <span className="text-indigo text-sm lg:text-lg font-mono">{likes}</span>
       ) : (
-        <span className="text-gray-500 text-sm md:text-lg font-mono">{likes}</span>
+        <span className="text-gray-500 text-sm lg:text-lg font-mono">{likes}</span>
       )}
     </button>
   );
