@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useDataMutation } from '../services/common';
-import { FollowRequest, FollowResponse, Config } from '../types/data';
+import { FollowRequest, FollowResponse } from '../types/data';
 import { UseMutationOptions } from '@tanstack/react-query';
 
 export const useFollowUser = (

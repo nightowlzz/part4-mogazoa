@@ -1,5 +1,5 @@
 import { useDataMutation } from '../services/common';
-import { OauthRequest, OauthResponse, Config } from '../types/data';
+import { OauthRequest, OauthResponse } from '../types/data';
 import { AxiosError } from 'axios';
 import { UseMutationOptions } from '@tanstack/react-query';
 
