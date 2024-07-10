@@ -22,6 +22,7 @@ const buttonVariants = cva(
         text: 'text-[#f1f1f5] hover:text-[#ccc]',
         icon: 'p-1 cursor-pointer',
         iconBg: 'p-[5px] rounded-md bg-[#252530] cursor-pointer hover:bg-[#353542]',
+        tag: 'p-[2px] rounded-md bg-[#252530] hover:bg-[#353542]',
       },
       size: {
         default: 'h-[50px] px-4 py-2 md:h-[55px] lg:h-[65px]', // 기본
