@@ -3,28 +3,26 @@ import { Button } from '@/components/ui/button';
 import { IoMdHeartEmpty } from 'react-icons/io';
 import { MdShare } from 'react-icons/md';
 import { RiKakaoTalkFill } from 'react-icons/ri';
-
-interface Category {
-  id: number;
-  name: string;
-}
+import CategoryTag from '@/components/ui/tags/CategoryTag';
 
 interface ProductCardProps {
   name: string;
   description: string;
   image: string;
-  category: Category;
   writerId: number;
   currentUserId: number;
+  categoryName: string;
+  categoryId: number;
 }
 
 export default function ProductCard({
   name,
   description,
   image,
-  category,
   writerId,
   currentUserId,
+  categoryName,
+  categoryId,
 }: ProductCardProps) {
   {
     /*writerId와 currentUserId를 비교하여 내가 등록한 상품인지를 확인(임시) */
@@ -33,14 +31,20 @@ export default function ProductCard({
 
   return (
     <div className="bg-[#1C1C22] w-[335px] md:w-[684px] lg:w-[940px] h-full flex flex-col md:flex-row">
-      <div className="relative w-335px md:w-[280px] lg:w-[355px] h-[236px] md:h-[197px] lg:h-[250px] py-[10.53px] md:py-[8.79px] lg:py-[11.15px] pl-[22.41px] md:pl-[18.73px] lg:pl-[23.75px] pr-[23.59px] md:pr-[19.72px] lg:pr-[25px] mb-5 md:mb-[88px] lg:mb-[29px] md:mr-5 lg:mr-10">
+      <div className="relative w-335px md:w-[280px] lg:w-[355px] h-[236px] md:h-[197px] lg:h-[250px] mb-5 md:mb-[88px] lg:mb-[29px] md:mr-5 lg:mr-10">
         <Image src={image} alt="product" fill priority />
       </div>
       <div>
-        <div className="flex items-center justify-between">
-          <p className="w-[58px] h-[22px] text-lime-500 text-xs">{category.name}</p>
+        <div className="flex items-center justify-between mb-[11px] md:mb-[10px]">
+          <span className="w-[58px] h-[22px] font-normal whitespace-nowrap">
+            <CategoryTag
+              categoryName={categoryName}
+              categoryId={categoryId}
+              className="text-xs md:text-xs"
+            />
+          </span>
           {/* 모바일 화면에서만 표시되는 카카오톡과 공유 버튼 */}
-          <div className="sm:flex md:hidden gap-[10px]">
+          <div className="flex md:hidden gap-[10px]">
             <Button asChild variant="iconBg" size="auto">
               <RiKakaoTalkFill color={'#9FA6B2'} size={18} />
             </Button>
@@ -50,7 +54,7 @@ export default function ProductCard({
           </div>
         </div>
 
-        <div className="w-[335px] md:w-[383px] lg:w-[545px] h-[29px] flex justify-between mb-[10px]">
+        <div className="w-auto h-[29px] flex justify-between mb-[10px]">
           <div className="flex items-center gap-[15px]">
             <h2 className="text-[#F1F1F5] md:text-xl lg:text-2xl font-semibold">{name}</h2>
             <Button asChild variant="icon" size="auto" className="md:p-0.5 lg:p-0">
