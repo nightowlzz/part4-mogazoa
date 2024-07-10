@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { ReviewProfile } from './review-profile';
+import Thumbs from './Thumbs';
 
 interface ReviewImage {
   source: string;
@@ -36,6 +37,7 @@ export default function Review({
   userId,
   currentUserId,
   user,
+  isLiked,
   likeCount,
 }: ReviewProps) {
   const isMyReview = userId === currentUserId;
@@ -70,7 +72,7 @@ export default function Review({
           </div>
         )}
         <div className="flex w-[295px] md:w-[455px] lg:w-[650px] h-[26px] lg:h-[30px] items-center justify-between">
-          <div className="flex gap-[15px] md:gap-5 lg:gap-5">
+          <div className="flex gap-[15px] mt-3 md:mt-[13px] md:gap-5 lg:gap-5">
             <p className="text-gray-600 text-xs lg:text-sm font-normal">{createdAt}</p>
             {isMyReview && (
               <div className="flex gap-[10px]">
@@ -83,7 +85,7 @@ export default function Review({
               </div>
             )}
           </div>
-          <p className="text-white">좋아요</p>
+          <Thumbs isLiked={isLiked} likeCount={likeCount} />
         </div>
       </div>
     </div>
