@@ -1,11 +1,10 @@
-import axios from 'axios';
-import { getCookie, setCookie } from '@/utils/cookieUtils';
+import axios, { AxiosInstance } from 'axios';
+import { getCookie } from '@/utils/cookieUtils';
 
-const instance = axios.create({
-  baseURL: '/api/proxy',
-  headers: {
-    Accept: 'application/json',
-  },
+const teamNickname = process.env.NEXT_PUBLIC_TEAM_NICKNAME;
+
+const instance: AxiosInstance = axios.create({
+  baseURL: `/api/${teamNickname}`
 });
 
 instance.interceptors.request.use((config) => {
@@ -15,17 +14,5 @@ instance.interceptors.request.use((config) => {
   }
   return config;
 });
-
-instance.interceptors.response.use(
-  (response) => {
-    if (response.data && response.data.accessToken) {
-      setCookie('accessToken', response.data.accessToken, 7);
-    }
-    return response;
-  },
-  (error) => {
-    return Promise.reject(error);
-  },
-);
 
 export default instance;

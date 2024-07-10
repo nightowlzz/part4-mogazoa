@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useDataQuery } from '../services/common';
-import { CategoryResponse, Config } from '../types/data';
+import { CategoryResponse } from '../types/data';
 import { UseQueryOptions, QueryKey } from '@tanstack/react-query';
 
 export const useGetCategories = (

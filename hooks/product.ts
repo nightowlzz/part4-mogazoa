@@ -4,6 +4,7 @@ import {
   ProductUpdateRequest,
   ProductDetailResponse,
   ReviewListResponse,
+  Params,
 } from '../types/data';
 import {
   UseQueryOptions,
@@ -13,7 +14,7 @@ import {
 import { AxiosError } from 'axios';
 
 export const useGetProducts = (
-  params?: { keyword?: string; category?: number; order?: undefined; cursor?: number },
+  params?: Params,
   options?: Omit<
     UseQueryOptions<ProductsListResponse, AxiosError, ProductsListResponse, QueryKey>,
     'queryKey' | 'queryFn'

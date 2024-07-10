@@ -1,5 +1,5 @@
 import { useDataMutation } from '../services/common';
-import { UploadImageResponse, Config } from '../types/data';
+import { UploadImageResponse } from '../types/data';
 import { AxiosError } from 'axios';
 import { UseMutationOptions } from '@tanstack/react-query';
 
