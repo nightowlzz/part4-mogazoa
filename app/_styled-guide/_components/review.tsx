@@ -33,6 +33,7 @@ export default function Review({
   reviewImages,
   createdAt,
   content,
+  rating,
   isSponsored,
   userId,
   currentUserId,
@@ -45,7 +46,7 @@ export default function Review({
   return (
     <div className="flex flex-col md:flex-row lg:flex-row w-[335px] md:w-[684px] lg:w-[940px] bg-[#252530] border rounded-xl border-solid border-[#353542]">
       <div className="pt-[30px] pl-[30px] whitespace-nowrap">
-        <ReviewProfile user={user} likeCount={likeCount} />
+        <ReviewProfile user={user} rating={rating} />
       </div>
       <div className="flex flex-col gap-5 w-auto px-5 md:pl-[30px] lg:pl-[80px] md:pr-5 lg:pr-[30px] pt-[30px] pb-5 md:py-5 lg:py-[30px]">
         {isSponsored && (
