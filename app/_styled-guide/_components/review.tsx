@@ -1,30 +1,31 @@
 import Image from 'next/image';
-
-interface User {
-  id: number;
-  image: string;
-  nickname: string;
-}
+import { ReviewProfile } from './review-profile';
 
 interface ReviewImage {
-  id: number;
   source: string;
+  id: number;
+}
+
+interface User {
+  image: string;
+  nickname: string;
+  id: number;
 }
 
 interface ReviewProps {
-  id?: number;
-  user?: User;
-  reviewImages?: ReviewImage[];
-  updatedAt?: string;
-  createdAt: string;
-  isLiked?: boolean;
-  likeCount?: number;
-  content: string;
-  rating?: number;
-  isSponsored: boolean;
-  productId?: number;
+  user: User;
+  reviewImages: ReviewImage[];
+  productId: number;
   userId: number;
+  updatedAt: string;
+  createdAt: string;
+  isLiked: boolean;
+  likeCount: number;
+  content: string;
+  rating: number;
+  id: number;
   currentUserId: number;
+  isSponsored: boolean;
 } //임시로 필요해보이는 것만 작성했습니다
 
 export default function Review({
@@ -34,13 +35,15 @@ export default function Review({
   isSponsored,
   userId,
   currentUserId,
+  user,
+  likeCount,
 }: ReviewProps) {
   const isMyReview = userId === currentUserId;
 
   return (
     <div className="flex flex-col md:flex-row lg:flex-row w-[335px] md:w-[684px] lg:w-[940px] bg-[#252530] border rounded-xl border-solid border-[#353542]">
-      <div className="w-[128px] md:w-[159px] lg:w-[150px] pt-[30px] pl-[30px] text-white whitespace-nowrap">
-        review profile
+      <div className="pt-[30px] pl-[30px] whitespace-nowrap">
+        <ReviewProfile user={user} likeCount={likeCount} />
       </div>
       <div className="flex flex-col gap-5 w-auto px-5 md:pl-[30px] lg:pl-[80px] md:pr-5 lg:pr-[30px] pt-[30px] pb-5 md:py-5 lg:py-[30px]">
         {isSponsored && (
@@ -74,7 +77,7 @@ export default function Review({
                 <button className="text-gray-600 text-xs lg:text-sm font-light underline decoration-gray-600">
                   수정
                 </button>
-                <button className="text-gray-600 text-xs text-sm font-light underline decoration-gray-600">
+                <button className="text-gray-600 text-xs lg:text-sm font-light underline decoration-gray-600">
                   삭제
                 </button>
               </div>
