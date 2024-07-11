@@ -6,7 +6,7 @@ import {
   QueryKey,
   UseQueryOptions,
 } from '@tanstack/react-query';
-import { AxiosError, AxiosRequestConfig } from 'axios';
+import { AxiosError } from 'axios';
 import axiosInstance from '@/utils/axiosInstance';
 import { HttpMethod, Params } from '@/types/data';
 
@@ -34,15 +34,16 @@ export function useDataMutation<TData, TResponse>(
     headers?: Record<string, string>;
   },
 ) {
-  return useMutation<TResponse, AxiosError, TData>({
-    mutationFn: (data: TData | null) =>
+  const mutation = useMutation<TResponse, AxiosError, TData>({
+    mutationFn: (data: TData) =>
       fetchData<TData, TResponse>({ url, method, data, headers: options?.headers }),
-    onError: (error) => {
-      const errorMessage = handleErrorResponse(error);
-      alert(errorMessage);
-    },
     ...options,
   });
+  return {
+    ...mutation,
+    mutate: (data: TData) => mutation.mutate(data),
+    mutateAsync: (data: TData) => mutation.mutateAsync(data),
+  };
 }
 
 async function fetchData<TData, TResponse>({
@@ -58,21 +59,13 @@ async function fetchData<TData, TResponse>({
   params?: Params;
   headers?: Record<string, string>;
 }): Promise<TResponse> {
-  const config: AxiosRequestConfig = {
+  const response = await axiosInstance({
     method,
     url,
     params,
     headers,
-  };
+    data: method !== 'get' ? data : undefined,
+  });
 
-  if (method !== 'get') {
-    if (headers?.['Content-Type'] === 'multipart/form-data') {
-      config.data = data;
-    } else {
-      config.data = data;
-    }
-  }
-
-  const response = await axiosInstance(config);
   return response.data;
 }
