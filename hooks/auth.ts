@@ -14,8 +14,7 @@ export const useSignUp = (
 ) => {
   const method = 'post';
   const url = '/auth/signUp';
-  const mutation = useDataMutation<SignUpRequest, AuthResponse>(url, method, options);
-  return (data: SignUpRequest) => mutation.mutate(data);
+  return useDataMutation<SignUpRequest, AuthResponse>(url, method, options);
 };
 
 export const useSignIn = (
@@ -23,8 +22,7 @@ export const useSignIn = (
 ) => {
   const method = 'post';
   const url = '/auth/signIn';
-  const mutation = useDataMutation<SignInRequest, AuthResponse>(url, method, options);
-  return (data: SignInRequest) => mutation.mutate(data);
+  return useDataMutation<SignInRequest, AuthResponse>(url, method, options);
 };
 
 export const useOauthSignUp = (
@@ -33,8 +31,7 @@ export const useOauthSignUp = (
 ) => {
   const method = 'post';
   const url = `/auth/oauthSignUp/${provider}`;
-  const mutation = useDataMutation<OauthSignUpRequest, AuthResponse>(url, method, options);
-  return (data: OauthSignUpRequest) => mutation.mutate(data);
+  return useDataMutation<OauthSignUpRequest, AuthResponse>(url, method, options);
 };
 
 export const useOauthSignIn = (
@@ -43,6 +40,5 @@ export const useOauthSignIn = (
 ) => {
   const method = 'post';
   const url = `/auth/oauthSignIn/${provider}`;
-  const mutation = useDataMutation<OauthSignInRequest, AuthResponse>(url, method, options);
-  return (data: OauthSignInRequest) => mutation.mutate(data);
+  return useDataMutation<OauthSignInRequest, AuthResponse>(url, method, options);
 };

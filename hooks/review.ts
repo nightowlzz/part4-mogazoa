@@ -13,8 +13,7 @@ export const usePostReview = (
 ) => {
   const method = 'post';
   const url = '/reviews';
-  const mutation = useDataMutation<PostReviewRequest, ReviewResponse>(url, method, options);
-  return (data: PostReviewRequest) => mutation.mutate(data);
+  return useDataMutation<PostReviewRequest, ReviewResponse>(url, method, options);
 };
 
 export const useUpdateReview = (
@@ -22,49 +21,33 @@ export const useUpdateReview = (
   options?: Omit<UseMutationOptions<ReviewResponse, AxiosError, UpdateReviewRequest>, 'mutationFn'>,
 ) => {
   const method = 'patch';
-  const mutation = useDataMutation<UpdateReviewRequest, ReviewResponse>(
+  return useDataMutation<UpdateReviewRequest, ReviewResponse>(
     `/reviews/${reviewId}`,
     method,
     options,
   );
-  return (data: UpdateReviewRequest) => mutation.mutate(data);
 };
 
 export const useDeleteReview = (
   reviewId: number,
   options?: Omit<UseMutationOptions<DeleteReviewResponse, AxiosError, void>, 'mutationFn'>,
-): (() => void) => {
+) => {
   const method = 'delete';
-  const mutation = useDataMutation<void, DeleteReviewResponse>(
-    `/reviews/${reviewId}`,
-    method,
-    options,
-  );
-  return () => mutation.mutate();
+  return useDataMutation<void, DeleteReviewResponse>(`/reviews/${reviewId}`, method, options);
 };
 
 export const useLikeReview = (
   reviewId: number,
   options?: Omit<UseMutationOptions<ReviewResponse, AxiosError, void>, 'mutationFn'>,
-): (() => void) => {
+) => {
   const method = 'post';
-  const mutation = useDataMutation<void, ReviewResponse>(
-    `/reviews/${reviewId}/like`,
-    method,
-    options,
-  );
-  return () => mutation.mutate();
+  return useDataMutation<void, ReviewResponse>(`/reviews/${reviewId}/like`, method, options);
 };
 
 export const useUnlikeReview = (
   reviewId: number,
   options?: Omit<UseMutationOptions<ReviewResponse, AxiosError, void>, 'mutationFn'>,
-): (() => void) => {
+) => {
   const method = 'delete';
-  const mutation = useDataMutation<void, ReviewResponse>(
-    `/reviews/${reviewId}/like`,
-    method,
-    options,
-  );
-  return () => mutation.mutate();
+  return useDataMutation<void, ReviewResponse>(`/reviews/${reviewId}/like`, method, options);
 };

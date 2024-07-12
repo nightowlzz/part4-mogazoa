@@ -1,4 +1,3 @@
-// app/test-pages/auth/page.tsx
 'use client';
 
 import React from 'react';
@@ -6,6 +5,7 @@ import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { useSignIn, useSignUp } from '@/hooks/auth';
 import { SignUpRequest, SignInRequest } from '@/types/data';
 import { setCookie } from '@/utils/cookieUtils';
+import { Toaster, toast } from 'sonner';
 
 interface FormFieldProps {
   name: string;
@@ -37,19 +37,21 @@ const AuthTestPage: React.FC = () => {
     onSuccess: (data) => {
       if (data.accessToken) {
         setCookie('accessToken', data.accessToken, 7);
+        toast.success('Successfully signed in!');
       }
     },
   });
+
   const signUp = useSignUp({
     onSuccess: (data) => {
       if (data.accessToken) {
         setCookie('accessToken', data.accessToken, 7);
+        toast.success('Successfully signed up!');
       }
     },
   });
 
   const { control: controlSignIn, handleSubmit: handleSubmitSignIn } = useForm<SignInRequest>();
-
   const {
     control: controlSignUp,
     handleSubmit: handleSubmitSignUp,
@@ -57,17 +59,18 @@ const AuthTestPage: React.FC = () => {
   } = useForm<SignUpRequest>();
 
   const onSignInSubmit: SubmitHandler<SignInRequest> = (data) => {
-    signIn(data);
+    signIn.mutate(data);
   };
 
   const onSignUpSubmit: SubmitHandler<SignUpRequest> = (data) => {
-    signUp(data);
+    signUp.mutate(data);
   };
 
   const password = watchSignUp('password');
 
   return (
     <div className="p-4">
+      <Toaster position="top-right" />
       <h1 className="text-2xl font-bold mb-4">Auth Test Page</h1>
 
       <div className="mb-8">
@@ -101,8 +104,9 @@ const AuthTestPage: React.FC = () => {
           <button
             type="submit"
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            disabled={signIn.isPending}
           >
-            Sign In
+            {signIn.isPending ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
       </div>
@@ -154,8 +158,9 @@ const AuthTestPage: React.FC = () => {
           <button
             type="submit"
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+            disabled={signUp.isPending}
           >
-            Sign Up
+            {signUp.isPending ? 'Signing Up...' : 'Sign Up'}
           </button>
         </form>
       </div>

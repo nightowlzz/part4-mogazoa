@@ -317,18 +317,12 @@ export interface AuthResponse {
 
 export type HttpMethod = 'get' | 'post' | 'patch' | 'delete';
 
-export interface Config {
-  method?: HttpMethod;
-  url?: string;
+export interface Order {
+  order?: 'recent' | 'rating' | 'reviewCount'
 }
 
-export interface RequestConfig<T> extends Config {
-  data: T;
-}
-
-export interface Params {
+export interface Params extends Order {
   keyword?: string;
   category?: number;
-  order?: 'recent' | 'rating' | 'reviewCount';
   cursor?: number;
 }

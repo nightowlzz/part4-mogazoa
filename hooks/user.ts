@@ -24,8 +24,7 @@ export const useUpdateMyInfo = (
 ) => {
   const method = 'patch';
   const url = '/users/me';
-  const mutation = useDataMutation<UpdateUserRequest, UserResponse>(url, method, options);
-  return (data: UpdateUserRequest) => mutation.mutate(data);
+  return useDataMutation<UpdateUserRequest, UserResponse>(url, method, options);
 };
 
 export const useGetUserRanking = (

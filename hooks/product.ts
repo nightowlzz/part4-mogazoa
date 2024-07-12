@@ -4,16 +4,13 @@ import {
   ProductUpdateRequest,
   ProductDetailResponse,
   ReviewListResponse,
+  Params,
 } from '../types/data';
-import {
-  UseQueryOptions,
-  QueryKey,
-  UseMutationOptions,
-} from '@tanstack/react-query';
+import { UseQueryOptions, QueryKey, UseMutationOptions } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 
 export const useGetProducts = (
-  params?: { keyword?: string; category?: number; order?: undefined; cursor?: number },
+  params?: Params,
   options?: Omit<
     UseQueryOptions<ProductsListResponse, AxiosError, ProductsListResponse, QueryKey>,
     'queryKey' | 'queryFn'
@@ -69,12 +66,7 @@ export const useCreateProduct = (
 ) => {
   const method = 'post';
   const url = '/products';
-  const mutation = useDataMutation<ProductUpdateRequest, ProductDetailResponse>(
-    url,
-    method,
-    options,
-  );
-  return (data: ProductUpdateRequest) => mutation.mutate(data);
+  return useDataMutation<ProductUpdateRequest, ProductDetailResponse>(url, method, options);
 };
 
 export const useUpdateProduct = (
@@ -85,36 +77,33 @@ export const useUpdateProduct = (
   >,
 ) => {
   const method = 'patch';
-  const mutation = useDataMutation<ProductUpdateRequest, ProductDetailResponse>(
+  return useDataMutation<ProductUpdateRequest, ProductDetailResponse>(
     `/products/${productId}`,
     method,
     options,
   );
-  return (data: ProductUpdateRequest) => mutation.mutate(data);
 };
 
 export const useFavoriteProduct = (
   productId: number,
   options?: Omit<UseMutationOptions<ProductDetailResponse, AxiosError, void>, 'mutationFn'>,
-): (() => void) => {
+) => {
   const method = 'post';
-  const mutation = useDataMutation<void, ProductDetailResponse>(
+  return useDataMutation<void, ProductDetailResponse>(
     `/products/${productId}/favorite`,
     method,
     options,
   );
-  return () => mutation.mutate();
 };
 
 export const useUnfavoriteProduct = (
   productId: number,
   options?: Omit<UseMutationOptions<ProductDetailResponse, AxiosError, void>, 'mutationFn'>,
-): (() => void) => {
+) => {
   const method = 'delete';
-  const mutation = useDataMutation<void, ProductDetailResponse>(
+  return useDataMutation<void, ProductDetailResponse>(
     `/products/${productId}/favorite`,
     method,
     options,
   );
-  return () => mutation.mutate();
 };
