@@ -8,8 +8,7 @@ export const useFollowUser = (
 ) => {
   const method = 'post';
   const url = '/follow';
-  const mutation = useDataMutation<FollowRequest, FollowResponse>(url, method, options);
-  return (data: FollowRequest) => mutation.mutate(data);
+  return useDataMutation<FollowRequest, FollowResponse>(url, method, options);
 };
 
 export const useUnFollowUser = (
@@ -17,6 +16,5 @@ export const useUnFollowUser = (
 ) => {
   const method = 'delete';
   const url = '/follow';
-  const mutation = useDataMutation<FollowRequest, FollowResponse>(url, method, options);
-  return (data: FollowRequest) => mutation.mutate(data);
+  return useDataMutation<FollowRequest, FollowResponse>(url, method, options);
 };
