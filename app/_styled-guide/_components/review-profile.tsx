@@ -8,10 +8,10 @@ interface User {
 
 interface ReviewProfileProps {
   user: User;
-  likeCount: number;
+  rating: number;
 }
 
-export function ReviewProfile({ user, likeCount }: ReviewProfileProps) {
+export function ReviewProfile({ user, rating }: ReviewProfileProps) {
   const { image, nickname } = user;
   return (
     <div className="flex gap-2.5 items-center">
@@ -24,7 +24,7 @@ export function ReviewProfile({ user, likeCount }: ReviewProfileProps) {
       <div className="flex flex-col">
         <h2 className="text-white text-sm lg:text-base">{nickname}</h2>
         <div className="flex gap-[2px]">
-          {Array.from({ length: likeCount }, (_, index) => (
+          {Array.from({ length: rating }, (_, index) => (
             <FaStar key={index} color="#FFC83C" className="w-3 h-3 lg:w-[18px] lg:h-[18px]" />
           ))}
         </div>
