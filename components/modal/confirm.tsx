@@ -17,15 +17,13 @@ export default function Confirm() {
       <DialogTrigger asChild>
         <Button>비교상품교체모달확인 바로가기</Button>
       </DialogTrigger>
-      <DialogContent className="w-full max-w-[540px]">
-        {/* head */}
+      <DialogContent className="max-w-[540px]">
         <DialogHeader>
           <DialogTitle>
             비교 상품이 교체되었습니다.
             <br /> 바로 확인해 보시겠어요?
           </DialogTitle>
         </DialogHeader>
-        {/* foot */}
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
             <Link href="/" className={cn(buttonVariants({ variant: 'default' }))}>

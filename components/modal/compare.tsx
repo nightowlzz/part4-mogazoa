@@ -16,12 +16,10 @@ export default function Compare() {
       <DialogTrigger asChild>
         <Button>비교모달</Button>
       </DialogTrigger>
-      <DialogContent className="w-full max-w-[540px]">
-        {/* head */}
+      <DialogContent className="max-w-[540px]">
         <DialogHeader>
           <DialogTitle>지금 보신 ‘Sony WH-1300XM3’ 어떤 상품과 비교할까요?</DialogTitle>
         </DialogHeader>
-        {/* content */}
         <div className="flex flex-col space-y-2 md:space-y-4 lg:space-y-5">
           <Button variant="outlineRed" className={cn(`${false ? 'border-pink text-pink' : ''}`)}>
             Air Pods 1
@@ -30,7 +28,6 @@ export default function Compare() {
             Air Pods 2
           </Button>
         </div>
-        {/* foot */}
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
             <Button type="button" variant="default">

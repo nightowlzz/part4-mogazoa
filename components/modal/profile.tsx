@@ -26,7 +26,6 @@ import { ImFilePicture } from 'react-icons/im';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Input } from '../ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
 const FormSchema = z.object({
   nickname: z.string(),
   description: z.string(),
@@ -45,103 +44,84 @@ export default function Profile() {
       <DialogTrigger asChild>
         <Button>프로필 모달</Button>
       </DialogTrigger>
-      <DialogContent className="w-full max-w-[620px]">
-        {/* head */}
+      <DialogContent className="max-w-[660px]">
         <DialogHeader>
-          <DialogTitle className="flex flex-col gap-5 md:gap-[10px]">
-            <span className="text-sm">전자기기</span>s Sony WH-1000XM3 s{' '}
-          </DialogTitle>
+          <DialogTitle className="flex flex-col gap-5 md:gap-[10px]">프로필 편집</DialogTitle>
         </DialogHeader>
-        {/* content */}
-        <div className="flex flex-col">
-          {/* form */}
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="w-full space-y-[10px] md:space-y-4 lg:space-y-5"
-            >
-              {/* 이미지 추가 */}
-              <FormField
-                control={form.control}
-                name="image"
-                render={({ field }) => (
-                  <FormItem>
-                    <div className="relative flex h-[140px] md:h-[135px] lg:h-[160px] w-[140px] md:w-[135px] lg:w-[160px]">
-                      <FormControl>
-                        <>
-                          <Input id="picture" type="file" multiple accept="image/*" />
-                          {/* label bg로 image 보이게*/}
-                          <FormLabel
-                            htmlFor="picture"
-                            className={`absolute right-[1px] top-[1px] flex items-center justify-center cursor-pointer rounded-lg bg-[#252530] border border-[#353542] bg-center bg-no-repeat z-[1]`}
-                            style={{ width: 'calc(100% - 2px)', height: 'calc(100% - 2px)' }}
-                          >
-                            {/* 삭제버튼 */}
-                            {false ? (
-                              <Button
-                                type="button"
-                                variant="icon"
-                                size="auto"
-                                className="absolute right-1 top-1 flex items-center justify-center h-7 w-7 rounded-lg bg-black/50 p-1"
-                              ></Button>
-                            ) : (
-                              <span>
-                                <ImFilePicture className="text-gray-600" size={34} />
-                              </span>
-                            )}
-                          </FormLabel>
-                        </>
-                      </FormControl>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="nickname"
-                render={({ field }) => (
-                  <FormItem>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-full space-y-[10px] md:space-y-4 lg:space-y-5"
+          >
+            {/* 이미지 추가 */}
+            <FormField
+              control={form.control}
+              name="image"
+              render={({ field }) => (
+                <FormItem>
+                  <div className="relative flex h-[140px] md:h-[135px] lg:h-[160px] w-[140px] md:w-[135px] lg:w-[160px]">
                     <FormControl>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl className="h-[55px] md:h-[60px] lg:h-[70px] bg-[#252530] text-white">
-                          <SelectTrigger>
-                            <SelectValue placeholder="상품명 (상품 등록 여부를 확인해 주세요)" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value="상품1">상품1</SelectItem>
-                          <SelectItem value="상품2">상품2</SelectItem>
-                          <SelectItem value="상품3">상품3</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <>
+                        <Input id="picture" type="file" multiple accept="image/*" />
+                        {/* label bg로 image 보이게*/}
+                        <FormLabel
+                          htmlFor="picture"
+                          className={`absolute right-[1px] top-[1px] flex items-center justify-center cursor-pointer rounded-lg bg-[#252530] border border-[#353542] bg-center bg-no-repeat z-[1]`}
+                          style={{ width: 'calc(100% - 2px)', height: 'calc(100% - 2px)' }}
+                        >
+                          {/* 삭제버튼 */}
+                          {false ? (
+                            <Button
+                              type="button"
+                              variant="icon"
+                              size="auto"
+                              className="absolute right-1 top-1 flex items-center justify-center h-7 w-7 rounded-lg bg-black/50 p-1"
+                            ></Button>
+                          ) : (
+                            <span>
+                              <ImFilePicture className="text-gray-600" size={34} />
+                            </span>
+                          )}
+                        </FormLabel>
+                      </>
                     </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem className="relative">
-                    <FormControl>
-                      <Textarea
-                        placeholder="상품 설명을 입력해 주세요"
-                        className="h-[120px] smd:h-[160px]"
-                      />
-                    </FormControl>
-                    <FormDescription className="absolute bottom-5 right-5 text-sm text-gray-600">
-                      2/30
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </form>
-          </Form>
-        </div>
-        {/* foot */}
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="nickname"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <Input type="text" placeholder="닉네임을 입력해 주세요" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem className="relative">
+                  <FormControl>
+                    <Textarea
+                      placeholder="상품 설명을 입력해 주세요"
+                      className="h-[120px] smd:h-[160px]"
+                    />
+                  </FormControl>
+                  <FormDescription className="absolute bottom-5 right-5 text-sm text-gray-600">
+                    2/30
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
             <Button type="button" variant="default">
