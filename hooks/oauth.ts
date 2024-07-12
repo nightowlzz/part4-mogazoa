@@ -8,7 +8,5 @@ export const useRegisterOAuthApp = (
 ) => {
   const method = 'post';
   const url = '/oauthApps';
-  const mutation = useDataMutation<OauthRequest, OauthResponse>(url, method, options);
-
-  return (data: OauthRequest) => mutation.mutate(data);
+  return useDataMutation<OauthRequest, OauthResponse>(url, method, options);
 };

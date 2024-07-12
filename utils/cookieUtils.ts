@@ -5,7 +5,7 @@ export const setCookie = (name: string, value: string, days: number) => {
     const cookie = `${name}=${encodeURIComponent(value)}; expires=${expirationDate.toUTCString()}; path=/; SameSite=Lax`;
     document.cookie = cookie;
   } catch (error) {
-    console.error('Error setting cookie:', error); // 디버깅용 로그
+    console.error('Error setting cookie:', error);
   }
 };
 
