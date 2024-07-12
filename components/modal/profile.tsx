@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { IoCloseSharp } from 'react-icons/io5';
 
 import {
   Form,
@@ -62,21 +63,26 @@ export default function Profile() {
                   <div className="relative flex h-[140px] md:h-[135px] lg:h-[160px] w-[140px] md:w-[135px] lg:w-[160px]">
                     <FormControl>
                       <>
-                        <Input id="picture" type="file" multiple accept="image/*" />
+                        <Input id="profilePicture" type="file" multiple accept="image/*" />
                         {/* label bg로 image 보이게*/}
                         <FormLabel
-                          htmlFor="picture"
-                          className={`absolute right-[1px] top-[1px] flex items-center justify-center cursor-pointer rounded-lg bg-[#252530] border border-[#353542] bg-center bg-no-repeat z-[1]`}
-                          style={{ width: 'calc(100% - 2px)', height: 'calc(100% - 2px)' }}
+                          htmlFor="profilePicture"
+                          variant="file"
+                          style={{
+                            backgroundImage:
+                              "url('https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160406_70%2Fjane0014_145991895474804Yrl_PNG%2F20160324_1822371.png&type=sc960_832')",
+                          }}
                         >
                           {/* 삭제버튼 */}
-                          {false ? (
+                          {true ? (
                             <Button
-                              type="button"
-                              variant="icon"
+                              asChild
+                              variant="iconBg"
                               size="auto"
-                              className="absolute right-1 top-1 flex items-center justify-center h-7 w-7 rounded-lg bg-black/50 p-1"
-                            ></Button>
+                              className="absolute right-1 top-1 flex items-center justify-center h-7 w-7 rounded-lg p-1"
+                            >
+                              <IoCloseSharp className="text-white" size={18} />
+                            </Button>
                           ) : (
                             <span>
                               <ImFilePicture className="text-gray-600" size={34} />
