@@ -16,8 +16,9 @@ const buttonVariants = cva(
         outlineBlue: `${styled['gradient-button']}`,
         outlineRed:
           'border border-[#FF2F9F] text-[#FF2F9F] font-semibold md:text-base lg:text-lg hover:border-[#b91d71] hover:text-[#b91d71]',
+        circleGary: 'border border-[#353542] text-[#f1f1f5] rounded-[50em] hover:border-[#52525f]',
         circleBlue:
-          'bg-gradation-secondary text-[#f1f1f5] rounded-[50em] w-[60px] h-[50px] hover:bg-gradation-secondary-hover',
+          'bg-gradation-secondary text-[#f1f1f5] rounded-[50em] hover:bg-gradation-secondary-hover',
         nav: 'border text-[#6E6E82] border-transparent text-sm hover:border-[#353542] hover:bg-[#252530] hover:text-[#F1F1F5] font-semibold lg:text-base',
         text: 'text-[#f1f1f5] hover:text-[#ccc]',
         icon: 'p-1 cursor-pointer',
