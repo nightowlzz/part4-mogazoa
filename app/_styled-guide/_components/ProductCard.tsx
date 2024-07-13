@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { IoMdHeartEmpty, IoIosHeart } from 'react-icons/io';
-import { MdShare } from 'react-icons/md';
-import { RiKakaoTalkFill } from 'react-icons/ri';
+import KaKaoShareButton from './KaKaoShareButton';
+import CopyLinkButton from './CopyLinkButton';
 import CategoryTag from '@/components/ui/tags/CategoryTag';
 import { useFavoriteProduct, useUnfavoriteProduct } from '@/hooks/product';
 import { useState } from 'react';
@@ -77,12 +77,8 @@ export default function ProductCard({
           </span>
           {/* 모바일 화면에서만 표시되는 카카오톡과 공유 버튼 */}
           <div className="flex md:hidden gap-[10px]">
-            <Button asChild variant="iconBg" size="auto">
-              <RiKakaoTalkFill color={'#9FA6B2'} size={18} />
-            </Button>
-            <Button asChild variant="iconBg" size="auto">
-              <MdShare color={'#9FA6B2'} size={18} />
-            </Button>
+            <KaKaoShareButton />
+            <CopyLinkButton />
           </div>
         </div>
 
@@ -106,12 +102,8 @@ export default function ProductCard({
 
           {/* 태블릿 이상 화면에서는 하트 버튼 옆에 카카오톡과 공유 버튼을 배치 */}
           <div className="hidden md:flex gap-[10px]">
-            <Button asChild variant="iconBg" size="auto">
-              <RiKakaoTalkFill color={'#9FA6B2'} size={18} />
-            </Button>
-            <Button asChild variant="iconBg" size="auto">
-              <MdShare color={'#9FA6B2'} size={18} />
-            </Button>
+            <KaKaoShareButton />
+            <CopyLinkButton />
           </div>
         </div>
 
