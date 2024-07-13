@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import QueryProviderWrapper from '@/components/QueryProviderWrapper';
+import { Toaster } from 'sonner';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -19,6 +20,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={inter.className}>
         <QueryProviderWrapper>{children}</QueryProviderWrapper>
+        <Toaster position="top-center" />
       </body>
     </html>
   );
