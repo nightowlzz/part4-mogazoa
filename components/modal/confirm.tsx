@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -18,6 +19,7 @@ export default function Confirm() {
         <Button>비교상품교체모달확인 바로가기</Button>
       </DialogTrigger>
       <DialogContent className="max-w-[540px]">
+        <DialogDescription className="hidden">confirm content</DialogDescription>
         <DialogHeader>
           <DialogTitle>
             비교 상품이 교체되었습니다.

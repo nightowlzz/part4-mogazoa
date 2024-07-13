@@ -3,6 +3,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -17,6 +18,7 @@ export default function Compare() {
         <Button>비교모달</Button>
       </DialogTrigger>
       <DialogContent className="max-w-[540px]">
+        <DialogDescription className="hidden">compare content</DialogDescription>
         <DialogHeader>
           <DialogTitle>지금 보신 ‘Sony WH-1300XM3’ 어떤 상품과 비교할까요?</DialogTitle>
         </DialogHeader>

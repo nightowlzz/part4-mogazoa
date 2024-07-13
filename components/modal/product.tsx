@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -48,6 +49,7 @@ export default function Product() {
         <Button>상품 모달</Button>
       </DialogTrigger>
       <DialogContent className="max-w-[660px]">
+        <DialogDescription className="hidden">product form content</DialogDescription>
         <DialogHeader>
           <DialogTitle className="flex flex-col gap-5 md:gap-[10px]">상품 편집</DialogTitle>
         </DialogHeader>
@@ -148,7 +150,7 @@ export default function Product() {
         </Form>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
-            <Button type="button" variant="default">
+            <Button type="button" variant="default" onClick={form.handleSubmit(onSubmit)}>
               저장하기
             </Button>
           </DialogClose>

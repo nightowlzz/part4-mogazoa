@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -58,7 +59,8 @@ export default function Review() {
       <DialogTrigger asChild>
         <Button>리뷰모달</Button>
       </DialogTrigger>
-      <DialogContent className="max-w-[660px]">
+      <DialogContent className="max-w-[660px]" aria-describedby="dialog-review">
+        <DialogDescription className="hidden">review form content</DialogDescription>
         <DialogHeader>
           <DialogTitle className="flex flex-col gap-[10px]">
             <CategoryTag categoryName="전자기기" categoryId={6} />
@@ -98,14 +100,11 @@ export default function Review() {
               control={form.control}
               name="review"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="relative">
                   <FormControl>
-                    <Textarea
-                      placeholder="리뷰를 작성해 주세요"
-                      className="resize-none"
-                      {...field}
-                    />
+                    <Textarea placeholder="리뷰를 작성해 주세요" />
                   </FormControl>
+                  <span className="absolute bottom-5 right-5 text-sm text-gray-600">2/30</span>
                   <FormMessage />
                 </FormItem>
               )}
@@ -156,7 +155,7 @@ export default function Review() {
         </Form>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
-            <Button type="button" variant="default">
+            <Button type="button" variant="default" onClick={form.handleSubmit(onSubmit)}>
               작성하기
             </Button>
           </DialogClose>
