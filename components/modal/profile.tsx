@@ -117,9 +117,9 @@ export default function Profile() {
                       className="h-[120px] smd:h-[160px]"
                     />
                   </FormControl>
-                  <FormDescription className="absolute bottom-5 right-5 text-sm text-gray-600">
-                    2/30
-                  </FormDescription>
+                  <span className="absolute bottom-5 right-5 text-sm text-gray-600 px-1 bg-black-450">
+                    2/300
+                  </span>
                   <FormMessage />
                 </FormItem>
               )}

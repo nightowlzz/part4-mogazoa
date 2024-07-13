@@ -104,7 +104,9 @@ export default function Review() {
                   <FormControl>
                     <Textarea placeholder="리뷰를 작성해 주세요" />
                   </FormControl>
-                  <span className="absolute bottom-5 right-5 text-sm text-gray-600">2/30</span>
+                  <span className="absolute bottom-5 right-5 text-sm text-gray-600 px-1 bg-black-450">
+                    2/300
+                  </span>
                   <FormMessage />
                 </FormItem>
               )}
