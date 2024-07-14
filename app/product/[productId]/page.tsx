@@ -1,6 +1,7 @@
 'use client';
 
 import ProductCard from '@/app/_styled-guide/_components/ProductCard';
+import Gnb from '@/app/_styled-guide/_components/gnb';
 import { StatisticFavorite } from '@/app/_styled-guide/_components/statistics-favorite';
 import { StatisticRating } from '@/app/_styled-guide/_components/statistics-rating';
 import { StatisticReview } from '@/app/_styled-guide/_components/statistics-review';
@@ -11,7 +12,6 @@ export default function ProductPage() {
   const { productId } = useParams();
 
   const { data: productDetail, isLoading, error } = useGetProductDetail(Number(productId));
-  //const { data: userInfo } = useGetUserInfo(currentUser.id);
 
   const currentUserId = 23; //임시
 
@@ -29,7 +29,7 @@ export default function ProductPage() {
 
   return (
     <div className="w-full h-full bg-[#1C1C22] flex flex-col items-center">
-      <div className="text-white">gnb</div>
+      <Gnb />
       <div className="mt-[60px] mb-[80px]">
         <ProductCard
           name={productDetail.name}
