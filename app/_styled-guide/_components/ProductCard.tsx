@@ -27,20 +27,21 @@ export default function ProductCard({
   categoryName,
   categoryId,
 }: ProductCardProps) {
-  {
-    /*writerId와 currentUserId를 비교하여 내가 등록한 상품인지를 확인(임시) */
-  }
-  const isUserProduct = writerId === currentUserId;
+  const isUserProduct = writerId === currentUserId; //내가 등록한 상품인지 비교(나중에 수정)
 
   const { productId } = useParams();
-  const [isFavorited, setIsFavorited] = useState(false); // 찜 여부 상태
+  const [isFavorited, setIsFavorited] = useState(false);
 
   const favoriteProduct = useFavoriteProduct(Number(productId), {
     onSuccess: () => {
       setIsFavorited(true);
     },
     onError: (error) => {
-      console.error('Failed to favorite product:', error);
+      if (error.response && error.response.status === 401) {
+        alert('로그인이 필요합니다.');
+      } else {
+        console.error('Failed to favorite product:', error);
+      }
     },
   });
 
@@ -54,6 +55,12 @@ export default function ProductCard({
   });
 
   const toggleFavorite = () => {
+    {
+      /*if (!isLoggedIn) {
+      alert('로그인이 필요합니다.');
+      return;
+    }*/
+    } //나중에 추가
     if (isFavorited) {
       unfavoriteProduct.mutate();
     } else {
