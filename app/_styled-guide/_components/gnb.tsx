@@ -6,7 +6,7 @@ import Link from 'next/link';
 import Logo from './logo';
 import { FiMenu } from 'react-icons/fi';
 import { IoSearch } from 'react-icons/io5';
-
+import GnbSearchBar from './gnb-search-bar';
 interface GnbProps {
   isLogin?: boolean;
 }
@@ -21,8 +21,7 @@ function Gnb({ isLogin = false }: GnbProps) {
         <div className="flex justify-between items-center w-full md:h-20 lg:h-[100px] md:px-[30px] lg:px-[120px] fixed inset-x-0 top-0 bg-black-600">
           <Logo />
           <div className="flex justify-between md:gap-[30px] lg:gap-[60px]">
-            {/* 임시용, search-bar 컴포넌트로 대체 예정 */}
-            <div className="text-white text-nowrap">search bar</div>
+            <GnbSearchBar />
             {isLogin && (
               <>
                 <Link href="/compare" className={buttonVariants({ variant: 'text', size: 'auto' })}>
