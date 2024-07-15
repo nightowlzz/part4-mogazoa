@@ -3,8 +3,10 @@
 import { useState } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import DropdownList from './DropdownList';
+import { string } from 'zod';
 
 interface CategorySelectorProps {
+  initialValue?: string;
   category?: string[];
   placeHolder?: string;
 }
@@ -24,9 +26,9 @@ const CategorySelector = (props: CategorySelectorProps) => {
     '의류/악세서리',
     '앱',
   ];
-  const { category = options, placeHolder = '카테고리 선택' } = props;
+  const { initialValue, category = options, placeHolder = '카테고리 선택' } = props;
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(placeHolder);
+  const [selectedItem, setSelectedItem] = useState(initialValue || placeHolder);
 
   // 버튼 이벤트
   const toggleDropdown = () => {

@@ -29,24 +29,37 @@ import { IoCloseSharp } from 'react-icons/io5';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Input } from '../ui/input';
+
 const FormSchema = z.object({
   name: z.string(),
   category: z.string(),
   desc: z.string(),
   image: z.string(),
 });
-export default function Product() {
+
+interface ProductData {
+  name: string;
+  description: string;
+  image: string;
+  categoryName: string;
+}
+
+export default function Product({ name, description, image, categoryName }: ProductData) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: { name, desc: description, image, category: categoryName },
   });
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.success('전송 되었습니다.');
     toast.error('전송 실패 하였습니다.');
   }
+
+  //"url('https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160406_70%2Fjane0014_145991895474804Yrl_PNG%2F20160324_1822371.png&type=sc960_832')"
+
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>상품 모달</Button>
+        <Button variant="outline">편집하기</Button>
       </DialogTrigger>
       <DialogContent className="max-w-[660px]">
         <DialogDescription className="hidden">product form content</DialogDescription>
@@ -74,8 +87,7 @@ export default function Product() {
                             htmlFor="productPicture"
                             variant="file"
                             style={{
-                              backgroundImage:
-                                "url('https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160406_70%2Fjane0014_145991895474804Yrl_PNG%2F20160324_1822371.png&type=sc960_832')",
+                              backgroundImage: `url(${field.value})`,
                             }}
                           >
                             {/* 삭제버튼 */}
@@ -108,7 +120,7 @@ export default function Product() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input placeholder="상품명 (상품 등록 여부를 확인해 주세요)" />
+                        <Input {...field} placeholder="상품명 (상품 등록 여부를 확인해 주세요)" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -120,7 +132,7 @@ export default function Product() {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <CategorySelector />
+                        <CategorySelector initialValue={field.value} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -135,6 +147,7 @@ export default function Product() {
                 <FormItem className="relative">
                   <FormControl>
                     <Textarea
+                      {...field}
                       placeholder="상품 설명을 입력해 주세요"
                       className="h-[120px] smd:h-[160px]"
                     />
