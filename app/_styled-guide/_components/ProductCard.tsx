@@ -1,3 +1,4 @@
+import React, { useCallback, useMemo } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { IoMdHeartEmpty, IoIosHeart } from 'react-icons/io';
@@ -7,6 +8,7 @@ import CategoryTag from '@/components/ui/tags/CategoryTag';
 import { useFavoriteProduct, useUnfavoriteProduct } from '@/hooks/product';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
+import FavoriteButton from './FavoriteButton';
 
 interface ProductCardProps {
   name: string;
@@ -18,7 +20,7 @@ interface ProductCardProps {
   categoryId: number;
 }
 
-export default function ProductCard({
+function ProductCard({
   name,
   description,
   image,
@@ -27,51 +29,20 @@ export default function ProductCard({
   categoryName,
   categoryId,
 }: ProductCardProps) {
-  const isUserProduct = writerId === currentUserId; //내가 등록한 상품인지 비교(나중에 수정)
+  const isUserProduct = useMemo(() => writerId === currentUserId, [writerId, currentUserId]); //내가 등록한 상품인지 비교(나중에 수정)
 
   const { productId } = useParams();
-  const [isFavorited, setIsFavorited] = useState(false);
-
-  const favoriteProduct = useFavoriteProduct(Number(productId), {
-    onSuccess: () => {
-      setIsFavorited(true);
-    },
-    onError: (error) => {
-      if (error.response && error.response.status === 401) {
-        alert('로그인이 필요합니다.');
-      } else {
-        console.error('Failed to favorite product:', error);
-      }
-    },
-  });
-
-  const unfavoriteProduct = useUnfavoriteProduct(Number(productId), {
-    onSuccess: () => {
-      setIsFavorited(false);
-    },
-    onError: (error) => {
-      console.error('Failed to unfavorite product:', error);
-    },
-  });
-
-  const toggleFavorite = () => {
-    {
-      /*if (!isLoggedIn) {
-      alert('로그인이 필요합니다.');
-      return;
-    }*/
-    } //나중에 추가
-    if (isFavorited) {
-      unfavoriteProduct.mutate();
-    } else {
-      favoriteProduct.mutate();
-    }
-  };
 
   return (
     <div className="bg-[#1C1C22] w-[335px] md:w-[684px] lg:w-[940px] h-full flex flex-col md:flex-row">
       <div className="relative w-335px md:w-[280px] lg:w-[355px] h-[236px] md:h-[197px] lg:h-[250px] mb-5 md:mb-[88px] lg:mb-[29px] md:mr-5 lg:mr-10">
-        <Image src={image} alt="product" fill priority />
+        <Image
+          src={image}
+          alt="상품 이미지"
+          fill
+          priority
+          sizes="(max-width: 768px) 280px, (max-width: 1024px) 355px, 100vw"
+        />
       </div>
       <div>
         <div className="flex items-center justify-between mb-[11px] md:mb-[10px]">
@@ -92,19 +63,7 @@ export default function ProductCard({
         <div className="w-auto h-[29px] flex justify-between mb-[10px]">
           <div className="flex items-center gap-[15px]">
             <h2 className="text-[#F1F1F5] md:text-xl lg:text-2xl font-semibold">{name}</h2>
-            <Button
-              asChild
-              variant="icon"
-              size="auto"
-              className="md:p-0.5 lg:p-0"
-              onClick={toggleFavorite}
-            >
-              {isFavorited ? (
-                <IoIosHeart color={'#FF0000'} size={24} className="hover:fill-[#ddd]" />
-              ) : (
-                <IoMdHeartEmpty color={'#9FA6B2'} size={24} className="hover:fill-[#ddd]" />
-              )}
-            </Button>
+            <FavoriteButton productId={Number(productId)} initialIsFavorited={false} />
           </div>
 
           {/* 태블릿 이상 화면에서는 하트 버튼 옆에 카카오톡과 공유 버튼을 배치 */}
@@ -135,3 +94,5 @@ export default function ProductCard({
     </div>
   );
 }
+
+export default React.memo(ProductCard);
