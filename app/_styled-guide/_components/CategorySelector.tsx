@@ -5,14 +5,14 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import DropdownList from './DropdownList';
 
 interface CategorySelectorProps {
-  category?: string[];
+  options?: string[];
   placeHolder?: string;
 }
 
 // 카테고리 선택 기능을 위한 드롭다운 메뉴 컴포넌트입니다.
 // 기본값으로 10개의 카테고리를 선택할 수 있습니다.
 const CategorySelector = (props: CategorySelectorProps) => {
-  const options = [
+  const defaultCategory = [
     '음악',
     '영화/드라마',
     '강의/책',
@@ -24,13 +24,18 @@ const CategorySelector = (props: CategorySelectorProps) => {
     '의류/악세서리',
     '앱',
   ];
-  const { category = options, placeHolder = '카테고리 선택' } = props;
+  const { options = defaultCategory, placeHolder = '카테고리 선택' } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(placeHolder);
 
   // 버튼 이벤트
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+  };
+
+  const onSelect = (option: string) => {
+    setSelectedItem(option);
+    setIsOpen(false);
   };
 
   return (
@@ -50,9 +55,7 @@ const CategorySelector = (props: CategorySelectorProps) => {
         </button>
       </div>
 
-      {isOpen && (
-        <DropdownList options={category} onSelect={setSelectedItem} onClose={toggleDropdown} />
-      )}
+      {isOpen && <DropdownList options={options} onSelect={onSelect} />}
     </div>
   );
 };
