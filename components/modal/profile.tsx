@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -46,14 +47,12 @@ export default function Profile() {
         <Button>프로필 모달</Button>
       </DialogTrigger>
       <DialogContent className="max-w-[660px]">
+        <DialogDescription className="hidden">profile form content</DialogDescription>
         <DialogHeader>
           <DialogTitle className="flex flex-col gap-5 md:gap-[10px]">프로필 편집</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="w-full space-y-[10px] md:space-y-4 lg:space-y-5"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full md:space-y-4 lg:space-y-5">
             {/* 이미지 추가 */}
             <FormField
               control={form.control}
@@ -69,12 +68,11 @@ export default function Profile() {
                           htmlFor="profilePicture"
                           variant="file"
                           style={{
-                            backgroundImage:
-                              "url('https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160406_70%2Fjane0014_145991895474804Yrl_PNG%2F20160324_1822371.png&type=sc960_832')",
+                            backgroundImage: "url('')",
                           }}
                         >
                           {/* 삭제버튼 */}
-                          {true ? (
+                          {false ? (
                             <Button
                               asChild
                               variant="iconBg"
@@ -119,9 +117,9 @@ export default function Profile() {
                       className="h-[120px] smd:h-[160px]"
                     />
                   </FormControl>
-                  <FormDescription className="absolute bottom-5 right-5 text-sm text-gray-600">
-                    2/30
-                  </FormDescription>
+                  <span className="absolute bottom-5 right-5 text-sm text-gray-600 px-1 bg-black-450">
+                    2/300
+                  </span>
                   <FormMessage />
                 </FormItem>
               )}
@@ -130,7 +128,7 @@ export default function Profile() {
         </Form>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
-            <Button type="button" variant="default">
+            <Button type="button" variant="default" onClick={form.handleSubmit(onSubmit)}>
               저장하기
             </Button>
           </DialogClose>
