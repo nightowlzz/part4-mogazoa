@@ -25,8 +25,6 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { ImFilePicture } from 'react-icons/im';
-import { IoCloseSharp } from 'react-icons/io5';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Input } from '@/components/ui/input';
@@ -49,6 +47,7 @@ export interface ProductData {
   name: string;
   description: string;
   image: string;
+  categoryId: number;
   categoryName: string;
 }
 
@@ -57,11 +56,12 @@ export default function EditProduct({
   name,
   description,
   image,
+  categoryId,
   categoryName,
 }: ProductData) {
   const [descLength, setDescLength] = useState(description.length);
-
   const [isSaving, setIsSaving] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string>('');
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -78,7 +78,8 @@ export default function EditProduct({
       try {
         const formData = new FormData();
         formData.append('image', file);
-        await uploadImageMutation.mutateAsync(formData);
+        const response = await uploadImageMutation.mutateAsync(formData);
+        setImageUrl(response.url);
       } catch (error) {
         toast.error('이미지 업로드 중 오류가 발생했습니다.');
       }
@@ -89,7 +90,7 @@ export default function EditProduct({
     try {
       setIsSaving(true);
       const { name, desc, image, category } = formData;
-      const updatedData = { name, description: desc, image, category };
+      const updatedData = { name, description: desc, image, categoryId };
       await updateProductMutation.mutateAsync(updatedData);
 
       toast.success('상품이 성공적으로 업데이트되었습니다.');
@@ -137,25 +138,11 @@ export default function EditProduct({
                             htmlFor="productPicture"
                             variant="file"
                             style={{
-                              backgroundImage: `url(${field.value})`,
+                              backgroundImage: imageUrl
+                                ? `url(${imageUrl})`
+                                : `url(${field.value})`,
                             }}
-                          >
-                            {/* 삭제버튼 */}
-                            {true ? (
-                              <Button
-                                asChild
-                                variant="iconBg"
-                                size="auto"
-                                className="absolute right-1 top-1 flex items-center justify-center h-7 w-7 rounded-lg p-1"
-                              >
-                                <IoCloseSharp className="text-white" size={18} />
-                              </Button>
-                            ) : (
-                              <span>
-                                <ImFilePicture className="text-gray-600" size={34} />
-                              </span>
-                            )}
-                          </FormLabel>
+                          ></FormLabel>
                         </>
                       </FormControl>
                     </div>
