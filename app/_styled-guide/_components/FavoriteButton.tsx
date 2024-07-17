@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { useFavoriteProduct, useUnfavoriteProduct } from '@/hooks/product';
 import { useState } from 'react';
 import { IoIosHeart, IoMdHeartEmpty } from 'react-icons/io';
+import { toast } from 'sonner';
 
 interface FavoriteButtonProps {
   productId: number;
@@ -17,7 +18,7 @@ export default function FavoriteButton({ productId, initialIsFavorited }: Favori
     },
     onError: (error) => {
       if (error.response && error.response.status === 401) {
-        alert('로그인이 필요합니다.');
+        toast.error('로그인이 필요합니다.');
       } else {
         console.error('Failed to favorite product:', error);
       }
@@ -36,7 +37,7 @@ export default function FavoriteButton({ productId, initialIsFavorited }: Favori
   const toggleFavorite = () => {
     {
       /*if (!isLoggedIn) {
-      alert('로그인이 필요합니다.');
+      toast.error('로그인이 필요합니다.');
       return;
     }*/
     } //나중에 추가

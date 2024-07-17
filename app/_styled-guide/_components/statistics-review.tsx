@@ -18,7 +18,7 @@ export function StatisticReview({ reviewCount, categoryMetric }: StatisticReview
           리뷰
         </h2>
         <div className="flex items-center justify-center md:mb-[15px] lg:mb-[20px]">
-          <div className="w-[19px] h-[19px] mr-[5px] md:w-[20px] md:h-[20px] lg:w-[24px] lg:h-[24px]">
+          <div className="relative w-[19px] h-[19px] mr-[5px] md:w-[20px] md:h-[20px] lg:w-[24px] lg:h-[24px]">
             <Image src="/assets/images/comment.svg" alt="Logo" fill priority />
           </div>
           <p className="text-gray-500 text-base md:text-xl lg:text-2xl">{reviewCount}</p>
