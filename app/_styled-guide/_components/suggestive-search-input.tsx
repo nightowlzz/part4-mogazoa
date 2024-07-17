@@ -4,8 +4,9 @@ import React, { useState, useRef } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import useSearchSuggestions from '@/hooks/useSearchSuggestions';
 import DropdownList from './DropdownList';
+import useDropdown from '@/hooks/useDropdown';
 
-interface SuggestiveSearchInputProps {
+export interface SuggestiveSearchInputProps {
   keyword: string;
   setKeyword: (keyword: string) => void;
   onSelect: (option: string) => void;
@@ -13,6 +14,7 @@ interface SuggestiveSearchInputProps {
   placeholder?: string;
   boxClassName?: string;
   inputClassName?: string;
+  onDisabled?: boolean;
 }
 
 /**
@@ -37,22 +39,7 @@ const SuggestiveSearchInput = ({
   inputClassName,
 }: SuggestiveSearchInputProps) => {
   const { suggestions, isLoading, isError } = useSearchSuggestions(keyword);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  // 검색창 input 활성화시, dropdownList 열림
-  const handleFocus = () => {
-    setIsDropdownOpen(true);
-  };
-
-  const handleBlur = () => {
-    // input 요소가 focus를 잃어도 0.2초동안 Dropdown을 유지합니다.
-    setTimeout(() => {
-      if (!inputRef.current?.contains(document.activeElement)) {
-        setIsDropdownOpen(false);
-      }
-    }, 200);
-  };
+  const { inputRef, isDropdownOpen, handleFocus, handleBlur } = useDropdown();
 
   // 검색창에서 엔터 입력 시 동작. 검색어는 한 글자 이상 입력해야 함
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
