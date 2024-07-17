@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
+import React from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import useSearchSuggestions from '@/hooks/useSearchSuggestions';
 import DropdownList from './DropdownList';
@@ -51,8 +51,8 @@ const SuggestiveSearchInput = ({
   };
 
   return (
-    <div className="relative">
-      <div className={`flex justify-between items-center py-4 px-5 ${boxClassName}`}>
+    <div className="relative flex-1">
+      <div className={`flex justify-between items-center px-5 ${boxClassName}`}>
         <input
           ref={inputRef}
           type="text"
@@ -62,15 +62,16 @@ const SuggestiveSearchInput = ({
           onBlur={handleBlur}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className={`w-full bg-transparent focus:outline-none text-white ${inputClassName}`}
-          disabled={onDisabled} // 태그가 있을 때 인풋 비활성화
+          className={`w-full focus:outline-none ${inputClassName}`}
+          disabled={onDisabled}
         />
         <button onClick={() => inputRef.current?.focus()}>
           {!isDropdownOpen && <IoMdArrowDropdown />}
         </button>
       </div>
-
-      {isDropdownOpen && <DropdownList options={suggestions} onSelect={onSelect} />}
+      {isDropdownOpen && (
+        <DropdownList options={suggestions} onSelect={onSelect} className="mt-7" />
+      )}
     </div>
   );
 };
