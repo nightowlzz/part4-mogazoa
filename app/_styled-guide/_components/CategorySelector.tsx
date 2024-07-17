@@ -42,6 +42,7 @@ const CategorySelector = (props: CategorySelectorProps) => {
     if (onChange) {
       onChange(selectedItem);
     }
+
     toggleDropdown();
   };
 

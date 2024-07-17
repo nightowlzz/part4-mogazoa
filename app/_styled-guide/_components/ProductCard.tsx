@@ -92,6 +92,7 @@ function ProductCard({
               name={name}
               description={description}
               image={image}
+              categoryId={categoryId}
               categoryName={categoryName}
             />
           )}
