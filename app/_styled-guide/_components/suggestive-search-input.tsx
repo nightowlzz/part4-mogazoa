@@ -28,6 +28,7 @@ export interface SuggestiveSearchInputProps {
  * @param {string} [props.placeholder='상품 이름을 검색해 보세요'] - 인풋창이 비어있을 때 보여질 내용.
  * @param {string} [props.boxClassName] - 인풋 박스의 Tailwind CSS 클래스 이름.
  * @param {string} [props.inputClassName] - 인풋 내용의 Tailwind CSS 클래스 이름.
+ * @param {boolean} props.isTagPresent - 태그가 있을 때 인풋을 비활성화하기 위한 prop.
  */
 const SuggestiveSearchInput = ({
   keyword = '',
@@ -37,6 +38,7 @@ const SuggestiveSearchInput = ({
   placeholder = '상품 이름을 검색해 보세요',
   boxClassName,
   inputClassName,
+  onDisabled,
 }: SuggestiveSearchInputProps) => {
   const { suggestions, isLoading, isError } = useSearchSuggestions(keyword);
   const { inputRef, isDropdownOpen, handleFocus, handleBlur } = useDropdown();
@@ -61,6 +63,7 @@ const SuggestiveSearchInput = ({
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           className={`w-full bg-transparent focus:outline-none text-white ${inputClassName}`}
+          disabled={onDisabled} // 태그가 있을 때 인풋 비활성화
         />
         <button onClick={() => inputRef.current?.focus()}>
           {!isDropdownOpen && <IoMdArrowDropdown />}
