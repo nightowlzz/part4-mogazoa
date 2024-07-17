@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import KaKaoShareButton from './KaKaoShareButton';
@@ -6,9 +6,9 @@ import CopyLinkButton from './CopyLinkButton';
 import CategoryTag from '@/components/ui/tags/CategoryTag';
 import { useParams } from 'next/navigation';
 import FavoriteButton from './FavoriteButton';
-import Product from '@/components/modal/product';
+import EditProduct from '@/app/product/[productId]/EditProduct';
 
-interface ProductCardProps {
+export interface ProductCardProps {
   name: string;
   description: string;
   image: string;
@@ -28,7 +28,6 @@ function ProductCard({
   categoryId,
 }: ProductCardProps) {
   const isUserProduct = useMemo(() => writerId === currentUserId, [writerId, currentUserId]); //내가 등록한 상품인지 비교(나중에 수정)
-  const initialProduct = { name, description, image, categoryName }; // 초기 상품 정보 설정
 
   const { productId } = useParams();
 
@@ -88,7 +87,8 @@ function ProductCard({
             variant:outlineBlue 버튼
           </Button>
           {isUserProduct && (
-            <Product
+            <EditProduct
+              productId={productId}
               name={name}
               description={description}
               image={image}
