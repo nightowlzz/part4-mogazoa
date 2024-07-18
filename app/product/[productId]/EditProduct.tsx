@@ -34,12 +34,13 @@ import { useState } from 'react';
 
 export const FormSchema = z.object({
   name: z.string().min(1, { message: '상품 이름은 필수 입력입니다.' }),
-  category: z.string().min(1, { message: '카테고리를 선택해주세요.' }),
+  categoryName: z.string().min(1, { message: '카테고리를 선택해주세요.' }),
   desc: z
     .string()
     .min(1, { message: '상품 설명은 필수 입력입니다.' })
     .min(10, { message: '최소 10자 이상 적어주세요.' }),
   image: z.string().min(1, { message: '대표 이미지를 추가해주세요.' }),
+  categoryId: z.number(),
 });
 
 export interface ProductData {
@@ -65,7 +66,7 @@ export default function EditProduct({
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: { name, desc: description, image, category: categoryName },
+    defaultValues: { name, desc: description, image, categoryName, categoryId },
     mode: 'onBlur',
   });
 
@@ -89,7 +90,7 @@ export default function EditProduct({
   const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
     try {
       setIsSaving(true);
-      const { name, desc, image, category } = formData;
+      const { name, desc, image, categoryId } = formData;
       const updatedData = { name, description: desc, image, categoryId };
       await updateProductMutation.mutateAsync(updatedData);
 
@@ -165,13 +166,16 @@ export default function EditProduct({
                 />
                 <FormField
                   control={form.control}
-                  name="category"
+                  name="categoryName"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
                         <CategorySelector
-                          initialValue={field.value}
-                          onChange={(value) => field.onChange(value)}
+                          initialValue={{ id: categoryId, name: categoryName }}
+                          onChange={(value) => {
+                            form.setValue('categoryId', value.id);
+                            form.setValue('categoryName', value.name);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />

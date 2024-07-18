@@ -1,10 +1,11 @@
 'use client';
 
 import { NO_KEYWORD, NO_RESULT } from '@/constants/messages';
+import { CategoryOption } from './CategorySelector';
 
 interface DropdownListProps {
-  options: string[];
-  onSelect: (option: string) => void;
+  options: CategoryOption[];
+  onSelect: (option: CategoryOption) => void;
   className?: string;
   optionClassName?: string;
 }
@@ -21,14 +22,14 @@ const DropdownList: React.FC<DropdownListProps> = ({
   if (options.length === 0) return;
 
   // 검색 결과가 없을 경우 버튼 비활성화
-  const isDisabled = options[0] === NO_RESULT || options[0] === NO_KEYWORD;
+  const isDisabled = options[0].name === NO_RESULT || options[0].name === NO_KEYWORD;
 
   return (
     <ul
       className={`flex flex-col z-10 gap-[5px] p-2.5 rounded-lg absolute mt-2 w-full border-gray-700 bg-black-450 text-gray-600 shadow-lg ${className} `}
     >
       {options.map((option) => (
-        <li key={option}>
+        <li key={option.id}>
           <button
             onClick={() => {
               onSelect(option);
@@ -36,7 +37,7 @@ const DropdownList: React.FC<DropdownListProps> = ({
             className={`w-full px-5 py-[6px] text-left truncate rounded-md hover:bg-gray-700 focus:bg-gray-700 hover:text-white focus:text-white ${optionClassName}`}
             disabled={isDisabled}
           >
-            {option}
+            {option.name}
           </button>
         </li>
       ))}

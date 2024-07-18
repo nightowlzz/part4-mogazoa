@@ -17,7 +17,7 @@ export default function ProductPage() {
     error,
   } = useGetProductDetail(Number(productId), { staleTime: 10000 });
 
-  const currentUserId = 23; //임시
+  const currentUserId = 269; //임시
 
   if (isLoading) {
     return <div>Loading...</div>;

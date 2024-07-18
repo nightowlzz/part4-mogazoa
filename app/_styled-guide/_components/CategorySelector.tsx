@@ -3,47 +3,51 @@
 import { useState } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import DropdownList from './DropdownList';
-import { string } from 'zod';
+
+export interface CategoryOption {
+  id: number;
+  name: string;
+}
 
 interface CategorySelectorProps {
-  initialValue?: string;
-  onChange?: (value: string) => void;
-  category?: string[];
+  initialValue?: CategoryOption;
+  options?: CategoryOption[];
   placeHolder?: string;
+  onChange?: (value: CategoryOption) => void;
 }
 
 // 카테고리 선택 기능을 위한 드롭다운 메뉴 컴포넌트입니다.
 // 기본값으로 10개의 카테고리를 선택할 수 있습니다.
-const CategorySelector = (props: CategorySelectorProps) => {
-  const options = [
-    '음악',
-    '영화/드라마',
-    '강의/책',
-    '호텔',
-    '가구/인테리어',
-    '식당',
-    '전자기기',
-    '화장품',
-    '의류/악세서리',
-    '앱',
-  ];
-  const { initialValue, onChange, category = options, placeHolder = '카테고리 선택' } = props;
+const CategorySelector = ({
+  initialValue,
+  options = [
+    { id: 1, name: '음악' },
+    { id: 2, name: '영화/드라마' },
+    { id: 3, name: '강의/책' },
+    { id: 4, name: '호텔' },
+    { id: 5, name: '가구/인테리어' },
+    { id: 6, name: '식당' },
+    { id: 7, name: '전자기기' },
+    { id: 8, name: '화장품' },
+    { id: 9, name: '의류/악세서리' },
+    { id: 10, name: '앱' },
+  ],
+  placeHolder = '카테고리 선택',
+  onChange,
+}: CategorySelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(initialValue || placeHolder);
-
+  const [selectedItem, setSelectedItem] = useState<CategoryOption | undefined>(initialValue);
   // 버튼 이벤트
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  // 카테고리 선택 시 호출되는 함수
-  const handleSelect = (selectedItem: string) => {
-    setSelectedItem(selectedItem);
+  const onSelect = (option: CategoryOption) => {
+    setSelectedItem(option);
+    setIsOpen(false);
     if (onChange) {
-      onChange(selectedItem);
+      onChange(option);
     }
-
-    toggleDropdown();
   };
 
   return (
@@ -56,28 +60,14 @@ const CategorySelector = (props: CategorySelectorProps) => {
           aria-haspopup="true"
           onClick={toggleDropdown}
         >
-          {selectedItem}
+          {selectedItem ? selectedItem.name : placeHolder}
           <IoMdArrowDropdown
             className={`ml-2 h-5 mr-[-4px] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
           />
         </button>
       </div>
 
-      {isOpen && (
-        <div className="absolute z-10 mt-2 w-full origin-top-right bg-white rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
-          <div className="py-1">
-            {category.map((option, index) => (
-              <div
-                key={index}
-                className="cursor-pointer select-none relative py-2 pl-10 pr-4 hover:bg-gray-100"
-                onClick={() => handleSelect(option)}
-              >
-                <span className="block truncate">{option}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
+      {isOpen && <DropdownList options={options} onSelect={onSelect} />}
     </div>
   );
 };
