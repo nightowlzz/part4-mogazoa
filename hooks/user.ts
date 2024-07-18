@@ -4,6 +4,7 @@ import {
   UserResponse,
   UpdateUserRequest,
   RankedUserResponse,
+  FolloweesResponse,
   FollowersResponse,
   ProductsListResponse,
 } from '../types/data';
@@ -107,11 +108,11 @@ export const useGetUserFollowees = (
   userId: number,
   cursor?: number | undefined,
   options?: Omit<
-    UseQueryOptions<FollowersResponse, AxiosError, FollowersResponse, QueryKey>,
+    UseQueryOptions<FolloweesResponse, AxiosError, FolloweesResponse, QueryKey>,
     'queryKey' | 'queryFn'
   >,
 ) => {
-  return useDataQuery<{ cursor?: number }, FollowersResponse>(
+  return useDataQuery<{ cursor?: number }, FolloweesResponse>(
     ['userFollowees', userId, cursor],
     `/users/${userId}/followees`,
     { cursor },
