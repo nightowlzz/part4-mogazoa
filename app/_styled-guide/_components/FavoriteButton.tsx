@@ -17,11 +17,8 @@ export default function FavoriteButton({ productId, initialIsFavorited }: Favori
       setIsFavorited(true);
     },
     onError: (error) => {
-      if (error.response && error.response.status === 401) {
-        toast.error('로그인이 필요합니다.');
-      } else {
-        console.error('Failed to favorite product:', error);
-      }
+      toast.error('로그인이 필요합니다.');
+      console.error('Failed to favorite product:', error);
     },
   });
 
