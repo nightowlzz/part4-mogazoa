@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import QueryProviderWrapper from '@/components/QueryProviderWrapper';
 import { Toaster } from 'sonner';
+import KakaoScript from './_styled-guide/_components/KaKaoScript';
 
 const inter = Inter({ subsets: ['latin'] });
 
