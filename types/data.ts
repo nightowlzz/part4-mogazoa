@@ -67,10 +67,11 @@ export interface ProductsListResponse {
   }[];
 }
 
-//유저를 팔로우한 사람 목록, 유저가 팔로우한 사람 목록 응답
-export interface FollowersResponse {
+//유저가 팔로우한 유저 조회 응답
+export interface FolloweesResponse {
   nextCursor: number | null;
   list: {
+    id: number;
     followee: {
       updatedAt: string;
       createdAt: string;
@@ -80,7 +81,23 @@ export interface FollowersResponse {
       nickname: string;
       id: number;
     };
+  }[];
+}
+
+// 유저를 팔로우한 유저 조회 응답
+export interface FollowersResponse {
+  nextCursor: number | null;
+  list: {
     id: number;
+    follower: {
+      updatedAt: string;
+      createdAt: string;
+      teamId: string;
+      image?: string;
+      description?: string;
+      nickname: string;
+      id: number;
+    };
   }[];
 }
 
@@ -318,7 +335,7 @@ export interface AuthResponse {
 export type HttpMethod = 'get' | 'post' | 'patch' | 'delete';
 
 export interface Order {
-  order?: 'recent' | 'rating' | 'reviewCount'
+  order?: 'recent' | 'rating' | 'reviewCount';
 }
 
 export interface Params extends Order {
