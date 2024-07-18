@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/dialog';
 
 interface CompareConfirmModal {
-  title?: string;
+  title?: React.ReactNode;
   buttonText?: string;
   onClick: () => void;
 }
