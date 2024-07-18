@@ -5,6 +5,7 @@ import React, { useState, useRef } from 'react';
 import useSearchSuggestions from '@/hooks/useSearchSuggestions';
 import DropdownList from './DropdownList';
 import { useRouter } from 'next/navigation';
+import useDropdown from '@/hooks/useDropdown';
 
 interface SearchBarProps {
   placeholder?: string;
@@ -14,23 +15,8 @@ interface SearchBarProps {
 const GnbSearchBar = ({ placeholder = '상품 이름을 검색해 보세요' }: SearchBarProps) => {
   const [keyword, setKeyword] = useState('');
   const { suggestions, isLoading, isError } = useSearchSuggestions(keyword);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  const { inputRef, isDropdownOpen, handleFocus, handleBlur } = useDropdown();
   const router = useRouter();
-
-  // 검색창 input 활성화시, dropdownList 열림
-  const handleFocus = () => {
-    setIsDropdownOpen(true);
-  };
-
-  const handleBlur = () => {
-    // input 요소가 focus를 잃어도 0.2초동안 Dropdown을 유지합니다.
-    setTimeout(() => {
-      if (!inputRef.current?.contains(document.activeElement)) {
-        setIsDropdownOpen(false);
-      }
-    }, 200);
-  };
 
   // 검색 처리 함수. 한 글자 이상 입력해야 함
   const executeSearch = () => {
