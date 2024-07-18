@@ -1,14 +1,15 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { IoMdHeartEmpty, IoIosHeart } from 'react-icons/io';
 import KaKaoShareButton from './KaKaoShareButton';
 import CopyLinkButton from './CopyLinkButton';
 import CategoryTag from '@/components/ui/tags/CategoryTag';
-import { useFavoriteProduct, useUnfavoriteProduct } from '@/hooks/product';
-import { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import FavoriteButton from './FavoriteButton';
+import useCompareStore from '@/store/compareStore';
+import { toast } from 'sonner';
+import Compare from '@/components/modal/compare';
+import CompareConfirmModal from '@/app/product/[productId]/CompareConfirmModal';
 
 interface ProductCardProps {
   name: string;
@@ -32,6 +33,22 @@ function ProductCard({
   const isUserProduct = useMemo(() => writerId === currentUserId, [writerId, currentUserId]); //내가 등록한 상품인지 비교(나중에 수정)
 
   const { productId } = useParams();
+  const router = useRouter();
+
+  const { compareItems, addCompareItem, isLoggedIn } = useCompareStore();
+
+  const handleCompareButtonClick = () => {
+    const id = Number(productId);
+    if (!isLoggedIn) {
+      toast.error('로그인이 필요합니다.');
+      return;
+    }
+    if (compareItems.length === 0) {
+      addCompareItem(id);
+    } else if (compareItems.length === 1) {
+      router.push('/compare');
+    }
+  };
 
   return (
     <div className="bg-[#1C1C22] w-[335px] md:w-[684px] lg:w-[940px] h-full flex flex-col md:flex-row">
@@ -73,10 +90,6 @@ function ProductCard({
           </div>
         </div>
 
-        <div className="w-[82px] h-[19px] flex gap-[5px] text-[#6E6E82] md:text-sm lg:text-base font-light mb-5">
-          <span className="whitespace-nowrap">조회</span>
-          <span>43,521</span>
-        </div>
         <p
           className="md:w-[383px] lg:w-[545px] text-[#F1F1F5] md:text-sm lg:text-base font-normal mb-[60px] whitespace-normal"
           style={{ wordBreak: 'keep-all' }}
@@ -85,9 +98,29 @@ function ProductCard({
         </p>
         <div className="flex flex-col md:flex-row gap-[15px] md:gap-[10px] lg:gap-5">
           <Button>리뷰 작성하기</Button>
-          <Button variant="outlineBlue" data-text="비교하기">
-            variant:outlineBlue 버튼
-          </Button>
+          {!isLoggedIn && (
+            <Button variant="outlineBlue" data-text="비교하기" onClick={handleCompareButtonClick}>
+              variant:outlineBlue 버튼
+            </Button>
+          )}
+
+          {isLoggedIn && compareItems.length === 0 && (
+            <CompareConfirmModal
+              title="비교상품으로 추가되었습니다"
+              buttonText="확인"
+              onClick={handleCompareButtonClick}
+            />
+          )}
+          {isLoggedIn && compareItems.length === 1 && (
+            <CompareConfirmModal
+              title="비교상품이 교체되었습니다. <br />
+            바로 확인해보시겠어요?"
+              buttonText="바로가기"
+              onClick={handleCompareButtonClick}
+            />
+          )}
+          {isLoggedIn && compareItems.length === 2}
+          {/*이후 비교 상품 교체 모달로 변경 예정 */}
           {isUserProduct && <Button variant="outline">편집하기</Button>}
         </div>
       </div>
