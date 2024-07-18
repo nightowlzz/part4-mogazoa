@@ -12,10 +12,12 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
+        console.log('123')
         if (!credentials) return null;
 
         try {
           const { data } = await axiosInstance.post<AuthResponse>('/auth/signIn', credentials as SignInRequest);
+          console.log(data)
           return {
             id: data.user.id.toString(),
             email: data.user.email,
@@ -31,12 +33,16 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     async jwt({ token, user }) {
+      console.log(user)
+      console.log(token)
       if (user) {
         token.accessToken = user.accessToken;
       }
       return token;
     },
     async session({ session, token }) {
+      console.log(session)
+      console.log(token)
       session.user.accessToken = token.accessToken;
       return session;
     }

@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import QueryProviderWrapper from '@/components/QueryProviderWrapper';
 import { cn } from '@/lib/utils';
+import { Provider } from '@/components/SessionProvider';
+import type { Session } from 'next-auth';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,13 +15,17 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  session,
 }: Readonly<{
   children: React.ReactNode;
+  session: Session | null;
 }>) {
   return (
     <html lang="ko">
       <body className={cn(inter.className, 'bg-BgBlack')}>
-        <QueryProviderWrapper>{children}</QueryProviderWrapper>
+        <QueryProviderWrapper>
+          <Provider session={session}>{children}</Provider>
+        </QueryProviderWrapper>
       </body>
     </html>
   );
