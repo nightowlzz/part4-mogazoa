@@ -4,21 +4,25 @@ import { useState } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import DropdownList from './DropdownList';
 
-interface CategorySelectorProps {
-  category?: string[];
+interface SortSelectorProps {
+  options?: string[];
   placeHolder?: string;
 }
 
 // sort 기능을 위한 드롭다운 메뉴 컴포넌트입니다.
-const SortSelector = (props: CategorySelectorProps) => {
-  const options = ['최신순', '별점 높은순', '별점 낮은순', '좋아요순'];
-  const { category = options, placeHolder = '최신순' } = props;
+const SortSelector = (props: SortSelectorProps) => {
+  const defaultOptions = ['최신순', '별점 높은순', '별점 낮은순', '좋아요순'];
+  const { options = defaultOptions, placeHolder = '최신순' } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(placeHolder);
 
-  // 버튼 이벤트
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+  };
+
+  const onSelect = (option: string) => {
+    setSelectedItem(option);
+    setIsOpen(false);
   };
 
   return (
@@ -38,9 +42,8 @@ const SortSelector = (props: CategorySelectorProps) => {
         </button>
         {isOpen && (
           <DropdownList
-            options={category}
-            onSelect={setSelectedItem}
-            onClose={toggleDropdown}
+            options={options}
+            onSelect={onSelect}
             className="absolute mt-2 w-[108px] md:w-[140px] lg:w-40 lg:text-base text-gray-600 rounded-lg"
             optionClassName="px-1 md:px-3 lg:px-5 text-sm md:text-base"
           />
