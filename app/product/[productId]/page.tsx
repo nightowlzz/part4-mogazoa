@@ -11,11 +11,7 @@ import { useParams } from 'next/navigation';
 export default function ProductPage() {
   const { productId } = useParams();
 
-  const {
-    data: productDetail,
-    isLoading,
-    error,
-  } = useGetProductDetail(Number(productId), { staleTime: 10000 });
+  const { data: productDetail, isLoading, error } = useGetProductDetail(Number(productId));
 
   const currentUserId = 269; //임시
 

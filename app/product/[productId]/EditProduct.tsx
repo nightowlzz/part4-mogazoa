@@ -31,6 +31,7 @@ import { Input } from '@/components/ui/input';
 import { useUpdateProduct } from '@/hooks/product';
 import { useUploadImage } from '@/hooks/image';
 import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const FormSchema = z.object({
   name: z.string().min(1, { message: '상품 이름은 필수 입력입니다.' }),
@@ -64,6 +65,8 @@ export default function EditProduct({
   const [isSaving, setIsSaving] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>('');
 
+  const queryClient = useQueryClient();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: { name, desc: description, image, categoryName, categoryId },
@@ -81,6 +84,7 @@ export default function EditProduct({
         formData.append('image', file);
         const response = await uploadImageMutation.mutateAsync(formData);
         setImageUrl(response.url);
+        form.setValue('image', response.url);
       } catch (error) {
         toast.error('이미지 업로드 중 오류가 발생했습니다.');
       }
@@ -93,6 +97,9 @@ export default function EditProduct({
       const { name, desc, image, categoryId } = formData;
       const updatedData = { name, description: desc, image, categoryId };
       await updateProductMutation.mutateAsync(updatedData);
+
+      // 쿼리 무효화
+      await queryClient.invalidateQueries({ queryKey: ['productDetail'] });
 
       toast.success('상품이 성공적으로 업데이트되었습니다.');
     } catch (error) {
