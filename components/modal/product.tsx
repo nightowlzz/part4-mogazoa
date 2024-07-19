@@ -132,7 +132,7 @@ export default function Product({ name, description, image, categoryName }: Prod
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <CategorySelector initialValue={field.value} />
+                        <CategorySelector />
                       </FormControl>
                       <FormMessage />
                     </FormItem>

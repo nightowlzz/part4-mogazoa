@@ -12,6 +12,7 @@ export interface CategoryOption {
 interface CategorySelectorProps {
   initialValue?: CategoryOption;
   options?: CategoryOption[];
+
   placeHolder?: string;
   onChange?: (value: CategoryOption) => void;
 }
@@ -67,7 +68,7 @@ const CategorySelector = ({
         </button>
       </div>
 
-      {isOpen && <DropdownList options={options} onSelect={onSelect} />}
+      {isOpen && <DropdownList<CategoryOption> options={options} onSelect={onSelect} />}
     </div>
   );
 };

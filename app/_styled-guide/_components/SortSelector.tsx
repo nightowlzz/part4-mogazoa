@@ -41,7 +41,7 @@ const SortSelector = (props: SortSelectorProps) => {
           />
         </button>
         {isOpen && (
-          <DropdownList
+          <DropdownList<string>
             options={options}
             onSelect={onSelect}
             className="absolute mt-2 w-[108px] md:w-[140px] lg:w-40 lg:text-base text-gray-600 rounded-lg"
