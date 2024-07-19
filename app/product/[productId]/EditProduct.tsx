@@ -64,6 +64,7 @@ export default function EditProduct({
   const [descLength, setDescLength] = useState(description.length);
   const [isSaving, setIsSaving] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>('');
+  const [isOpen, setIsOpen] = useState(false);
 
   const queryClient = useQueryClient();
 
@@ -101,6 +102,9 @@ export default function EditProduct({
       // 쿼리 무효화
       await queryClient.invalidateQueries({ queryKey: ['productDetail'] });
 
+      //모달 닫기
+      setIsOpen(false);
+
       toast.success('상품이 성공적으로 업데이트되었습니다.');
     } catch (error) {
       toast.error('상품 업데이트 중 오류가 발생했습니다.');
@@ -110,7 +114,7 @@ export default function EditProduct({
   };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">편집하기</Button>
       </DialogTrigger>
@@ -220,16 +224,14 @@ export default function EditProduct({
           </form>
         </Form>
         <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-            <Button
-              type="button"
-              variant="default"
-              onClick={form.handleSubmit(onSubmit)}
-              disabled={!form.formState.isValid || isSaving}
-            >
-              {isSaving ? '저장 중..' : '저장하기'}
-            </Button>
-          </DialogClose>
+          <Button
+            type="button"
+            variant="default"
+            onClick={form.handleSubmit(onSubmit)}
+            disabled={!form.formState.isValid || isSaving}
+          >
+            {isSaving ? '저장 중..' : '저장하기'}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
