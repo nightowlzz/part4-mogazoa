@@ -36,33 +36,20 @@ const FormSchema = z.object({
   desc: z.string(),
   image: z.string(),
 });
-
-interface ProductData {
-  name: string;
-  description: string;
-  image: string;
-  categoryName: string;
-}
-
-export default function Product({ name, description, image, categoryName }: ProductData) {
+export default function Product() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
-    defaultValues: { name, desc: description, image, category: categoryName },
   });
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.success('전송 되었습니다.');
     toast.error('전송 실패 하였습니다.');
   }
-
-  //"url('https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160406_70%2Fjane0014_145991895474804Yrl_PNG%2F20160324_1822371.png&type=sc960_832')"
-
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">편집하기</Button>
+        <Button>상품 모달</Button>
       </DialogTrigger>
       <DialogContent className="max-w-[660px]">
-        <DialogDescription className="hidden">product form content</DialogDescription>
         <DialogHeader>
           <DialogTitle className="flex flex-col gap-5 md:gap-[10px]">상품 편집</DialogTitle>
         </DialogHeader>
@@ -87,10 +74,12 @@ export default function Product({ name, description, image, categoryName }: Prod
                             htmlFor="productPicture"
                             variant="file"
                             style={{
-                              backgroundImage: `url(${field.value})`,
+                              backgroundImage:
+                                "url('https://search.pstatic.net/common/?src=http%3A%2F%2Fblogfiles.naver.net%2F20160406_70%2Fjane0014_145991895474804Yrl_PNG%2F20160324_1822371.png&type=sc960_832')",
                             }}
                           >
                             {/* 삭제버튼 */}
+
                             {true ? (
                               <Button
                                 asChild
@@ -120,7 +109,7 @@ export default function Product({ name, description, image, categoryName }: Prod
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input {...field} placeholder="상품명 (상품 등록 여부를 확인해 주세요)" />
+                        <Input placeholder="상품명 (상품 등록 여부를 확인해 주세요)" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -147,14 +136,13 @@ export default function Product({ name, description, image, categoryName }: Prod
                 <FormItem className="relative">
                   <FormControl>
                     <Textarea
-                      {...field}
                       placeholder="상품 설명을 입력해 주세요"
                       className="h-[120px] smd:h-[160px]"
                     />
                   </FormControl>
-                  <span className="absolute bottom-5 right-5 text-sm text-gray-600 px-1 bg-black-450">
-                    2/300
-                  </span>
+                  <FormDescription className="absolute bottom-5 right-5 text-sm text-gray-600">
+                    2/30
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -163,7 +151,7 @@ export default function Product({ name, description, image, categoryName }: Prod
         </Form>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
-            <Button type="button" variant="default" onClick={form.handleSubmit(onSubmit)}>
+            <Button type="button" variant="default">
               저장하기
             </Button>
           </DialogClose>
