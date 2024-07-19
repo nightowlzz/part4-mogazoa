@@ -1,14 +1,15 @@
 import { Button } from '@/components/ui/button';
 import { MdShare } from 'react-icons/md';
+import { toast } from 'sonner';
 
 export default function CopyLinkButton() {
   const copyToClipboard = async () => {
     try {
       const url = window.location.href;
       await navigator.clipboard.writeText(url);
-      console.log('URL copied to clipboard:', url);
+      toast.success('URL이 복사되었습니다.');
     } catch (err) {
-      console.error('Failed to copy URL:', err);
+      toast.error('URL 복사에 실패하였습니다.');
     }
   };
 
