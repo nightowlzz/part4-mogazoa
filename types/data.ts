@@ -332,10 +332,13 @@ export interface AuthResponse {
   };
 }
 
+export type ProductSortOrder = 'recent' | 'rating' | 'reviewCount';
+export type ReviewSortOrder = 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount';
+
 export type HttpMethod = 'get' | 'post' | 'patch' | 'delete';
 
 export interface Order {
-  order?: 'recent' | 'rating' | 'reviewCount';
+  order?: ProductSortOrder;
 }
 
 export interface Params extends Order {
