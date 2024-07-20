@@ -16,11 +16,15 @@ import { useEffect, useState } from 'react';
 interface CompareProductReplacementModalProps {
   productId: number;
   productName: string;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
 }
 
 export default function CompareProductReplacementModal({
   productId,
   productName,
+  open,
+  onOpenChange,
 }: CompareProductReplacementModalProps) {
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
   const { compareItems, replaceCompareItem } = useCompareStore();
@@ -33,6 +37,7 @@ export default function CompareProductReplacementModal({
     if (selectedItem !== null) {
       replaceCompareItem(selectedItem, { id: productId, name: productName });
       setSelectedItem(null);
+      onOpenChange(false);
     }
   };
 

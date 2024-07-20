@@ -31,7 +31,8 @@ function ProductCard({
   categoryId,
 }: ProductCardProps) {
   const isUserProduct = useMemo(() => writerId === currentUserId, [writerId, currentUserId]); //내가 등록한 상품인지 비교(나중에 수정)
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isReplacementModalOpen, setIsReplacementModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const { productId } = useParams();
 
   const { compareItems, addCompareItem } = useCompareStore();
@@ -42,8 +43,21 @@ function ProductCard({
       return;
     }*/
 
-    setIsModalOpen(true);
+    if (compareItems.length === 0 || compareItems.length === 1) {
+      setIsConfirmModalOpen(true);
+    } else if (compareItems.length === 2) {
+      setIsReplacementModalOpen(true);
+    }
     addCompareItem({ id: Number(productId), name });
+  };
+
+  const handleReplacementModalClose = () => {
+    setIsReplacementModalOpen(false);
+    setIsConfirmModalOpen(true);
+  };
+
+  const handleConfirmModalClose = (open: boolean) => {
+    setIsConfirmModalOpen(open);
   };
 
   const getModalContent = () => {
@@ -136,12 +150,17 @@ function ProductCard({
             <CompareConfirmModal
               title={modalContent.title}
               buttonText={modalContent.buttonText}
-              open={isModalOpen}
-              onOpenChange={setIsModalOpen}
+              open={isConfirmModalOpen}
+              onOpenChange={handleConfirmModalClose}
             />
           )}
           {compareItems.length === 2 && (
-            <CompareProductReplacementModal productId={Number(productId)} productName={name} />
+            <CompareProductReplacementModal
+              productId={Number(productId)}
+              productName={name}
+              open={isReplacementModalOpen}
+              onOpenChange={handleReplacementModalClose}
+            />
           )}
 
           {isUserProduct && (

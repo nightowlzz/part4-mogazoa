@@ -10,8 +10,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import useCompareStore from '@/store/compareStore';
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface CompareConfirmModal {
   title?: React.ReactNode;
@@ -27,13 +26,14 @@ export default function CompareConfirmModal({
   onOpenChange,
 }: CompareConfirmModal) {
   const router = useRouter();
+  const { compareItems } = useCompareStore();
 
-  /*const handlePageNavigation = () => {
-    setIsOpen(false);
-    if (compareItems.length === 1) {
+  const handlePageNavigation = () => {
+    onOpenChange(false);
+    if (compareItems.length === 2) {
       router.push('/compare');
     }
-  };*/
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -44,7 +44,7 @@ export default function CompareConfirmModal({
         </DialogHeader>
 
         <DialogFooter className="sm:justify-start">
-          <Button type="button" variant="default" onClick={() => onOpenChange(false)}>
+          <Button type="button" variant="default" onClick={handlePageNavigation}>
             {buttonText}
           </Button>
         </DialogFooter>
