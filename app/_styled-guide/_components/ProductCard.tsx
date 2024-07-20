@@ -43,7 +43,7 @@ function ProductCard({
     }*/
 
     setIsModalOpen(true);
-    addCompareItem(name);
+    addCompareItem({ id: Number(productId), name });
   };
 
   const getModalContent = () => {
@@ -140,7 +140,9 @@ function ProductCard({
               onOpenChange={setIsModalOpen}
             />
           )}
-          {compareItems.length === 2 && <CompareProductReplacementModal productName={name} />}
+          {compareItems.length === 2 && (
+            <CompareProductReplacementModal productId={Number(productId)} productName={name} />
+          )}
 
           {isUserProduct && (
             <EditProduct

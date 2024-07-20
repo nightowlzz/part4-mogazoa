@@ -10,30 +10,31 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
+import useCompareStore, { CompareItem } from '@/store/compareStore';
 import { useEffect, useState } from 'react';
 
 interface CompareProductReplacementModalProps {
+  productId: number;
   productName: string;
 }
 
 export default function CompareProductReplacementModal({
+  productId,
   productName,
 }: CompareProductReplacementModalProps) {
-  const [compareItems, setCompareItems] = useState<string[]>([]);
+  const [selectedItem, setSelectedItem] = useState<number | null>(null);
+  const { compareItems, replaceCompareItem } = useCompareStore();
 
-  useEffect(() => {
-    const items = sessionStorage.getItem('compare-storage');
+  const handleSelectItem = (index: number) => {
+    setSelectedItem(index);
+  };
 
-    if (items) {
-      try {
-        const parsedItems = JSON.parse(items);
-        const compareItems = parsedItems.state.compareItems;
-        setCompareItems(compareItems);
-      } catch (error) {
-        console.error('JSON 파싱 오류');
-      }
+  const handleReplaceItem = () => {
+    if (selectedItem !== null) {
+      replaceCompareItem(selectedItem, { id: productId, name: productName });
+      setSelectedItem(null);
     }
-  }, []);
+  };
 
   return (
     <Dialog>
@@ -48,16 +49,20 @@ export default function CompareProductReplacementModal({
           <DialogTitle>지금 보신 {productName}을/를 어떤 상품과 비교할까요?</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col space-y-2 md:space-y-4 lg:space-y-5">
-          <Button variant="outlineRed" className={cn(`${false ? 'border-pink text-pink' : ''}`)}>
-            {compareItems[0]}
-          </Button>
-          <Button variant="outlineRed" className={cn(`${true ? 'border-pink text-pink' : ''}`)}>
-            {compareItems[1]}
-          </Button>
+          {compareItems.map((item, index) => (
+            <Button
+              key={item.id}
+              variant="outlineRed"
+              className={selectedItem === index ? 'border-pink text-pink' : ''}
+              onClick={() => handleSelectItem(index)}
+            >
+              {item.name}
+            </Button>
+          ))}
         </div>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
-            <Button type="button" variant="default">
+            <Button type="button" variant="default" onClick={handleReplaceItem}>
               교체하기
             </Button>
           </DialogClose>
