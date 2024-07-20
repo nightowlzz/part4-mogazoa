@@ -1,32 +1,34 @@
 'use client';
 
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import DropdownList from './DropdownList';
+import { reviewOrderOptions } from '@/constants/sortOrder';
+import { ReviewSortOrder } from '@/types/data';
 
-interface SortSelectorProps {
-  options?: string[];
-  placeHolder?: string;
+interface CategorySelectorProps {
+  sort: string;
+  setSortOrder: Dispatch<SetStateAction<ReviewSortOrder>>;
 }
 
 // sort 기능을 위한 드롭다운 메뉴 컴포넌트입니다.
-const SortSelector = (props: SortSelectorProps) => {
-  const defaultOptions = ['최신순', '별점 높은순', '별점 낮은순', '좋아요순'];
-  const { options = defaultOptions, placeHolder = '최신순' } = props;
+const SortSelector = ({ sort, setSortOrder }: CategorySelectorProps) => {
+  const options = reviewOrderOptions.map((opt) => opt.label);
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(placeHolder);
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const onSelect = (option: string) => {
-    setSelectedItem(option);
+  const handleOrderSelect = (option: string) => {
+    const result = reviewOrderOptions.find((value) => value.label === option)
+      ?.id as ReviewSortOrder;
+    setSortOrder(result);
     setIsOpen(false);
   };
 
   return (
-    <div className="relative inline-block text-left w-full">
+    <div className="relative inline-block text-left">
       <div>
         <button
           type="button"
@@ -35,7 +37,7 @@ const SortSelector = (props: SortSelectorProps) => {
           aria-haspopup="true"
           onClick={toggleDropdown}
         >
-          {selectedItem}
+          {reviewOrderOptions.find((value) => value.id === sort)?.label}
           <IoMdArrowDropdown
             className={`ml-2 h-5 md:h-[22px] lg:h-6 mr-[-4px] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
           />
@@ -43,7 +45,7 @@ const SortSelector = (props: SortSelectorProps) => {
         {isOpen && (
           <DropdownList
             options={options}
-            onSelect={onSelect}
+            onSelect={handleOrderSelect}
             className="absolute mt-2 w-[108px] md:w-[140px] lg:w-40 lg:text-base text-gray-600 rounded-lg"
             optionClassName="px-1 md:px-3 lg:px-5 text-sm md:text-base"
           />
