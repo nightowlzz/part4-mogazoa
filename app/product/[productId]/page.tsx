@@ -7,7 +7,7 @@ import { StatisticRating } from '@/app/_styled-guide/_components/statistics-rati
 import { StatisticReview } from '@/app/_styled-guide/_components/statistics-review';
 import { useGetProductDetail } from '@/hooks/product';
 import { useParams } from 'next/navigation';
-import ReviewList from './components/review-list';
+import ReviewList from './_components/_review/review-list';
 
 export default function ProductPage() {
   const { productId } = useParams();
