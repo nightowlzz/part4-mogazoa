@@ -10,8 +10,31 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
 
-export default function CompareProductReplacementModal() {
+interface CompareProductReplacementModalProps {
+  productName: string;
+}
+
+export default function CompareProductReplacementModal({
+  productName,
+}: CompareProductReplacementModalProps) {
+  const [compareItems, setCompareItems] = useState<string[]>([]);
+
+  useEffect(() => {
+    const items = sessionStorage.getItem('compare-storage');
+
+    if (items) {
+      try {
+        const parsedItems = JSON.parse(items);
+        const compareItems = parsedItems.state.compareItems;
+        setCompareItems(compareItems);
+      } catch (error) {
+        console.error('JSON 파싱 오류');
+      }
+    }
+  }, []);
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -22,14 +45,14 @@ export default function CompareProductReplacementModal() {
       <DialogContent className="max-w-[540px]">
         <DialogDescription className="hidden">compare content</DialogDescription>
         <DialogHeader>
-          <DialogTitle>지금 보신 ‘Sony WH-1300XM3’ 어떤 상품과 비교할까요?</DialogTitle>
+          <DialogTitle>지금 보신 {productName}을/를 어떤 상품과 비교할까요?</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col space-y-2 md:space-y-4 lg:space-y-5">
           <Button variant="outlineRed" className={cn(`${false ? 'border-pink text-pink' : ''}`)}>
-            Air Pods 1
+            {compareItems[0]}
           </Button>
           <Button variant="outlineRed" className={cn(`${true ? 'border-pink text-pink' : ''}`)}>
-            Air Pods 2
+            {compareItems[1]}
           </Button>
         </div>
         <DialogFooter className="sm:justify-start">

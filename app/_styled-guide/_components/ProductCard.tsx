@@ -37,14 +37,13 @@ function ProductCard({
   const { compareItems, addCompareItem } = useCompareStore();
 
   const handleCompareButtonClick = () => {
-    const id = Number(productId);
     /*if (!isLoggedIn) {
       toast.error('로그인이 필요합니다.');
       return;
     }*/
 
     setIsModalOpen(true);
-    addCompareItem(id);
+    addCompareItem(name);
   };
 
   const getModalContent = () => {
@@ -141,7 +140,7 @@ function ProductCard({
               onOpenChange={setIsModalOpen}
             />
           )}
-          {compareItems.length === 2 && <CompareProductReplacementModal />}
+          {compareItems.length === 2 && <CompareProductReplacementModal productName={name} />}
 
           {isUserProduct && (
             <EditProduct
