@@ -9,21 +9,34 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import useCompareStore from '@/store/compareStore';
+import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 interface CompareConfirmModal {
   title?: React.ReactNode;
   buttonText?: string;
-  onClick: () => void;
+  open: boolean;
+  onOpenChange: (isOpen: boolean) => void;
 }
 
-export default function CompareConfirmModal({ title, buttonText, onClick }: CompareConfirmModal) {
+export default function CompareConfirmModal({
+  title,
+  buttonText,
+  open,
+  onOpenChange,
+}: CompareConfirmModal) {
+  const router = useRouter();
+
+  /*const handlePageNavigation = () => {
+    setIsOpen(false);
+    if (compareItems.length === 1) {
+      router.push('/compare');
+    }
+  };*/
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outlineBlue" data-text="비교하기">
-          variant:outlineBlue 버튼
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-[540px]">
         <DialogDescription className="hidden">compare content</DialogDescription>
         <DialogHeader>
@@ -31,11 +44,9 @@ export default function CompareConfirmModal({ title, buttonText, onClick }: Comp
         </DialogHeader>
 
         <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-            <Button type="button" variant="default" onClick={onClick}>
-              {buttonText}
-            </Button>
-          </DialogClose>
+          <Button type="button" variant="default" onClick={() => onOpenChange(false)}>
+            {buttonText}
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

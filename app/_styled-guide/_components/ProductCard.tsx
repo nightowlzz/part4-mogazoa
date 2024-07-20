@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import KaKaoShareButton from './KaKaoShareButton';
@@ -8,9 +8,8 @@ import { useParams, useRouter } from 'next/navigation';
 import FavoriteButton from './FavoriteButton';
 import EditProduct from '@/app/product/[productId]/EditProduct';
 import useCompareStore from '@/store/compareStore';
-import { toast } from 'sonner';
-import Compare from '@/components/modal/compare';
 import CompareConfirmModal from '@/app/product/[productId]/CompareConfirmModal';
+import CompareProductReplacementModal from '@/app/product/[productId]/CompareProductReplacementModal';
 
 export interface ProductCardProps {
   name: string;
@@ -32,28 +31,43 @@ function ProductCard({
   categoryId,
 }: ProductCardProps) {
   const isUserProduct = useMemo(() => writerId === currentUserId, [writerId, currentUserId]); //내가 등록한 상품인지 비교(나중에 수정)
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const { productId } = useParams();
-  const router = useRouter();
 
   const { compareItems, addCompareItem } = useCompareStore();
 
-  useEffect(() => {
-    console.log('Compare items updated:', compareItems);
-  }, [compareItems]); //확인용(추후 삭제 예정)
-
   const handleCompareButtonClick = () => {
     const id = Number(productId);
-    /* if (!isLoggedIn) {
+    /*if (!isLoggedIn) {
       toast.error('로그인이 필요합니다.');
       return;
     }*/
-    if (compareItems.length === 0) {
-      addCompareItem(id);
-    } else if (compareItems.length === 1) {
-      router.push('/compare');
-    }
+
+    setIsModalOpen(true);
+    addCompareItem(id);
   };
+
+  const getModalContent = () => {
+    if (compareItems.length === 1) {
+      return {
+        title: '비교상품으로 추가되었습니다',
+        buttonText: '확인',
+      };
+    } else if (compareItems.length === 2) {
+      return {
+        title: (
+          <>
+            비교상품이 교체되었습니다. <br />
+            바로 확인해보시겠어요?
+          </>
+        ),
+        buttonText: '바로가기',
+      };
+    }
+    return null;
+  };
+
+  const modalContent = getModalContent();
 
   return (
     <div className="bg-[#1C1C22] w-[335px] md:w-[684px] lg:w-[940px] h-full flex flex-col md:flex-row">
@@ -113,28 +127,22 @@ function ProductCard({
               variant:outlineBlue 버튼
             </Button>
           )}*/}
+          {compareItems.length < 2 && (
+            <Button variant="outlineBlue" data-text="비교하기" onClick={handleCompareButtonClick}>
+              비교하기
+            </Button>
+          )}
 
-          {compareItems.length === 0 && (
+          {modalContent && (
             <CompareConfirmModal
-              title="비교상품으로 추가되었습니다"
-              buttonText="확인"
-              onClick={handleCompareButtonClick}
+              title={modalContent.title}
+              buttonText={modalContent.buttonText}
+              open={isModalOpen}
+              onOpenChange={setIsModalOpen}
             />
           )}
-          {compareItems.length === 1 && (
-            <CompareConfirmModal
-              title={
-                <>
-                  비교상품이 교체되었습니다. <br />
-                  바로 확인해보시겠어요?
-                </>
-              }
-              buttonText="바로가기"
-              onClick={handleCompareButtonClick}
-            />
-          )}
-          {compareItems.length === 2}
-          {/*이후 비교 상품 교체 모달로 변경 예정 */}
+          {compareItems.length === 2 && <CompareProductReplacementModal />}
+
           {isUserProduct && (
             <EditProduct
               productId={productId}
