@@ -1,13 +1,10 @@
 'use client';
-import { ReviewListResponse, ReviewResponse, ReviewSortOrder } from '@/types/data';
-import instance from '@/utils/axiosInstance';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import Review from './review';
-import { useEffect, useState } from 'react';
-import { useGetMyInfo } from '@/hooks/user';
-import { useInView } from 'react-intersection-observer';
 import SortSelector from '@/app/_styled-guide/_components/sort-selector';
+import { useInfinityScroll } from '@/hooks/useInfinityScroll';
+import { useGetMyInfo } from '@/hooks/user';
+import { ReviewResponse, ReviewSortOrder } from '@/types/data';
+import { useDeferredValue, useEffect, useState } from 'react';
+import Review from './review';
 
 export default function ReviewList({ productId }: { productId: string | string[] }) {
   const [sortOrder, setSortOrder] = useState<ReviewSortOrder>('recent');
@@ -30,41 +27,43 @@ export function ReviewListContent({
   sortOrder: string;
 }) {
   const { data: currentUserId } = useGetMyInfo();
-  const { ref, inView } = useInView({
-    threshold: 0.5,
+  const [displayReviews, setDisplayReviews] = useState<ReviewResponse[]>();
+  const {
+    ref,
+    data: getReviewList,
+    isPending,
+    isError,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfinityScroll({
+    productId: productId,
+    queryKey: 'review',
+    queryFnUrl: `/products/${productId}/reviews`,
+    sortOrder: sortOrder,
   });
-  const { data, isPending, isError, fetchNextPage, hasNextPage } =
-    useInfiniteQuery<ReviewListResponse>({
-      queryKey: ['review', { productId, sortOrder }],
-      queryFn: async ({ pageParam = null }) => {
-        try {
-          const res = await instance.get(
-            `/products/${productId}/reviews?order=${sortOrder}&cursor=${pageParam}`,
-          );
-          if (!res) return;
-          return res.data;
-        } catch (err: any) {
-          let errorMessage = '데이터를 불러 오는데 실패 했습니다.';
-          if (err.response && err.response.data && err.response.data.message) {
-            errorMessage = err.response.data.message;
-          }
-          toast.error(errorMessage);
-          throw err;
-        }
-      },
-      initialPageParam: 0,
-      getNextPageParam: (lastPage) => lastPage?.nextCursor,
-    });
 
-  const getReviewList = data?.pages.flatMap((value) =>
-    value.list.map((list) => list as ReviewResponse),
-  );
+  const deferredValue = useDeferredValue(displayReviews);
 
+  // useDeferredValue 이전 값
   useEffect(() => {
-    if (inView) {
-      fetchNextPage();
+    if (!isPending || hasNextPage) {
+      const result = getReviewList;
+      setDisplayReviews(result);
     }
-  }, [inView, fetchNextPage]);
+  }, [isPending, fetchNextPage]);
+
+  if (isPending)
+    return (
+      <div className="relative flex flex-col gap-5 mt-[30px]">
+        <div className="absolute left-0 top-0 right-0 bottom-0 bg-black-700 opacity-50 z-[1]"></div>
+        {deferredValue &&
+          deferredValue.map((review) => (
+            <Review key={review.id} {...review} currentUserId={currentUserId?.id} reviewRef={ref} />
+          ))}
+      </div>
+    );
+
+  if (isError) return <div>ERROR</div>;
 
   return (
     <>
