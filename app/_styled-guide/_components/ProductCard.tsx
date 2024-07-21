@@ -10,6 +10,7 @@ import useCompareStore from '@/store/compareStore';
 import { toast } from 'sonner';
 import Compare from '@/components/modal/compare';
 import CompareConfirmModal from '@/app/product/[productId]/CompareConfirmModal';
+import CreateReview from '@/app/product/[productId]/_components/modal/create-review';
 
 interface ProductCardProps {
   name: string;
@@ -106,12 +107,14 @@ function ProductCard({
           {description}
         </p>
         <div className="flex flex-col md:flex-row gap-[15px] md:gap-[10px] lg:gap-5">
-          <Button>리뷰 작성하기</Button>
-          {/*{!isLoggedIn && (
-            <Button variant="outlineBlue" data-text="비교하기" onClick={handleCompareButtonClick}>
-              variant:outlineBlue 버튼
-            </Button>
-          )}*/}
+          <CreateReview
+            productId={productId}
+            categoryName={categoryName}
+            categoryId={categoryId}
+            name={name}
+          >
+            <Button>리뷰 작성하기</Button>
+          </CreateReview>
 
           {compareItems.length === 0 && (
             <CompareConfirmModal
