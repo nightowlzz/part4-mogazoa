@@ -12,7 +12,8 @@ import {
 } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
-import { Label } from '@/components/ui/label';
+import { Label, labelVariants } from '@/components/ui/label';
+import { VariantProps } from 'class-variance-authority';
 
 const Form = FormProvider;
 
@@ -82,11 +83,19 @@ FormItem.displayName = 'FormItem';
 
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ className, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & VariantProps<typeof labelVariants>
+>(({ className, variant, ...props }, ref) => {
   const { error, formItemId } = useFormField();
 
-  return <Label ref={ref} className={cn(error && '', className)} htmlFor={formItemId} {...props} />;
+  return (
+    <Label
+      ref={ref}
+      variant={variant}
+      className={cn(`${variant === 'file' ? labelVariants({ variant }) : error && ''}`, className)}
+      htmlFor={formItemId}
+      {...props}
+    />
+  );
 });
 FormLabel.displayName = 'FormLabel';
 
@@ -118,7 +127,7 @@ const FormDescription = React.forwardRef<
     <p
       ref={ref}
       id={formDescriptionId}
-      className={cn('text-xs md:text-sm text-gray-600 text-muted-foreground', className)}
+      className={cn('text-xs text-gray-600 text-muted-foreground', className)}
       {...props}
     />
   );

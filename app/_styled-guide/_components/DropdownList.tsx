@@ -1,9 +1,10 @@
 'use client';
 
+import { NO_KEYWORD, NO_RESULT } from '@/constants/messages';
+
 interface DropdownListProps {
   options: string[];
   onSelect: (option: string) => void;
-  onClose: () => void;
   className?: string;
   optionClassName?: string;
 }
@@ -13,22 +14,27 @@ interface DropdownListProps {
 const DropdownList: React.FC<DropdownListProps> = ({
   options,
   onSelect,
-  onClose,
   className,
   optionClassName,
 }) => {
+  // options이나 placeholder가 없을 경우 컴포넌트가 나타나지 않습니다.
+  if (options.length === 0) return;
+
+  // 검색 결과가 없을 경우 버튼 비활성화
+  const isDisabled = options[0] === NO_RESULT || options[0] === NO_KEYWORD;
+
   return (
     <ul
-      className={`flex flex-col z-10 gap-[5px] p-2.5 rounded-lg absolute mt-2 w-full border-gray-700 bg-black-450 text-gray-600 shadow-lg ${className}`}
+      className={`flex flex-col z-10 gap-[5px] p-2.5 rounded-lg absolute mt-2 w-full border-gray-700 bg-black-450 text-gray-600 shadow-lg ${className} `}
     >
       {options.map((option) => (
         <li key={option}>
           <button
             onClick={() => {
               onSelect(option);
-              onClose();
             }}
             className={`w-full px-5 py-[6px] text-left truncate rounded-md hover:bg-gray-700 focus:bg-gray-700 hover:text-white focus:text-white ${optionClassName}`}
+            disabled={isDisabled}
           >
             {option}
           </button>

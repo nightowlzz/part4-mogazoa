@@ -10,17 +10,16 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          'bg-gradation text-[#f1f1f5] md:text-base lg:text-lg font-semibold hover:bg-gradation-hover hover:from-[#353542] hover:to-[#353542] hover:text-[#6E6E82]',
+          'bg-gradation text-white md:text-base lg:text-lg font-semibold hover:bg-gradation-hover hover:from-[#353542] hover:to-[#353542] hover:text-gray-600',
         outline:
-          'border border-[#9FA6B2] text-[#9FA6B2] md:text-base lg:text-lg hover:bg-transparent font-semibold hover:border-[#353542] hover:text-[#6E6E82]',
+          'border border-gray-500 text-gray-500 md:text-base lg:text-lg hover:bg-transparent font-semibold hover:border-[#353542] hover:text-gray-600',
         outlineBlue: `${styled['gradient-button']}`,
         outlineRed:
-          'border border-[#FF2F9F] text-[#FF2F9F] font-semibold md:text-base lg:text-lg hover:border-[#b91d71] hover:text-[#b91d71]',
-        circleGary: 'border border-[#353542] text-[#f1f1f5] rounded-[50em] hover:border-[#52525f]',
+          'border font-semibold md:text-base lg:text-lg border-[#353542] text-[#6E6E82] hover:text-pink ',
         circleBlue:
-          'bg-gradation-secondary text-[#f1f1f5] rounded-[50em] hover:bg-gradation-secondary-hover',
-        nav: 'border text-[#6E6E82] border-transparent text-sm hover:border-[#353542] hover:bg-[#252530] hover:text-[#F1F1F5] font-semibold lg:text-base',
-        text: 'text-[#f1f1f5] hover:text-[#ccc]',
+          'bg-gradation-secondary text-white rounded-[50em] w-[60px] h-[50px] hover:bg-gradation-secondary-hover',
+        nav: 'border text-gray-600 border-transparent text-sm hover:border-[#353542] hover:bg-[#252530] hover:text-white font-semibold lg:text-base',
+        text: 'text-white hover:text-[#ccc]',
         icon: 'p-1 cursor-pointer',
         iconBg: 'p-[5px] rounded-md bg-[#252530] cursor-pointer hover:bg-[#353542]',
         tag: 'p-[2px] rounded-md bg-[#252530] hover:bg-[#353542]',
