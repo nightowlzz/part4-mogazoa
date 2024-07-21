@@ -4,7 +4,6 @@ import './globals.css';
 import QueryProviderWrapper from '@/components/QueryProviderWrapper';
 import { cn } from '@/lib/utils';
 import { Provider } from '@/components/SessionProvider';
-import type { Session } from 'next-auth';
 import { Toaster } from 'sonner';
 import KakaoScript from './_styled-guide/_components/KaKaoScript';
 
@@ -21,22 +20,16 @@ declare global {
   }
 }
 
-export default function RootLayout({
-  children,
-  session,
-}: Readonly<{
-  children: React.ReactNode;
-  session: Session | null;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
       <body className={cn(inter.className, 'bg-BgBlack')}>
         <QueryProviderWrapper>
-          <Provider session={session}>{children}</Provider>
+          <Provider>{children}</Provider>
         </QueryProviderWrapper>
         <Toaster position="top-center" />
+        <KakaoScript />
       </body>
-      <KakaoScript />
     </html>
   );
 }
