@@ -47,7 +47,6 @@ const ProductSortSelector = (props: CategorySelectorProps) => {
           <DropdownList
             options={category}
             onSelect={handleSelectItem}
-            onClose={toggleDropdown}
             className="absolute mt-2 w-[141px] md:w-[139px] lg:w-40 lg:text-base text-gray-600 rounded-lg"
             optionClassName="px-1 md:px-3 lg:px-5 text-sm md:text-base"
           />
