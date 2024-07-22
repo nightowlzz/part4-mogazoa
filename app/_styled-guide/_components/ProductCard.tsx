@@ -47,6 +47,7 @@ function ProductCard({
       toast.error('로그인이 필요합니다.');
       return;
     }
+
     if (compareItems.length === 0) {
       addCompareItem({ id: Number(productId), name });
       setConfirmModalTitle('비교상품으로 추가되었습니다');
@@ -63,7 +64,22 @@ function ProductCard({
       setConfirmButtonText('바로가기');
       setIsConfirmModalOpen(true);
     } else if (compareItems.length === 2) {
-      setIsReplacementModalOpen(true);
+      // 현재 상품이 비교 목록에 이미 존재하는지 확인
+      const isItemAlreadyInCompare = compareItems.some((item) => item.id === Number(productId));
+      // 상품이 이미 비교 목록에 있는 경우
+      if (isItemAlreadyInCompare) {
+        setConfirmModalTitle(
+          <>
+            이미 비교할 상품으로 추가되었습니다. <br />
+            확인해보시겠어요?
+          </>,
+        );
+        setConfirmButtonText('바로가기');
+        setIsConfirmModalOpen(true);
+        return;
+      } else {
+        setIsReplacementModalOpen(true);
+      }
     }
   };
 
