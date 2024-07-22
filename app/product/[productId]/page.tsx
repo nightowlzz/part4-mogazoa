@@ -8,13 +8,15 @@ import { StatisticReview } from '@/app/_styled-guide/_components/statistics-revi
 import { useGetProductDetail } from '@/hooks/product';
 import { useParams } from 'next/navigation';
 import ReviewList from './_components/review/review-list';
+import { useGetMyInfo } from '@/hooks/user';
+import { useRouter } from 'next/navigation';
 
 export default function ProductPage() {
+  const router = useRouter();
   const { productId } = useParams();
 
   const { data: productDetail, isLoading, error } = useGetProductDetail(Number(productId));
-
-  const currentUserId = 269; //임시
+  const { data: currentUserId, isPending } = useGetMyInfo();
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -28,6 +30,10 @@ export default function ProductPage() {
     return <p>상품 정보가 없습니다.</p>;
   }
 
+  if (!currentUserId) {
+    return false;
+  }
+
   return (
     <div className="w-full h-full bg-[#1C1C22] flex flex-col items-center">
       <Gnb />
@@ -37,7 +43,7 @@ export default function ProductPage() {
           description={productDetail.description}
           image={productDetail.image}
           writerId={productDetail.writerId}
-          currentUserId={currentUserId}
+          currentUserId={currentUserId.id}
           categoryName={productDetail.category.name}
           categoryId={productDetail.category.id}
         />
@@ -59,7 +65,7 @@ export default function ProductPage() {
           />
         </div>
       </div>
-      <ReviewList productId={productId} />
+      <ReviewList productId={productId} currentUserId={currentUserId.id} />
     </div>
   );
 }
