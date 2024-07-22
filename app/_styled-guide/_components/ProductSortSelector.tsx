@@ -4,25 +4,28 @@ import { useState } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import DropdownList from './DropdownList';
 
-interface SortSelectorProps {
-  options?: string[];
+interface CategorySelectorProps {
+  category: string[];
   placeHolder?: string;
+  onChange?: (category: string) => void;
 }
 
-// sort 기능을 위한 드롭다운 메뉴 컴포넌트입니다.
-const SortSelector = (props: SortSelectorProps) => {
-  const defaultOptions = ['최신순', '별점 높은순', '별점 낮은순', '좋아요순'];
-  const { options = defaultOptions, placeHolder = '최신순' } = props;
+const ProductSortSelector = (props: CategorySelectorProps) => {
+  const { category, placeHolder = '최신순', onChange } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(placeHolder);
 
+  // 버튼 이벤트
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
-  const onSelect = (option: string) => {
-    setSelectedItem(option);
-    setIsOpen(false);
+  const handleSelectItem = (item: string) => {
+    setSelectedItem(item);
+    if (onChange) {
+      onChange(item);
+    }
+    toggleDropdown();
   };
 
   return (
@@ -30,7 +33,7 @@ const SortSelector = (props: SortSelectorProps) => {
       <div>
         <button
           type="button"
-          className="inline-flex justify-between align-middle w-[108px] md:w-[140px] lg:w-40 border-none bg-none text-sm lg:text-base text-gray-600 hover:text-white"
+          className="inline-flex justify-between align-middle w-[141px] md:w-[139px] lg:w-40 border-none bg-none text-lg text-white"
           aria-expanded="true"
           aria-haspopup="true"
           onClick={toggleDropdown}
@@ -42,9 +45,9 @@ const SortSelector = (props: SortSelectorProps) => {
         </button>
         {isOpen && (
           <DropdownList
-            options={options}
-            onSelect={onSelect}
-            className="absolute mt-2 w-[108px] md:w-[140px] lg:w-40 lg:text-base text-gray-600 rounded-lg"
+            options={category}
+            onSelect={handleSelectItem}
+            className="absolute mt-2 w-[141px] md:w-[139px] lg:w-40 lg:text-base text-gray-600 rounded-lg"
             optionClassName="px-1 md:px-3 lg:px-5 text-sm md:text-base"
           />
         )}
@@ -53,4 +56,4 @@ const SortSelector = (props: SortSelectorProps) => {
   );
 };
 
-export default SortSelector;
+export default ProductSortSelector;

@@ -72,6 +72,7 @@ const config = {
         yellow: '#FFC83C',
         green: '#05D58B',
         greenBg: '#23362f',
+        BgBlack: '#1C1C22',
         pink: '#FF2F9F',
         pinkBg: '#3c2631',
         red: '#FF0000',

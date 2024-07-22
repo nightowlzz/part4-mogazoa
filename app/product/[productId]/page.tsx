@@ -7,13 +7,14 @@ import { StatisticRating } from '@/app/_styled-guide/_components/statistics-rati
 import { StatisticReview } from '@/app/_styled-guide/_components/statistics-review';
 import { useGetProductDetail } from '@/hooks/product';
 import { useParams } from 'next/navigation';
+import ReviewList from './_components/review/review-list';
 
 export default function ProductPage() {
   const { productId } = useParams();
 
   const { data: productDetail, isLoading, error } = useGetProductDetail(Number(productId));
 
-  const currentUserId = 23; //임시
+  const currentUserId = 269; //임시
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -58,6 +59,7 @@ export default function ProductPage() {
           />
         </div>
       </div>
+      <ReviewList productId={productId} />
     </div>
   );
 }
