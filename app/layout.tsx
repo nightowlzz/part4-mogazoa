@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import QueryProviderWrapper from '@/components/QueryProviderWrapper';
+import { cn } from '@/lib/utils';
+import { Provider } from '@/components/SessionProvider';
 import { Toaster } from 'sonner';
 import KakaoScript from './_styled-guide/_components/KaKaoScript';
 
@@ -18,18 +20,16 @@ declare global {
   }
 }
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ko">
-      <body className={inter.className}>
-        <QueryProviderWrapper>{children}</QueryProviderWrapper>
+      <body className={cn(inter.className, 'bg-BgBlack')}>
+        <QueryProviderWrapper>
+          <Provider>{children}</Provider>
+        </QueryProviderWrapper>
         <Toaster position="top-center" />
+        <KakaoScript />
       </body>
-      <KakaoScript />
     </html>
   );
 }
