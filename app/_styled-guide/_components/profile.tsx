@@ -7,7 +7,7 @@ import Followees from '@/components/modal/followees';
 
 interface UserProfileProps {
   id: number;
-  image: string;
+  image: string | null;
   description: string;
   nickname: string;
   followeesCount: number;
@@ -44,14 +44,14 @@ export default function Profile({
       <div className="flex gap-[50px]">
         <div className="flex flex-col items-center gap-[10px]">
           <p className="text-[#F1F1F5] text-lg lg:text-xl font-semibold">
-            <Followers userId={id} userNickname={nickname} />
+            <Followers userId={id} userNickname={nickname} followersCount={followersCount} />
           </p>
           <p className="text-[#9FA6B2] text-sm lg:text-base font-normal">팔로워</p>
         </div>
         <div className="h-[60px] w-px bg-gray-700"></div>
         <div className="flex flex-col items-center gap-[10px]">
           <p className="text-[#F1F1F5] text-lg lg:text-xl font-semibold">
-            <Followees userId={id} userNickname={nickname} />
+            <Followees userId={id} userNickname={nickname} followeesCount={followeesCount} />
           </p>
           <p className="text-[#9FA6B2] text-sm lg:text-base font-normal">팔로잉</p>
         </div>

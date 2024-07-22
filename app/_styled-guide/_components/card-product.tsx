@@ -3,7 +3,7 @@ import { FaStar } from 'react-icons/fa';
 
 interface ProductCardProps {
   name: string;
-  image: string;
+  image: string | undefined;
   rating: number;
   reviewCount: number;
   favoriteCount: number;

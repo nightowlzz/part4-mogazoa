@@ -18,14 +18,15 @@ import { useGetUserFollowers } from '@/hooks/user';
 interface FollowersProps {
   userId: number;
   userNickname: string;
+  followersCount: number;
 }
 
-export default function Followers({ userId, userNickname }: FollowersProps) {
+export default function Followers({ userId, userNickname, followersCount }: FollowersProps) {
   const { data: userFollowers } = useGetUserFollowers(userId);
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>팔로워 모달</Button>
+        <button>{followersCount}</button>
       </DialogTrigger>
       <DialogContent className="max-w-[600px]">
         <div className="h-[400px] md:h-[450px] lg:h-[500px] overflow-y-auto">

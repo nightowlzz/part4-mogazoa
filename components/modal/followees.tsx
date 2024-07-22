@@ -17,14 +17,15 @@ import { useGetUserFollowees } from '@/hooks/user';
 interface FolloweesProps {
   userId: number;
   userNickname: string;
+  followeesCount: number;
 }
 
-export default function Followees({ userId, userNickname }: FolloweesProps) {
+export default function Followees({ userId, userNickname, followeesCount }: FolloweesProps) {
   const { data: userFollowees } = useGetUserFollowees(userId);
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>프로필 모달</Button>
+        <button>{followeesCount}</button>
       </DialogTrigger>
       <DialogContent className="max-w-[600px]">
         <DialogDescription className="hidden">followee content</DialogDescription>

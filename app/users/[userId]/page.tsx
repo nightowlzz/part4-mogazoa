@@ -39,7 +39,7 @@ export default function UserId() {
   // }
 
   const userInfo = {
-    id: 284,
+    id: 269,
     nickname: 'test용닉네임입니다1',
     description: '',
     image: null,
@@ -67,7 +67,8 @@ export default function UserId() {
       <div className="flex flex-col items-center mt-[30px] md:mt-[40px] lg:flex-row lg:justify-center lg:items-start">
         <div className="mb-[60px lg:mr-[60px]">
           <Profile
-            image={exImg}
+            id={userInfo.id}
+            image={userInfo.image}
             description={userInfo.description}
             nickname={userInfo.nickname}
             followeesCount={userInfo.followeesCount}
@@ -91,7 +92,7 @@ export default function UserId() {
                 <ProductCard
                   key={product.id}
                   name={product.name}
-                  image={exImg}
+                  image={product.image}
                   rating={product.rating}
                   reviewCount={product.reviewCount}
                   favoriteCount={product.favoriteCount}
