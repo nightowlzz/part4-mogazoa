@@ -13,7 +13,7 @@ export default function ProductPage() {
 
   const { data: productDetail, isLoading, error } = useGetProductDetail(Number(productId));
 
-  const currentUserId = 23; //임시
+  const currentUserId = 269; //임시
 
   if (isLoading) {
     return <div>Loading...</div>;
