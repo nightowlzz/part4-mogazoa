@@ -55,50 +55,19 @@ export interface RankedUserResponse {
 //유저가 생성한 상품 목록, 유저가 리뷰한 상품 목록, 유저가 찜한 상품 목록, 상품 조회 응답
 export interface ProductsListResponse {
   nextCursor: number | null;
-  list: {
-    writerId: number;
-    categoryId: number;
-    favoriteCount: number;
-    reviewCount: number;
-    rating: number;
-    image?: string;
-    name: string;
-    id: number;
-  }[];
+  list: ProductResponse[];
 }
 
 //유저가 팔로우한 유저 조회 응답
 export interface FolloweesResponse {
   nextCursor: number | null;
-  list: {
-    id: number;
-    followee: {
-      updatedAt: string;
-      createdAt: string;
-      teamId: string;
-      image?: string;
-      description?: string;
-      nickname: string;
-      id: number;
-    };
-  }[];
+  list: FolloweesList[];
 }
 
 // 유저를 팔로우한 유저 조회 응답
 export interface FollowersResponse {
   nextCursor: number | null;
-  list: {
-    id: number;
-    follower: {
-      updatedAt: string;
-      createdAt: string;
-      teamId: string;
-      image?: string;
-      description?: string;
-      nickname: string;
-      id: number;
-    };
-  }[];
+  list: FollowersList[];
 }
 
 //REVIEW
@@ -332,14 +301,56 @@ export interface AuthResponse {
   };
 }
 
+export type ProductSortOrder = 'recent' | 'rating' | 'reviewCount';
+export type ReviewSortOrder = 'recent' | 'ratingDesc' | 'ratingAsc' | 'likeCount';
+
 export type HttpMethod = 'get' | 'post' | 'patch' | 'delete';
 
 export interface Order {
-  order?: 'recent' | 'rating' | 'reviewCount';
+  order?: ProductSortOrder;
 }
 
 export interface Params extends Order {
   keyword?: string;
   category?: number;
   cursor?: number;
+}
+
+export interface ProductResponse {
+  writerId: number;
+  categoryId: number;
+  favoriteCount: number;
+  reviewCount: number;
+  rating: number;
+  image?: string;
+  name: string;
+  id: number;
+}
+
+//FolloweesResponse의 list type
+export interface FolloweesList {
+  id: number;
+  followee: {
+    updatedAt: string;
+    createdAt: string;
+    teamId: string;
+    image?: string;
+    description?: string;
+    nickname: string;
+    id: number;
+  };
+}
+
+// FollowersResponse의 list type
+export interface FollowersList {
+  id: number;
+  follower: {
+    updatedAt: string;
+    createdAt: string;
+    teamId: string;
+    image?: string;
+    description?: string;
+    nickname: string;
+    id: number;
+  };
 }
