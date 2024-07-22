@@ -1,15 +1,17 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import KaKaoShareButton from './KaKaoShareButton';
 import CopyLinkButton from './CopyLinkButton';
 import CategoryTag from '@/components/ui/tags/CategoryTag';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import FavoriteButton from './FavoriteButton';
 import EditProduct from '@/app/product/[productId]/EditProduct';
 import useCompareStore from '@/store/compareStore';
 import CompareConfirmModal from '@/app/product/[productId]/CompareConfirmModal';
 import CompareProductReplacementModal from '@/app/product/[productId]/CompareProductReplacementModal';
+import { toast } from 'sonner';
+import { getCookie } from '@/utils/cookieUtils';
 
 export interface ProductCardProps {
   name: string;
@@ -34,26 +36,28 @@ function ProductCard({
   const [isReplacementModalOpen, setIsReplacementModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const { productId } = useParams();
+  const accessToken = getCookie('accessToken');
 
   const { compareItems, addCompareItem } = useCompareStore();
 
   const handleCompareButtonClick = () => {
-    /*if (!isLoggedIn) {
+    if (!accessToken) {
       toast.error('로그인이 필요합니다.');
       return;
-    }*/
-
+    }
     if (compareItems.length === 0 || compareItems.length === 1) {
       setIsConfirmModalOpen(true);
+      addCompareItem({ id: Number(productId), name });
     } else if (compareItems.length === 2) {
       setIsReplacementModalOpen(true);
     }
-    addCompareItem({ id: Number(productId), name });
   };
 
-  const handleReplacementModalClose = () => {
-    setIsReplacementModalOpen(false);
-    setIsConfirmModalOpen(true);
+  const handleReplacementModalClose = (isOpen: boolean, isReplacement: boolean = true) => {
+    setIsReplacementModalOpen(isOpen);
+    if (!isOpen && isReplacement) {
+      setIsConfirmModalOpen(true);
+    }
   };
 
   const handleConfirmModalClose = (open: boolean) => {
@@ -135,16 +139,10 @@ function ProductCard({
         </p>
         <div className="flex flex-col md:flex-row gap-[15px] md:gap-[10px] lg:gap-5">
           <Button>리뷰 작성하기</Button>
-          {/*{!isLoggedIn && (
-            <Button variant="outlineBlue" data-text="비교하기" onClick={handleCompareButtonClick}>
-              variant:outlineBlue 버튼
-            </Button>
-          )}*/}
-          {compareItems.length < 2 && (
-            <Button variant="outlineBlue" data-text="비교하기" onClick={handleCompareButtonClick}>
-              비교하기
-            </Button>
-          )}
+
+          <Button variant="outlineBlue" data-text="비교하기" onClick={handleCompareButtonClick}>
+            비교하기
+          </Button>
 
           {modalContent && (
             <CompareConfirmModal
@@ -154,14 +152,13 @@ function ProductCard({
               onOpenChange={handleConfirmModalClose}
             />
           )}
-          {compareItems.length === 2 && (
-            <CompareProductReplacementModal
-              productId={Number(productId)}
-              productName={name}
-              open={isReplacementModalOpen}
-              onOpenChange={handleReplacementModalClose}
-            />
-          )}
+
+          <CompareProductReplacementModal
+            productId={Number(productId)}
+            productName={name}
+            open={isReplacementModalOpen}
+            onOpenChange={handleReplacementModalClose}
+          />
 
           {isUserProduct && (
             <EditProduct

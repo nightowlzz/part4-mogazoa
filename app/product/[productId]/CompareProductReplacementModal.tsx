@@ -9,15 +9,15 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { cn } from '@/lib/utils';
-import useCompareStore, { CompareItem } from '@/store/compareStore';
-import { useEffect, useState } from 'react';
+
+import useCompareStore from '@/store/compareStore';
+import { useState } from 'react';
 
 interface CompareProductReplacementModalProps {
   productId: number;
   productName: string;
   open: boolean;
-  onOpenChange: (open: boolean) => void;
+  onOpenChange: (isOpen: boolean, isReplacement?: boolean) => void;
 }
 
 export default function CompareProductReplacementModal({
@@ -37,17 +37,16 @@ export default function CompareProductReplacementModal({
     if (selectedItem !== null) {
       replaceCompareItem(selectedItem, { id: productId, name: productName });
       setSelectedItem(null);
-      onOpenChange(false);
+      onOpenChange(false, true);
     }
   };
 
+  const handleCloseModal = () => {
+    onOpenChange(false, false);
+  };
+
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="outlineBlue" data-text="비교하기">
-          variant:outlineBlue 버튼
-        </Button>
-      </DialogTrigger>
+    <Dialog open={open} onOpenChange={handleCloseModal}>
       <DialogContent className="max-w-[540px]">
         <DialogDescription className="hidden">compare content</DialogDescription>
         <DialogHeader>
