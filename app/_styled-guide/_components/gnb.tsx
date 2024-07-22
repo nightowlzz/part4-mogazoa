@@ -18,7 +18,7 @@ function Gnb({ isLogin = false }: GnbProps) {
     <div className="mb-[70px] md:mb-20 lg:mb-[100px]">
       {/* 태블릿 이상일 시 디자인 */}
       <div className="hidden md:block">
-        <div className="flex justify-between items-center w-full md:h-20 lg:h-[100px] md:px-[30px] lg:px-[120px] fixed inset-x-0 top-0 bg-black-600">
+        <div className="flex justify-between items-center w-full md:h-20 lg:h-[100px] md:px-[30px] lg:px-[120px] fixed inset-x-0 top-0 bg-black-600 z-50">
           <Logo />
           <div className="flex justify-between md:gap-[30px] lg:gap-[60px]">
             <GnbSearchBar />
