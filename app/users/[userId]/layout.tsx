@@ -7,6 +7,7 @@ export default function UserIdLayout() {
   return (
     <>
       <Gnb />
+      <UserId />
       <Button
         variant="circleBlue"
         size={'auto'}
@@ -14,7 +15,6 @@ export default function UserIdLayout() {
       >
         <IoMdAdd color="white" size={30} />
       </Button>
-      <UserId />
     </>
   );
 }

@@ -67,7 +67,7 @@ export default function UserId() {
     createdAt: '2024-07-08T17:06:03.018Z',
     updatedAt: '2024-07-08T18:19:06.888Z',
     teamId: 'proxy',
-    isFollowing: false,
+    isFollowing: true,
     followersCount: 3,
     followeesCount: 5,
     reviewCount: 4,
@@ -91,7 +91,7 @@ export default function UserId() {
         <div className="mb-[60px] lg:mr-[60px]">
           <Profile
             id={userInfo.id}
-            image={exImg}
+            image={userInfo.image}
             description={userInfo.description}
             nickname={userInfo.nickname}
             followeesCount={userInfo.followeesCount}
