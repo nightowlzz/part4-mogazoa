@@ -2,8 +2,11 @@ import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar';
 import { Button, buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import Followers from '@/components/modal/followers';
+import Followees from '@/components/modal/followees';
 
 interface UserProfileProps {
+  id: number;
   image: string;
   description: string;
   nickname: string;
@@ -14,6 +17,7 @@ interface UserProfileProps {
 }
 
 export default function Profile({
+  id,
   image,
   nickname,
   description,
@@ -39,11 +43,16 @@ export default function Profile({
       </div>
       <div className="flex gap-[50px]">
         <div className="flex flex-col items-center gap-[10px]">
-          <p className="text-[#F1F1F5] text-lg lg:text-xl font-semibold">{followeesCount}</p>
+          <p className="text-[#F1F1F5] text-lg lg:text-xl font-semibold">
+            <Followers userId={id} userNickname={nickname} followersCount={followersCount} />
+          </p>
           <p className="text-[#9FA6B2] text-sm lg:text-base font-normal">팔로워</p>
         </div>
+        <div className="h-[60px] w-px bg-gray-700"></div>
         <div className="flex flex-col items-center gap-[10px]">
-          <p className="text-[#F1F1F5] text-lg lg:text-xl font-semibold">{followersCount}</p>
+          <p className="text-[#F1F1F5] text-lg lg:text-xl font-semibold">
+            <Followees userId={id} userNickname={nickname} followeesCount={followeesCount} />
+          </p>
           <p className="text-[#9FA6B2] text-sm lg:text-base font-normal">팔로잉</p>
         </div>
       </div>
