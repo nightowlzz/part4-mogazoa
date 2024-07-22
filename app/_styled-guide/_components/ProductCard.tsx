@@ -12,6 +12,7 @@ import CompareConfirmModal from '@/app/product/[productId]/CompareConfirmModal';
 import CompareProductReplacementModal from '@/app/product/[productId]/CompareProductReplacementModal';
 import { toast } from 'sonner';
 import { getCookie } from '@/utils/cookieUtils';
+import { useSession } from 'next-auth/react';
 
 export interface ProductCardProps {
   name: string;
@@ -38,7 +39,10 @@ function ProductCard({
   const [confirmModalTitle, setConfirmModalTitle] = useState<React.ReactNode>('');
   const [confirmButtonText, setConfirmButtonText] = useState('');
   const { productId } = useParams();
-  const accessToken = getCookie('accessToken');
+
+  // 쿠키 값 가져오기
+  const { data: session } = useSession();
+  const accessToken = session?.user.accessToken;
 
   const { compareItems, addCompareItem } = useCompareStore();
 
