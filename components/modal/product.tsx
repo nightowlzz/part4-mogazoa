@@ -29,6 +29,7 @@ import { IoCloseSharp } from 'react-icons/io5';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Input } from '../ui/input';
+
 const FormSchema = z.object({
   name: z.string(),
   category: z.string(),
@@ -49,7 +50,6 @@ export default function Product() {
         <Button>상품 모달</Button>
       </DialogTrigger>
       <DialogContent className="max-w-[660px]">
-        <DialogDescription className="hidden">product form content</DialogDescription>
         <DialogHeader>
           <DialogTitle className="flex flex-col gap-5 md:gap-[10px]">상품 편집</DialogTitle>
         </DialogHeader>
@@ -79,6 +79,7 @@ export default function Product() {
                             }}
                           >
                             {/* 삭제버튼 */}
+
                             {true ? (
                               <Button
                                 asChild
@@ -139,9 +140,9 @@ export default function Product() {
                       className="h-[120px] smd:h-[160px]"
                     />
                   </FormControl>
-                  <span className="absolute bottom-5 right-5 text-sm text-gray-600 px-1 bg-black-450">
-                    2/300
-                  </span>
+                  <FormDescription className="absolute bottom-5 right-5 text-sm text-gray-600">
+                    2/30
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -150,7 +151,7 @@ export default function Product() {
         </Form>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
-            <Button type="button" variant="default" onClick={form.handleSubmit(onSubmit)}>
+            <Button type="button" variant="default">
               저장하기
             </Button>
           </DialogClose>
