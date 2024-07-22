@@ -6,13 +6,14 @@ import CopyLinkButton from './CopyLinkButton';
 import CategoryTag from '@/components/ui/tags/CategoryTag';
 import { useParams, useRouter } from 'next/navigation';
 import FavoriteButton from './FavoriteButton';
+import EditProduct from '@/app/product/[productId]/EditProduct';
 import useCompareStore from '@/store/compareStore';
 import { toast } from 'sonner';
 import Compare from '@/components/modal/compare';
 import CompareConfirmModal from '@/app/product/[productId]/CompareConfirmModal';
 import CreateReview from '@/app/product/[productId]/_components/modal/create-review';
 
-interface ProductCardProps {
+export interface ProductCardProps {
   name: string;
   description: string;
   image: string;
@@ -137,7 +138,16 @@ function ProductCard({
           )}
           {compareItems.length === 2}
           {/*이후 비교 상품 교체 모달로 변경 예정 */}
-          {isUserProduct && <Button variant="outline">편집하기</Button>}
+          {isUserProduct && (
+            <EditProduct
+              productId={productId}
+              name={name}
+              description={description}
+              image={image}
+              categoryId={categoryId}
+              categoryName={categoryName}
+            />
+          )}
         </div>
       </div>
     </div>

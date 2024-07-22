@@ -7,7 +7,7 @@ import {
   UseQueryOptions,
 } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import axiosInstance from '@/utils/axiosInstance';
+import { axiosInstance } from '@/utils/axiosInstance';
 import { HttpMethod, Params } from '@/types/data';
 
 export function useDataQuery<TData, TResponse>(

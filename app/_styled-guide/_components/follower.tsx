@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 interface FollowerProfileProps {
-  image: string;
+  image: string | undefined;
   nickname: string;
 }
 

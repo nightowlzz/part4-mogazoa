@@ -43,7 +43,7 @@ const SortSelector = ({ sort, setSortOrder }: CategorySelectorProps) => {
           />
         </button>
         {isOpen && (
-          <DropdownList
+          <DropdownList<string>
             options={options}
             onSelect={handleOrderSelect}
             className="absolute mt-2 w-[108px] md:w-[140px] lg:w-40 lg:text-base text-gray-600 rounded-lg"

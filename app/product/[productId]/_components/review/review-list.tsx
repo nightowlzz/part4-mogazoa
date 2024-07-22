@@ -42,22 +42,19 @@ export function ReviewListContent({
     sortOrder: sortOrder,
   });
 
-  const deferredValue = useDeferredValue(displayReviews);
-
-  // useDeferredValue 이전 값
   useEffect(() => {
     if (!isPending || hasNextPage) {
       const result = getReviewList;
       setDisplayReviews(result);
     }
-  }, [isPending, fetchNextPage]);
+  }, [isPending, fetchNextPage, hasNextPage]);
 
   if (isPending)
     return (
       <div className="relative flex flex-col gap-5 mt-[30px]">
-        <div className="absolute left-0 top-0 right-0 bottom-0 bg-black-700 opacity-50 z-[1]"></div>
-        {deferredValue &&
-          deferredValue.map((review) => (
+        <div className="absolute left-0 top-0 right-0 bottom-0 bg-black-600 opacity-50 z-[1]"></div>
+        {displayReviews &&
+          displayReviews.map((review) => (
             <Review key={review.id} {...review} currentUserId={currentUserId?.id} reviewRef={ref} />
           ))}
       </div>
@@ -67,7 +64,7 @@ export function ReviewListContent({
 
   return (
     <>
-      <div className="flex flex-col gap-5 mt-[30px]">
+      <div className="relative flex flex-col gap-5 mt-[30px]">
         {getReviewList &&
           getReviewList.map((review) => (
             <Review key={review.id} {...review} currentUserId={currentUserId?.id} reviewRef={ref} />
