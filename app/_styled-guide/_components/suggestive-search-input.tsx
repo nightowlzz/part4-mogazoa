@@ -3,13 +3,13 @@
 import React from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import useSearchSuggestions from '@/hooks/useSearchSuggestions';
-import DropdownList from './DropdownList';
+import DropdownList, { Option } from './DropdownList';
 import useDropdown from '@/hooks/useDropdown';
 
 export interface SuggestiveSearchInputProps {
   keyword: string;
   setKeyword: (keyword: string) => void;
-  onSelect: (option: string) => void;
+  onSelect: (option: Option) => void;
   onEnter?: (keyword: string) => void;
   placeholder?: string;
   boxClassName?: string;
@@ -66,7 +66,7 @@ const SuggestiveSearchInput = ({
           disabled={onDisabled}
         />
         <button onClick={() => inputRef.current?.focus()}>
-          {!isDropdownOpen && <IoMdArrowDropdown />}
+          {!isDropdownOpen && !onDisabled && <IoMdArrowDropdown />}
         </button>
       </div>
       {isDropdownOpen && (
