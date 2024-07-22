@@ -10,13 +10,15 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { useSignIn } from '@/hooks/auth';
+import { useAuth } from '@/hooks/nextauth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { PiEyeSlashLight, PiEyeThin } from 'react-icons/pi';
 import { z } from 'zod';
 import SocialLogin from '../_components/social-login';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const FormSchema = z.object({
   email: z.string().email({ message: '올바른 이메일 주소를 입력해주세요.' }),
@@ -26,6 +28,8 @@ type FormValues = z.infer<typeof FormSchema>;
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth();
+  const router = useRouter();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
@@ -35,17 +39,18 @@ export default function SignInForm() {
     },
   });
 
-  const signInMutation = useSignIn({
-    onSuccess: () => {
-      console.log('로그인 성공:');
-    },
-    onError: () => {
-      console.error('로그인 실패:');
-    },
-  });
-
-  const onSubmit = (values: FormValues) => {
-    signInMutation.mutate(values);
+  const onSubmit = async (values: FormValues) => {
+    try {
+      const result = await login(values.email, values.password);
+      if (result?.ok) {
+        toast.success('로그인에 성공했습니다.');
+        router.push('/');
+      } else {
+        toast.error('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.');
+      }
+    } catch (error) {
+      toast.error('로그인 중 오류가 발생했습니다. 나중에 다시 시도해주세요.');
+    }
   };
 
   return (
