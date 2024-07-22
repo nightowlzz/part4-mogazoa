@@ -1,11 +1,11 @@
 /**
  * NextAuth 설정 옵션
- * 
+ *
  * @description
  * 이 파일은 NextAuth의 설정 옵션을 정의합니다.
- * CredentialsProvider를 사용한 인증, JWT 및 세션 콜백, 
+ * CredentialsProvider를 사용한 인증, JWT 및 세션 콜백,
  * 그리고 커스텀 페이지 설정을 포함합니다.
- * 
+ *
  * @requires next-auth
  * @requires next-auth/providers/credentials
  * @requires @/types/data
@@ -30,10 +30,10 @@ export const authOptions: NextAuthOptions = {
 
         try {
           const { email, password } = credentials;
-          const { data } = await axiosInstance.post<AuthResponse>(
-            '/auth/signIn',
-            { email, password }
-          );
+          const { data } = await axiosInstance.post<AuthResponse>('/auth/signIn', {
+            email,
+            password,
+          });
 
           return {
             id: data.user.id.toString(),
@@ -44,7 +44,6 @@ export const authOptions: NextAuthOptions = {
             accessToken: data.accessToken,
           };
         } catch (error) {
-          console.error('Authentication error:', error);
           return null;
         }
       },

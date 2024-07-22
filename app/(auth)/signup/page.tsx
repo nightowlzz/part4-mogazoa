@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -12,11 +11,14 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useSignUp } from '@/hooks/auth';
+import { useAuth } from '@/hooks/nextauth';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { PiEyeSlashLight, PiEyeThin } from 'react-icons/pi';
 import { z } from 'zod';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const FormSchema = z
   .object({
@@ -35,6 +37,8 @@ type FormValues = z.infer<typeof FormSchema>;
 export default function SignUpForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] = useState(false);
+  const router = useRouter();
+  const { login } = useAuth();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(FormSchema),
@@ -47,11 +51,21 @@ export default function SignUpForm() {
   });
 
   const signUpMutation = useSignUp({
-    onSuccess: () => {
-      console.log('회원가입 성공:');
+    onSuccess: async () => {
+      toast.success('회원가입에 성공했습니다.');
+      try {
+        const loginResult = await login(form.getValues('email'), form.getValues('password'));
+        if (loginResult?.ok) {
+          router.push('/');
+        } else {
+          router.push('/signin');
+        }
+      } catch (error) {
+        router.push('/signin');
+      }
     },
-    onError: () => {
-      console.error('회원가입 실패:');
+    onError: (error) => {
+      toast.error((error.response?.data as any)?.message);
     },
   });
 
@@ -59,7 +73,6 @@ export default function SignUpForm() {
     signUpMutation.mutate(values);
   };
 
-  console.log('form.formState.errors', form.formState.errors);
   return (
     <div className="relative">
       <Form {...form}>
