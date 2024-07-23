@@ -1,11 +1,11 @@
 'use client';
 
-import { IoSearch } from 'react-icons/io5';
-import React, { useState, useRef } from 'react';
-import useSearchSuggestions from '@/hooks/useSearchSuggestions';
-import DropdownList from './DropdownList';
-import { useRouter } from 'next/navigation';
 import useDropdown from '@/hooks/useDropdown';
+import useSearchSuggestions from '@/hooks/useSearchSuggestions';
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
+import { IoSearch } from 'react-icons/io5';
+import DropdownList from './DropdownList';
 import { ProductOption } from './suggestive-search-input';
 
 interface SearchBarProps {
@@ -22,7 +22,7 @@ const GnbSearchBar = ({ placeholder = '상품 이름을 검색해 보세요' }: 
   // 검색 처리 함수. 한 글자 이상 입력해야 함
   const executeSearch = () => {
     if (keyword.trim()) {
-      router.push(`/search?q=${keyword}`);
+      router.push(`/product?keyword=${keyword}`);
     }
   };
 

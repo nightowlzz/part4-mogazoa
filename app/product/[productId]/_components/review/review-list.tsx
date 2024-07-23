@@ -3,8 +3,9 @@ import SortSelector from '@/app/_styled-guide/_components/sort-selector';
 import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 import { useGetMyInfo } from '@/hooks/user';
 import { ReviewResponse, ReviewSortOrder } from '@/types/data';
-import { useDeferredValue, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Review from './review';
+import { REVIEW_SORT_OPTIONS } from '@/constants/sortOrder';
 
 export default function ReviewList({ productId }: { productId: string | string[] }) {
   const [sortOrder, setSortOrder] = useState<ReviewSortOrder>('recent');
@@ -12,7 +13,11 @@ export default function ReviewList({ productId }: { productId: string | string[]
     <div className="w-full max-w-[980px] px-5 mx-auto mb-[60px]">
       <div className="flex items-center justify-between w-full">
         <h3 className="text-[#F1F1F5] text-xl font-normal">상품 리뷰</h3>
-        <SortSelector sort={sortOrder} setSortOrder={setSortOrder} />
+        <SortSelector
+          sort={sortOrder}
+          setSortOrder={setSortOrder}
+          sortSelectOption={REVIEW_SORT_OPTIONS}
+        />
       </div>
       <ReviewListContent productId={productId} sortOrder={sortOrder} />
     </div>
@@ -36,10 +41,9 @@ export function ReviewListContent({
     fetchNextPage,
     hasNextPage,
   } = useInfinityScroll({
-    productId: productId,
     queryKey: 'review',
-    queryFnUrl: `/products/${productId}/reviews`,
-    sortOrder: sortOrder,
+    productId: productId,
+    order: sortOrder,
   });
 
   useEffect(() => {
