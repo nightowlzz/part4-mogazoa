@@ -1,4 +1,4 @@
-'use client';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -28,37 +28,45 @@ import { ImFilePicture } from 'react-icons/im';
 import { IoCloseSharp } from 'react-icons/io5';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { IoMdAdd } from 'react-icons/io';
 import { Input } from '@/components/ui/input';
 
 const FormSchema = z.object({
   name: z.string(),
   category: z.string(),
-  desc: z.string(),
+  desc: z.string().max(300, '상품 설명은 최대 300자까지 입력 가능합니다.'),
   image: z.string(),
 });
-export default function Product() {
+
+interface AddProductModalProps {
+  triggerButton: React.ReactNode;
+}
+
+export default function AddProductModal({ triggerButton }: AddProductModalProps) {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
+
+  const [descLength, setDescLength] = useState(0);
+
+  // 글자수 세기
+  useEffect(() => {
+    const subscription = form.watch((value) => {
+      setDescLength(value.desc?.length || 0);
+    });
+    return () => subscription.unsubscribe();
+  }, [form]);
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast.success('전송 되었습니다.');
     toast.error('전송 실패 하였습니다.');
   }
+
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button
-          variant="circleBlue"
-          size={'auto'}
-          className="w-[60px] h-[60px] fixed bottom-8 right-8"
-        >
-          <IoMdAdd color="white" size={30} />
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger asChild>{triggerButton}</DialogTrigger>
       <DialogContent className="max-w-[660px]">
         <DialogHeader>
-          <DialogTitle className="flex flex-col gap-5 md:gap-[10px]">상품 편집</DialogTitle>
+          <DialogTitle className="flex flex-col gap-5 md:gap-[10px]">상품 추가</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -145,10 +153,11 @@ export default function Product() {
                     <Textarea
                       placeholder="상품 설명을 입력해 주세요"
                       className="h-[120px] smd:h-[160px]"
+                      {...field}
                     />
                   </FormControl>
                   <FormDescription className="absolute bottom-5 right-5 text-sm text-gray-600">
-                    2/30
+                    {descLength}/300
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
