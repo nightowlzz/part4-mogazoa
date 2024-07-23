@@ -48,7 +48,7 @@ function Gnb({ isLogin = false }: GnbProps) {
 
       {/* 모바일 디자인 */}
       <div className="block md:hidden">
-        <div className="flex justify-between items-center w-full h-[70px] px-5 fixed inset-x-0 top-0 bg-black-600">
+        <div className="flex justify-between items-center w-full h-[70px] px-5 fixed inset-x-0 top-0 bg-black-600 z-50">
           {/* 임시용 버튼 */}
           <button>
             <FiMenu className="text-gray-500 h-6 w-6" />
