@@ -26,7 +26,7 @@ export default function Profile({
   followeesCount,
   followersCount,
   isFollowing,
-  isMyPage = true,
+  isMyPage,
 }: UserProfileProps) {
   const { mutate: followUser } = useFollowUser();
   const { mutate: unFollowUser } = useUnFollowUser();
