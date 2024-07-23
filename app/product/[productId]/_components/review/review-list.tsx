@@ -36,10 +36,9 @@ export function ReviewListContent({
     fetchNextPage,
     hasNextPage,
   } = useInfinityScroll({
-    productId: productId,
     queryKey: 'review',
-    queryFnUrl: `/products/${productId}/reviews`,
-    sortOrder: sortOrder,
+    productId: productId,
+    order: sortOrder,
   });
 
   useEffect(() => {
