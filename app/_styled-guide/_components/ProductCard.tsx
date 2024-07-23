@@ -40,7 +40,7 @@ function ProductCard({
   const [confirmButtonText, setConfirmButtonText] = useState('');
   const { productId } = useParams();
 
-  // 쿠키 값 가져오기
+  // 토큰 값 가져오기
   const { data: session } = useSession();
   const accessToken = session?.user.accessToken;
 
@@ -49,8 +49,10 @@ function ProductCard({
   const handleCompareButtonClick = () => {
     if (!accessToken) {
       toast.error('로그인이 필요합니다.');
-      return;
     }
+
+    // 현재 상품이 비교 목록에 이미 존재하는지 확인
+    const isItemAlreadyInCompare = compareItems.some((item) => item.id === Number(productId));
 
     if (compareItems.length === 0) {
       addCompareItem({ id: Number(productId), name });
@@ -58,18 +60,24 @@ function ProductCard({
       setConfirmButtonText('확인');
       setIsConfirmModalOpen(true);
     } else if (compareItems.length === 1) {
-      addCompareItem({ id: Number(productId), name });
-      setConfirmModalTitle(
-        <>
-          상품을 비교할 수 있습니다. <br />
-          바로 확인해보시겠어요?
-        </>,
-      );
-      setConfirmButtonText('바로가기');
-      setIsConfirmModalOpen(true);
+      if (isItemAlreadyInCompare) {
+        setConfirmModalTitle('이미 비교할 상품으로 추가되었습니다.');
+        setConfirmButtonText('확인');
+        setIsConfirmModalOpen(true);
+        return;
+      } else {
+        addCompareItem({ id: Number(productId), name });
+        setConfirmModalTitle(
+          <>
+            상품을 비교할 수 있습니다. <br />
+            바로 확인해보시겠어요?
+          </>,
+        );
+
+        setConfirmButtonText('바로가기');
+        setIsConfirmModalOpen(true);
+      }
     } else if (compareItems.length === 2) {
-      // 현재 상품이 비교 목록에 이미 존재하는지 확인
-      const isItemAlreadyInCompare = compareItems.some((item) => item.id === Number(productId));
       // 상품이 이미 비교 목록에 있는 경우
       if (isItemAlreadyInCompare) {
         setConfirmModalTitle(
