@@ -1,11 +1,10 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import SuggestiveSearchInput from './suggestive-search-input';
+import SuggestiveSearchInput, { ProductOption } from './suggestive-search-input';
 import CompareTag from '@/components/ui/tags/CompareTag';
 import { SET_PRODUCT } from '@/constants/messages';
 import useCompareStore from '@/store/compareStore';
-import { Option } from './DropdownList';
 
 interface ComparePageInputProps {
   index: number;
@@ -24,9 +23,9 @@ function ComparePageInput({ index }: ComparePageInputProps) {
     }
   }, [compareItems, index]);
 
-  const onSelect = (option: Option) => {
+  const onSelect = (option: ProductOption) => {
     setKeyword('');
-    setTag(option.label);
+    setTag(option.name);
     updateCompareItem(index, option.id);
   };
 
