@@ -4,6 +4,8 @@ import Link from 'next/link';
 import { cn } from '@/lib/utils';
 import Followers from '@/components/modal/followers';
 import Followees from '@/components/modal/followees';
+import { useFollowUser, useUnFollowUser } from '@/hooks/follow';
+import ProfileModal from '@/components/modal/profile';
 
 interface UserProfileProps {
   id: number;
@@ -24,8 +26,18 @@ export default function Profile({
   followeesCount,
   followersCount,
   isFollowing,
-  isMyPage = false,
+  isMyPage = true,
 }: UserProfileProps) {
+  const { mutate: followUser } = useFollowUser();
+  const { mutate: unFollowUser } = useUnFollowUser();
+
+  const handleFollow = () => {
+    followUser({ userId: id });
+  };
+
+  const handleUnfollow = () => {
+    unFollowUser({ userId: id });
+  };
   return (
     <div className="w-[335px] md:w-[509px] lg:w-[340px] h-full px-5 py-[30px] md:px-[30px] lg:px-5 lg:py-10 flex flex-col items-center border-[#353542] rounded-lg bg-[#252530] gap-[30px] lg:gap-10">
       <Avatar className="w-[120px] h-[120px] lg:w-[180px] lg:h-[180px] rounded-full overflow-hidden">
@@ -58,15 +70,17 @@ export default function Profile({
       </div>
       {isMyPage ? (
         <div className="w-full flex flex-col gap-[10px] md:gap-[15px] lg:gap-5">
-          <Button>프로필 편집</Button>
+          <ProfileModal />
           <Link href="/" className={cn(buttonVariants({ variant: 'outline' }))}>
             로그아웃
           </Link>
         </div>
       ) : isFollowing ? (
-        <Button variant="outline">팔로우 취소</Button>
+        <Button variant="outline" onClick={handleUnfollow}>
+          팔로우 취소
+        </Button>
       ) : (
-        <Button>팔로우</Button>
+        <Button onClick={handleFollow}>팔로우</Button>
       )}
     </div>
   );

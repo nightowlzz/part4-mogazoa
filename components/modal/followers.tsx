@@ -2,7 +2,6 @@
 
 import Link from 'next/link';
 import { Follower } from '@/app/_styled-guide/_components/follower';
-import { Button } from '@/components/ui/button';
 import {
   Dialog,
   DialogClose,
