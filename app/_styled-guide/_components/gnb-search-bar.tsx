@@ -6,6 +6,7 @@ import useSearchSuggestions from '@/hooks/useSearchSuggestions';
 import DropdownList from './DropdownList';
 import { useRouter } from 'next/navigation';
 import useDropdown from '@/hooks/useDropdown';
+import { ProductOption } from './suggestive-search-input';
 
 interface SearchBarProps {
   placeholder?: string;
@@ -33,8 +34,8 @@ const GnbSearchBar = ({ placeholder = '상품 이름을 검색해 보세요' }: 
   };
 
   // dropdownList에서 option 선택 시 콜백
-  const onSelect = (value: string) => {
-    setKeyword(value);
+  const onSelect = (value: ProductOption) => {
+    setKeyword(value.name);
     inputRef.current?.focus();
   };
 
