@@ -1,9 +1,9 @@
 import {
-  FolloweesResponse,
   FolloweesList,
+  FolloweesResponse,
+  FollowersList,
   FollowersResponse,
   ProductResponse,
-  FollowersList,
   ProductsListResponse,
   ReviewListResponse,
   ReviewResponse,
@@ -24,11 +24,13 @@ type queryListResponse = ReviewListResponse &
   FolloweesResponse;
 
 interface useInfinityScrollProps {
-  productId: string | string[];
-  queryKey: 'review' | 'product' | 'followers' | 'followed';
+  queryKey: 'review' | 'products' | 'followers' | 'followee';
   queryFnUrl: string;
-  sortOrder: string;
+  sortOrder?: string;
+  productId?: string | string[];
   threshold?: ZeroToOne;
+  keyword?: string;
+  category?: number;
 }
 
 export const useInfinityScroll = ({
@@ -37,10 +39,53 @@ export const useInfinityScroll = ({
   queryFnUrl,
   sortOrder,
   threshold = 0.3,
+  keyword,
+  category,
 }: useInfinityScrollProps) => {
   const { ref, inView } = useInView({
     threshold: threshold,
   });
+
+  const queryParams = {
+    sortOrder: '',
+    keyword: '',
+    category: '',
+    pageParam: 0,
+  };
+  interface QueryParams {
+    sortOrder?: string;
+    category?: number;
+    keyword?: string;
+    pageParam?: unknown;
+  }
+
+  function buildQueryString({ sortOrder, keyword, category, pageParam }: QueryParams) {
+    const queryParams: QueryParams = {};
+
+    if (sortOrder) {
+      console.log();
+      queryParams.sortOrder = sortOrder;
+    }
+
+    if (keyword) {
+      console.log('keyword', keyword);
+      queryParams.keyword = keyword;
+    }
+
+    if (category) {
+      queryParams.category = category;
+    }
+
+    if (pageParam) {
+      queryParams.pageParam = pageParam;
+    }
+
+    const queryString = Object.entries(queryParams)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
+
+    return queryString ? `?${queryString}` : '';
+  }
   const {
     data: getData,
     isPending,
@@ -51,7 +96,12 @@ export const useInfinityScroll = ({
     queryKey: [queryKey, { productId, sortOrder }],
     queryFn: async ({ pageParam = null }) => {
       try {
-        const res = await instance.get(`${queryFnUrl}?order=${sortOrder}&cursor=${pageParam}`);
+        console.log(
+          `=?>>>> ${queryFnUrl}${buildQueryString({ sortOrder, keyword, category, pageParam })}`,
+        );
+        const res = await instance.get(
+          `${queryFnUrl}${buildQueryString({ sortOrder, keyword, category, pageParam })}`,
+        );
         if (!res) return;
         return res.data;
       } catch (err: any) {
