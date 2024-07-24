@@ -38,7 +38,7 @@ const DropdownList = <T extends CategoryOption | string>({
             onClick={() => {
               onSelect(option);
             }}
-            className={`w-full px-5 py-[6px] text-left truncate rounded-md hover:bg-gray-700 focus:bg-gray-700 hover:text-white focus:text-white ${optionClassName}`}
+            className={`md:w-full lg:w-full px-5 py-[6px] text-left truncate rounded-md hover:bg-gray-700 focus:bg-gray-700 hover:text-white focus:text-white ${optionClassName}`}
             disabled={isDisabled}
           >
             {typeof option === 'string' ? option : option.name}
