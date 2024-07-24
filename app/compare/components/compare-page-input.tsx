@@ -16,24 +16,27 @@ function ComparePageInput({ index }: ComparePageInputProps) {
   const [keyword, setKeyword] = useState<string>('');
   const [tag, setTag] = useState<string>('');
 
-  const compareItems = useCompareStore((state) => state.compareItems);
-  const updateCompareItem = useCompareStore((state) => state.updateCompareItem);
+  const { compareItem, updateCompareItem, deleteCompareItem } = useCompareStore((state) => ({
+    compareItem: state.compareItems[index],
+    updateCompareItem: state.updateCompareItem,
+    deleteCompareItem: state.deleteCompareItem,
+  }));
 
   useEffect(() => {
-    if (compareItems[index] === undefined) {
+    if (compareItem === undefined) {
       setTag('');
-    }
-  }, [compareItems, index]);
+    } else setTag(compareItem?.name);
+  }, [compareItem, index]);
 
   const onSelect = (option: ProductOption) => {
     setKeyword('');
     setTag(option.name);
-    updateCompareItem(index, option.id);
+    updateCompareItem(index, { id: option.id, name: option.name });
   };
 
   const onTagDelete = () => {
     setTag('');
-    updateCompareItem(index, -1);
+    deleteCompareItem(index);
   };
 
   return (
