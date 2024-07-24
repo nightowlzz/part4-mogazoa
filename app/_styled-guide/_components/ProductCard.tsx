@@ -49,7 +49,7 @@ function ProductCard({
       return;
     }*/
     if (compareItems.length === 0) {
-      addCompareItem(id);
+      addCompareItem({ id, name });
     } else if (compareItems.length === 1) {
       router.push('/compare');
     }
