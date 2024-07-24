@@ -6,13 +6,25 @@ import { ReviewResponse, ReviewSortOrder } from '@/types/data';
 import { useDeferredValue, useEffect, useState } from 'react';
 import Review from './review';
 
+interface reviewInfoProps {
+  productId: string | string[];
+  currentUserId: number;
+  productName: string;
+  categoryId: number;
+  categoryName: string;
+}
+
+interface reviewInfoSortOderProps extends reviewInfoProps {
+  sortOrder: string;
+}
+
 export default function ReviewList({
   productId,
   currentUserId,
-}: {
-  productId: string | string[];
-  currentUserId: number;
-}) {
+  productName,
+  categoryId,
+  categoryName,
+}: reviewInfoProps) {
   const [sortOrder, setSortOrder] = useState<ReviewSortOrder>('recent');
   return (
     <div className="w-full max-w-[980px] px-5 mx-auto mb-[60px]">
@@ -22,8 +34,11 @@ export default function ReviewList({
       </div>
       <ReviewListContent
         productId={productId}
-        currentUserId={currentUserId}
         sortOrder={sortOrder}
+        currentUserId={currentUserId}
+        productName={productName}
+        categoryId={categoryId}
+        categoryName={categoryName}
       />
     </div>
   );
@@ -31,13 +46,12 @@ export default function ReviewList({
 
 export function ReviewListContent({
   productId,
-  sortOrder,
   currentUserId,
-}: {
-  productId: string | string[];
-  sortOrder: string;
-  currentUserId: number;
-}) {
+  productName,
+  categoryId,
+  categoryName,
+  sortOrder,
+}: reviewInfoSortOderProps) {
   const [displayReviews, setDisplayReviews] = useState<ReviewResponse[]>();
   const {
     ref,
@@ -59,13 +73,22 @@ export function ReviewListContent({
     }
   }, [isPending, fetchNextPage, hasNextPage]);
 
+  // [NOTE] 추 후 스켈레톤 작업
   if (isPending)
     return (
       <div className="relative flex flex-col gap-5 mt-[30px]">
         <div className="absolute left-0 top-0 right-0 bottom-0 bg-black-600 opacity-50 z-[1]"></div>
         {displayReviews &&
           displayReviews.map((review) => (
-            <Review key={review.id} {...review} currentUserId={currentUserId} reviewRef={ref} />
+            <Review
+              key={review.id}
+              {...review}
+              currentUserId={currentUserId}
+              reviewRef={ref}
+              productName={productName}
+              categoryId={categoryId}
+              categoryName={categoryName}
+            />
           ))}
       </div>
     );
@@ -77,7 +100,15 @@ export function ReviewListContent({
       <div className="relative flex flex-col gap-5 mt-[30px]">
         {getReviewList &&
           getReviewList.map((review) => (
-            <Review key={review.id} {...review} currentUserId={currentUserId} reviewRef={ref} />
+            <Review
+              key={review.id}
+              {...review}
+              currentUserId={currentUserId}
+              reviewRef={ref}
+              productName={productName}
+              categoryId={categoryId}
+              categoryName={categoryName}
+            />
           ))}
       </div>
     </>

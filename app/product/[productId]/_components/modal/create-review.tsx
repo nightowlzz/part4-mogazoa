@@ -34,7 +34,7 @@ import StarRating from './components/starRating';
 
 interface ReviewProps {
   children: React.ReactNode;
-  productId: string | string[];
+  productId: number;
   categoryName: string;
   categoryId: number;
   name: string;
@@ -69,11 +69,11 @@ export default function CreateReview({
 
   const reviewMutation = usePostReview({
     onSuccess: () => {
-      toast.success('전송 되었습니다.');
+      toast.success('리뷰가 작성 되었습니다');
       queryClient.invalidateQueries({ queryKey: ['review'] });
     },
     onError: () => {
-      toast.error('전송 실패 하였습니다.');
+      toast.error('리뷰가 작성에 실패하였습니다. 다시 작성해 주세요.');
     },
   });
 
@@ -145,7 +145,6 @@ export default function CreateReview({
       form.reset();
       setSelectedFiles([]);
       setIsOpen(false);
-      toast.success('리뷰가 작성 되었습니다');
     } catch (err) {
       console.error(err);
     }

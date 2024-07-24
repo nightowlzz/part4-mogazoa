@@ -109,7 +109,7 @@ function ProductCard({
         </p>
         <div className="flex flex-col md:flex-row gap-[15px] md:gap-[10px] lg:gap-5">
           <CreateReview
-            productId={productId}
+            productId={Number(productId)}
             categoryName={categoryName}
             categoryId={categoryId}
             name={name}

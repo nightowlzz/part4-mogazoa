@@ -9,12 +9,13 @@ import { useGetProductDetail } from '@/hooks/product';
 import { useParams } from 'next/navigation';
 import ReviewList from './_components/review/review-list';
 import { useGetMyInfo } from '@/hooks/user';
+import { useSession } from 'next-auth/react';
+import { useAuth } from '@/hooks/nextauth';
 import { useRouter } from 'next/navigation';
 
 export default function ProductPage() {
   const router = useRouter();
   const { productId } = useParams();
-
   const { data: productDetail, isLoading, error } = useGetProductDetail(Number(productId));
   const { data: currentUserId, isPending } = useGetMyInfo();
 
@@ -65,7 +66,13 @@ export default function ProductPage() {
           />
         </div>
       </div>
-      <ReviewList productId={productId} currentUserId={currentUserId.id} />
+      <ReviewList
+        productId={productId}
+        currentUserId={currentUserId.id}
+        categoryName={productDetail.category.name}
+        categoryId={productDetail.category.id}
+        productName={productDetail.name}
+      />
     </div>
   );
 }

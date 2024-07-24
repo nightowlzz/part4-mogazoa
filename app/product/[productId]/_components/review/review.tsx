@@ -11,10 +11,13 @@ import { toast } from 'sonner';
 interface ReviewProps extends ReviewResponse {
   currentUserId: number | undefined;
   reviewRef: LegacyRef<HTMLDivElement> | undefined;
+  categoryName: string;
+  productName: string;
+  categoryId: number;
 }
 
 export default function Review({
-  id,
+  id: reviewId,
   reviewImages,
   createdAt,
   content,
@@ -25,10 +28,14 @@ export default function Review({
   likeCount,
   currentUserId,
   reviewRef,
+  productId,
+  productName,
+  categoryId,
+  categoryName,
 }: ReviewProps) {
   const isMyReview = userId === currentUserId;
   const queryClient = useQueryClient();
-  const deleteReview = useDeleteReview(id, {
+  const deleteReview = useDeleteReview(reviewId, {
     onSuccess: () => {
       toast.success('리뷰가 삭제 되었습니다.');
     },
@@ -37,6 +44,7 @@ export default function Review({
     },
   });
 
+  // console.log('reviewImages', reviewId, '/', reviewImages);
   const handleDataFormat = () => {
     const date = new Date(createdAt);
     const formattedDate = date.toISOString().slice(0, 10);
@@ -56,6 +64,7 @@ export default function Review({
       <div className="w-full md:w-[160px]">
         <ReviewProfile user={user} rating={rating} />
       </div>
+      <div className="text-white">{reviewId}</div>
       <div className="flex-1">
         <p
           className="text-[#F1F1F5] text-sm md:text-base font-normal whitespace-pre mt-[10px]"
@@ -92,14 +101,6 @@ export default function Review({
                   variant="text"
                   size="auto"
                   className="text-gray-600 text-xs lg:text-sm font-light underline decoration-gray-600"
-                >
-                  수정
-                </Button>
-                <Button
-                  type="button"
-                  variant="text"
-                  size="auto"
-                  className="text-gray-600 text-xs lg:text-sm font-light underline decoration-gray-600"
                   onClick={handleDelete}
                   disabled={deleteReview.isPending}
                 >
@@ -108,7 +109,7 @@ export default function Review({
               </div>
             )}
           </div>
-          <Thumbs reviewId={id} isLiked={isLiked} likeCount={likeCount} />
+          <Thumbs reviewId={reviewId} isLiked={isLiked} likeCount={likeCount} />
         </div>
       </div>
     </div>
