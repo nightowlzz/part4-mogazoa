@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
+// 상품id, 상품명
 export interface CompareItem {
   id: number;
   name: string;

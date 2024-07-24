@@ -1,10 +1,10 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import Gnb from '../_styled-guide/_components/gnb';
-import ComparePageInput from '../_styled-guide/_components/compare-page-input';
-import CompareTableData from '../_styled-guide/_components/CompareTableData';
+import Gnb from '@/app/_styled-guide/_components/gnb';
+import CompareTableData from './components/compare-table-data';
 import useCompareStore from '@/store/compareStore';
+import ComparePageInput from './components/compare-page-input';
 
 function ComparePage() {
   const clearCompareItems = useCompareStore((state) => state.clearCompareItems);

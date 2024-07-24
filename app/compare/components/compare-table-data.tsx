@@ -2,16 +2,17 @@
 
 import { useGetProductDetail } from '@/hooks/product';
 import useCompareStore from '@/store/compareStore';
-import Loading from './loading';
-import CompareTable, { roundToOneDecimal } from './CompareTable';
+import Loading from '@/app/_styled-guide/_components/loading';
+import CompareTable, { roundToOneDecimal } from './compare-table';
 
 // 항목을 비교하는 함수
 const CompareTableData = () => {
   const { compareItems } = useCompareStore((state) => ({
     compareItems: state.compareItems,
   }));
-  const product1Detail = useGetProductDetail(compareItems[0].id);
-  const product2Detail = useGetProductDetail(compareItems[1].id);
+
+  const product1Detail = useGetProductDetail(compareItems[0]?.id || 0);
+  const product2Detail = useGetProductDetail(compareItems[1]?.id || 0);
 
   const product1 = product1Detail.data;
   const product2 = product2Detail.data;
