@@ -25,17 +25,12 @@ const SideBarSuspense = ({
   );
 };
 
-export default function SideBarList({
-  setCategory,
-}: {
-  setCategory?: Dispatch<SetStateAction<number | null>>;
-}) {
+export default function SideBarList() {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   const handleMainNav = ({ id, name }: { id: number; name: string }) => {
-    router.push(`/product?category=${name}`);
-    if (setCategory) setCategory(id);
+    router.push(`/product?category=${name}&categoryId=${id}`);
     queryClient.invalidateQueries({ queryKey: ['products', 'category'] });
   };
   return (

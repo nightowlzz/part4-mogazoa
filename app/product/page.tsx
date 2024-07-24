@@ -10,31 +10,38 @@ import RankingList from '../(public)/_components/ranking-list';
 import SideBarList from '../(public)/_components/side-bar-list';
 import SortSelector from '../_styled-guide/_components/sort-selector';
 
-const ProductTitle = ({ setKeyWord }: { setKeyWord: Dispatch<SetStateAction<string | null>> }) => {
+interface ProductSearchParamsProps {
+  setKeyWord: Dispatch<SetStateAction<string | null>>;
+  setCategoryId: Dispatch<SetStateAction<number | null>>;
+}
+
+const ProductSearchParams = ({ setKeyWord, setCategoryId }: ProductSearchParamsProps) => {
   const searchParams = useSearchParams();
-  const category = searchParams.get('category');
+  const categoryName = searchParams.get('category');
+  const categoryId = searchParams.get('categoryId');
   const keyword = searchParams.get('keyword');
-  const searchTerm = category ? category : keyword ? keyword : undefined;
+  const searchTerm = categoryName ? categoryName : keyword ? keyword : undefined;
 
   useEffect(() => {
     setKeyWord(keyword);
-  }, [keyword, setKeyWord]);
+    setCategoryId(Number(categoryId));
+  }, [, categoryId, keyword, setKeyWord, , setCategoryId]);
 
   return <h2 className="text-[22px] text-white font-bold">{searchTerm} 의 모든 상품</h2>;
 };
 
 export default function ProductPage() {
   const [sortOrder, setSortOrder] = useState<ReviewSortOrder>('recent');
-  const [category, setCategory] = useState<number | null>(null);
+  const [categoryId, setCategoryId] = useState<number | null>(null);
   const [keyword, setKeyWord] = useState<string | null>(null);
 
   return (
     <div className={cn(styled['main-wrap'], 'max-w-[1560px] m-auto')}>
-      <SideBarList setCategory={setCategory} />
+      <SideBarList />
       <main className={(cn(styled['main-contact']), 'py-[60px] w-full justify-self-center')}>
         <div className="flex items-center justify-between pb-[30px] ">
           <Suspense fallback={<h2>상품</h2>}>
-            <ProductTitle setKeyWord={setKeyWord} />
+            <ProductSearchParams setKeyWord={setKeyWord} setCategoryId={setCategoryId} />
           </Suspense>
           <SortSelector
             sort={sortOrder}
@@ -43,7 +50,7 @@ export default function ProductPage() {
           />
         </div>
         <ProductList
-          category={Number(category)}
+          category={Number(categoryId)}
           keyword={keyword ? keyword : undefined}
           order={sortOrder || 'recent'}
         />
