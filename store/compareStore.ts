@@ -7,9 +7,9 @@ export interface CompareItem {
 }
 
 interface CompareStoreState {
-  compareItems: CompareItem[];
+  compareItems: (CompareItem | undefined)[];
   addCompareItem: (item: CompareItem) => void;
-  deleteCompareItem: (item: number) => void;
+  deleteCompareItem: (index: number) => void;
   updateCompareItem: (index: number, item: CompareItem) => void;
   clearCompareItems: () => void;
 }
@@ -20,16 +20,20 @@ const useCompareStore = create(
       compareItems: [],
       addCompareItem: (item) =>
         set((state) => {
-          if (!state.compareItems.find(({ id }) => id === item.id)) {
+          if (!state.compareItems.includes(item)) {
             return { compareItems: [...state.compareItems, item] };
           }
           return state;
         }),
 
-      deleteCompareItem: (item) =>
-        set((state) => ({
-          compareItems: state.compareItems.filter((compareItem) => compareItem.id !== item),
-        })),
+      deleteCompareItem: (index) =>
+        set((state) => {
+          const newCompareItems = [...state.compareItems];
+          if (index >= 0 && index < newCompareItems.length) {
+            newCompareItems[index] = undefined; // 요소를 undefined로 설정하여 인덱스를 유지
+          }
+          return { compareItems: newCompareItems };
+        }),
       updateCompareItem: (index, item) =>
         set((state) => {
           const newCompareItems = [...state.compareItems];

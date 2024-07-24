@@ -52,7 +52,7 @@ function ProductCard({
     }
 
     // 현재 상품이 비교 목록에 이미 존재하는지 확인
-    const isItemAlreadyInCompare = compareItems.some((item) => item.id === Number(productId));
+    const isItemAlreadyInCompare = compareItems.some((item) => item?.id === Number(productId));
 
     if (compareItems.length === 0) {
       addCompareItem({ id: Number(productId), name });

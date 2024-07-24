@@ -55,12 +55,12 @@ export default function CompareProductReplacementModal({
         <div className="flex flex-col space-y-2 md:space-y-4 lg:space-y-5">
           {compareItems.map((item, index) => (
             <Button
-              key={item.id}
+              key={item?.id}
               variant="outline"
               className={selectedItem === index ? 'border-pink text-pink' : ''}
               onClick={() => handleSelectItem(index)}
             >
-              {item.name}
+              {item?.name}
             </Button>
           ))}
         </div>
