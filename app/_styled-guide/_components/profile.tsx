@@ -6,6 +6,7 @@ import Followers from '@/components/modal/followers';
 import Followees from '@/components/modal/followees';
 import { useFollowUser, useUnFollowUser } from '@/hooks/follow';
 import ProfileModal from '@/components/modal/profile';
+import { useState, useEffect } from 'react';
 
 interface UserProfileProps {
   id: number;
@@ -28,16 +29,43 @@ export default function Profile({
   isFollowing,
   isMyPage,
 }: UserProfileProps) {
-  const { mutate: followUser } = useFollowUser();
-  const { mutate: unFollowUser } = useUnFollowUser();
+  const [isFollow, setIsFollow] = useState(isFollowing);
+  const [followCount, setFollowCount] = useState(followersCount);
+
+  const { mutate: followUser, error: followError } = useFollowUser();
+  const { mutate: unFollowUser, error: unFollowError } = useUnFollowUser();
+
+  useEffect(() => {
+    setIsFollow(isFollowing);
+    setFollowCount(followersCount);
+  }, [isFollowing, followersCount]);
 
   const handleFollow = () => {
+    const prevState = { isFollow, followCount };
+    setIsFollow(true);
+    setFollowCount(followCount + 1);
+
     followUser({ userId: id });
+
+    if (followError) {
+      setIsFollow(prevState.isFollow);
+      setFollowCount(prevState.followCount);
+    }
   };
 
   const handleUnfollow = () => {
+    const prevState = { isFollow, followCount };
+    setIsFollow(false);
+    setFollowCount(followCount - 1);
+
     unFollowUser({ userId: id });
+
+    if (unFollowError) {
+      setIsFollow(prevState.isFollow);
+      setFollowCount(prevState.followCount);
+    }
   };
+
   return (
     <div className="w-[335px] md:w-[509px] lg:w-[340px] h-full px-5 py-[30px] md:px-[30px] lg:px-5 lg:py-10 flex flex-col items-center border-[#353542] rounded-lg bg-[#252530] gap-[30px] lg:gap-10">
       <Avatar className="w-[120px] h-[120px] lg:w-[180px] lg:h-[180px] rounded-full overflow-hidden">
@@ -56,7 +84,7 @@ export default function Profile({
       <div className="flex gap-[50px]">
         <div className="flex flex-col items-center gap-[10px]">
           <p className="text-[#F1F1F5] text-lg lg:text-xl font-semibold">
-            <Followers userId={id} userNickname={nickname} followersCount={followersCount} />
+            <Followers userId={id} userNickname={nickname} followersCount={followCount} />
           </p>
           <p className="text-[#9FA6B2] text-sm lg:text-base font-normal">팔로워</p>
         </div>
@@ -70,12 +98,12 @@ export default function Profile({
       </div>
       {isMyPage ? (
         <div className="w-full flex flex-col gap-[10px] md:gap-[15px] lg:gap-5">
-          <ProfileModal />
+          <ProfileModal nickname={nickname} description={description} image={image} />
           <Link href="/" className={cn(buttonVariants({ variant: 'outline' }))}>
             로그아웃
           </Link>
         </div>
-      ) : isFollowing ? (
+      ) : isFollow ? (
         <Button variant="outline" onClick={handleUnfollow}>
           팔로우 취소
         </Button>
