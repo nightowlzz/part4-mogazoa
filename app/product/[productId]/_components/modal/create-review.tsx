@@ -29,8 +29,8 @@ import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import ImageUpload from './components/imageUpload';
-import StarRating from './components/starRating';
+import StarRating from './components/star-rating';
+import ImageUpload from './components/image-upload';
 
 interface ReviewProps {
   children: React.ReactNode;
