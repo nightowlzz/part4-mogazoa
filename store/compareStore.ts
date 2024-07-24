@@ -9,7 +9,9 @@ export interface CompareItem {
 interface CompareStoreState {
   compareItems: CompareItem[];
   addCompareItem: (item: CompareItem) => void;
-  replaceCompareItem: (index: number, newItem: CompareItem) => void;
+  deleteCompareItem: (item: number) => void;
+  updateCompareItem: (index: number, item: CompareItem) => void;
+  clearCompareItems: () => void;
 }
 
 const useCompareStore = create(
@@ -23,12 +25,21 @@ const useCompareStore = create(
           }
           return state;
         }),
-      replaceCompareItem: (index, newItem) =>
+
+      deleteCompareItem: (item) =>
+        set((state) => ({
+          compareItems: state.compareItems.filter((compareItem) => compareItem.id !== item),
+        })),
+      updateCompareItem: (index, item) =>
         set((state) => {
           const newCompareItems = [...state.compareItems];
-          newCompareItems[index] = newItem;
+          newCompareItems[index] = item;
           return { compareItems: newCompareItems };
         }),
+      clearCompareItems: () =>
+        set(() => ({
+          compareItems: [],
+        })),
     }),
     {
       name: 'compare-storage',

@@ -27,15 +27,15 @@ export default function CompareProductReplacementModal({
   onOpenChange,
 }: CompareProductReplacementModalProps) {
   const [selectedItem, setSelectedItem] = useState<number | null>(null);
-  const { compareItems, replaceCompareItem } = useCompareStore();
+  const { compareItems, updateCompareItem } = useCompareStore();
 
   const handleSelectItem = (index: number) => {
     setSelectedItem(index);
   };
 
-  const handleReplaceItem = () => {
+  const handleUpdateItem = () => {
     if (selectedItem !== null) {
-      replaceCompareItem(selectedItem, { id: productId, name: productName });
+      updateCompareItem(selectedItem, { id: productId, name: productName });
       setSelectedItem(null);
       onOpenChange(false, true);
     }
@@ -56,7 +56,7 @@ export default function CompareProductReplacementModal({
           {compareItems.map((item, index) => (
             <Button
               key={item.id}
-              variant="outlineRed"
+              variant="outline"
               className={selectedItem === index ? 'border-pink text-pink' : ''}
               onClick={() => handleSelectItem(index)}
             >
@@ -66,7 +66,7 @@ export default function CompareProductReplacementModal({
         </div>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
-            <Button type="button" variant="default" onClick={handleReplaceItem}>
+            <Button type="button" variant="default" onClick={handleUpdateItem}>
               교체하기
             </Button>
           </DialogClose>

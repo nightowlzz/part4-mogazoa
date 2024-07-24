@@ -6,10 +6,15 @@ import useSearchSuggestions from '@/hooks/useSearchSuggestions';
 import DropdownList from './DropdownList';
 import useDropdown from '@/hooks/useDropdown';
 
+export interface ProductOption {
+  id: number;
+  name: string;
+}
+
 export interface SuggestiveSearchInputProps {
   keyword: string;
   setKeyword: (keyword: string) => void;
-  onSelect: (option: string) => void;
+  onSelect: (option: ProductOption) => void;
   onEnter?: (keyword: string) => void;
   placeholder?: string;
   boxClassName?: string;
@@ -66,7 +71,7 @@ const SuggestiveSearchInput = ({
           disabled={onDisabled}
         />
         <button onClick={() => inputRef.current?.focus()}>
-          {!isDropdownOpen && <IoMdArrowDropdown />}
+          {!isDropdownOpen && !onDisabled && <IoMdArrowDropdown />}
         </button>
       </div>
       {isDropdownOpen && (
