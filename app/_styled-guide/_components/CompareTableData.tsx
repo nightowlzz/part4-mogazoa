@@ -10,8 +10,8 @@ const CompareTableData = () => {
   const { compareItems } = useCompareStore((state) => ({
     compareItems: state.compareItems,
   }));
-  const product1Detail = useGetProductDetail(compareItems[0]);
-  const product2Detail = useGetProductDetail(compareItems[1]);
+  const product1Detail = useGetProductDetail(compareItems[0].id);
+  const product2Detail = useGetProductDetail(compareItems[1].id);
 
   const product1 = product1Detail.data;
   const product2 = product2Detail.data;
