@@ -28,6 +28,7 @@ import { ImFilePicture } from 'react-icons/im';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Input } from '../ui/input';
+import { useUpdateMyInfo } from '@/hooks/user';
 const FormSchema = z.object({
   nickname: z.string(),
   description: z.string(),
@@ -37,14 +38,23 @@ export default function Profile() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
+
+  const { mutate: updateMyInfo } = useUpdateMyInfo({
+    onSuccess: () => {
+      toast.success('프로필이 업데이트 되었습니다.');
+    },
+    onError: () => {
+      toast.error('프로필 업데이트에 실패했습니다.');
+    },
+  });
+
   function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast.success('전송 되었습니다.');
-    toast.error('전송 실패 하였습니다.');
+    updateMyInfo(data);
   }
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>프로필 모달</Button>
+        <Button>프로필 편집</Button>
       </DialogTrigger>
       <DialogContent className="max-w-[660px]">
         <DialogDescription className="hidden">profile form content</DialogDescription>
