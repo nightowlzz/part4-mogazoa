@@ -1,6 +1,6 @@
 'use client';
 import styled from '@/app/(public)/_styles/main.module.scss';
-import ContentEmpty from '@/components/content-empry';
+import ContentEmpty from '@/components/content-empty';
 import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 import { cn } from '@/lib/utils';
 import { ProductSortOrder, ReviewSortOrder } from '@/types/data';

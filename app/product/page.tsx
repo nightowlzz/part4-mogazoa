@@ -1,37 +1,41 @@
 'use client';
 import styled from '@/app/(public)/_styles/main.module.scss';
 import { PRODUCT_SORT_OPTIONS } from '@/constants/sortOrder';
-import { useGetCategories } from '@/hooks/category';
 import { cn } from '@/lib/utils';
 import { ReviewSortOrder } from '@/types/data';
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
-import MainNav from '../(public)/_components/main-nav';
+import { Dispatch, SetStateAction, Suspense, useEffect, useState } from 'react';
 import ProductList from '../(public)/_components/product-list';
 import RankingList from '../(public)/_components/ranking-list';
+import SideBarList from '../(public)/_components/side-bar-list';
 import SortSelector from '../_styled-guide/_components/sort-selector';
 
-export default function Home() {
+const ProductTitle = ({ setKeyWord }: { setKeyWord: Dispatch<SetStateAction<string | null>> }) => {
   const searchParams = useSearchParams();
   const category = searchParams.get('category');
   const keyword = searchParams.get('keyword');
-  const { data: getCategory } = useGetCategories();
+  const searchTerm = category ? category : keyword ? keyword : undefined;
+
+  useEffect(() => {
+    setKeyWord(keyword);
+  }, [keyword, setKeyWord]);
+
+  return <h2 className="text-[22px] text-white font-bold">{searchTerm} 의 모든 상품</h2>;
+};
+
+export default function ProductPage() {
   const [sortOrder, setSortOrder] = useState<ReviewSortOrder>('recent');
-  const searchTerm = category
-    ? getCategory?.find((data) => String(data.id) === String(category))?.name
-    : keyword
-      ? keyword
-      : undefined;
+  const [category, setCategory] = useState<number | null>(null);
+  const [keyword, setKeyWord] = useState<string | null>(null);
 
   return (
     <div className={cn(styled['main-wrap'], 'max-w-[1560px] m-auto')}>
-      <nav className={cn(styled['main-nav'], 'py-[45px] px-[20px] lg:px-[30px] hidden md:block')}>
-        <h2 className="font-sm lg:font-base text-white md:pb-5">카테고리</h2>
-        <MainNav nav={getCategory} category={category} />
-      </nav>
+      <SideBarList setCategory={setCategory} />
       <main className={(cn(styled['main-contact']), 'py-[60px] w-full justify-self-center')}>
         <div className="flex items-center justify-between pb-[30px] ">
-          <h2 className="text-[22px] text-white font-bold">{searchTerm} 의 모든 상품</h2>
+          <Suspense fallback={<h2>상품</h2>}>
+            <ProductTitle setKeyWord={setKeyWord} />
+          </Suspense>
           <SortSelector
             sort={sortOrder}
             setSortOrder={setSortOrder}
@@ -44,10 +48,7 @@ export default function Home() {
           order={sortOrder || 'recent'}
         />
       </main>
-      <aside className={cn(styled['main-ranking'], 'pt-[45px] lx:px-[30px] overflow-hidden')}>
-        <h2 className="font-sm lg:font-base text-white pb-5">리뷰어 랭킹</h2>
-        <RankingList />
-      </aside>
+      <RankingList />
     </div>
   );
 }
