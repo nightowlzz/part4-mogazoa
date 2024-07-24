@@ -6,17 +6,24 @@ import { ReactEventHandler } from 'react';
 interface TagProps {
   productName: string;
   onDelete?: ReactEventHandler;
+  index: number;
 }
 
 // 상품명을 받아서 무작위 색상 태그를 만들어줍니다. x버튼을 가지고 있습니다.
 // x버튼의 동작을 onDelete로 받습니다.
-function CompareTag({ productName = '상품명', onDelete }: TagProps) {
-  // 상품명으로 랜덤한 수 생성 (0~15 사이)
-  const index = Math.floor(stringToFraction(productName) * 16);
-
+function CompareTag({ productName = '상품명', onDelete, index = 0 }: TagProps) {
   // Tailwind CSS 클래스 이름 생성
-  const textColorClass = `text-tagColor-${index}`;
-  const bgColorClass = `bg-tagBgColor-${index}`;
+  let textColorClass = `text-tagColor-${index}`;
+  let bgColorClass = `bg-tagBgColor-${index}`;
+
+  if (index === 0) {
+    textColorClass = 'text-pink';
+    bgColorClass = 'bg-pinkBg';
+  }
+  if (index === 1) {
+    textColorClass = 'text-green';
+    bgColorClass = 'bg-greenBg';
+  }
 
   return (
     <div

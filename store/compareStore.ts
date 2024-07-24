@@ -3,6 +3,9 @@ import { create } from 'zustand';
 interface CompareStoreState {
   compareItems: number[];
   addCompareItem: (item: number) => void;
+  deleteCompareItem: (item: number) => void;
+  updateCompareItem: (index: number, item: number) => void;
+  clearCompareItems: () => void;
 }
 
 const useCompareStore = create<CompareStoreState>((set) => ({
@@ -15,6 +18,21 @@ const useCompareStore = create<CompareStoreState>((set) => ({
       }
       return state;
     }),
+
+  deleteCompareItem: (item) =>
+    set((state) => ({
+      compareItems: state.compareItems.filter((compareItem) => compareItem !== item),
+    })),
+  updateCompareItem: (index, item) =>
+    set((state) => {
+      const newCompareItems = [...state.compareItems];
+      newCompareItems[index] = item;
+      return { compareItems: newCompareItems };
+    }),
+  clearCompareItems: () =>
+    set(() => ({
+      compareItems: [],
+    })),
 }));
 
 export default useCompareStore;
