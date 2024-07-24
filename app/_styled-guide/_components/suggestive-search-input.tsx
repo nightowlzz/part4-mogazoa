@@ -3,7 +3,7 @@
 import React from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import useSearchSuggestions from '@/hooks/useSearchSuggestions';
-import DropdownList from './DropdownList';
+import DropdownList from './dropdown-list';
 import useDropdown from '@/hooks/useDropdown';
 
 export interface ProductOption {

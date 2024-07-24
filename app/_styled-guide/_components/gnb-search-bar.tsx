@@ -3,7 +3,7 @@
 import { IoSearch } from 'react-icons/io5';
 import React, { useState, useRef } from 'react';
 import useSearchSuggestions from '@/hooks/useSearchSuggestions';
-import DropdownList from './DropdownList';
+import DropdownList from './dropdown-list';
 import { useRouter } from 'next/navigation';
 import useDropdown from '@/hooks/useDropdown';
 import { ProductOption } from './suggestive-search-input';

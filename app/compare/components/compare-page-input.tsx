@@ -1,10 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import SuggestiveSearchInput, { ProductOption } from './suggestive-search-input';
 import CompareTag from '@/components/ui/tags/CompareTag';
 import { SET_PRODUCT } from '@/constants/messages';
 import useCompareStore from '@/store/compareStore';
+import SuggestiveSearchInput, {
+  ProductOption,
+} from '@/app/_styled-guide/_components/suggestive-search-input';
 
 interface ComparePageInputProps {
   index: number;
