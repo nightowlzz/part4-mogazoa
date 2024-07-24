@@ -31,10 +31,10 @@ import { z } from 'zod';
 import { Input } from '@/components/ui/input';
 
 const FormSchema = z.object({
-  name: z.string(),
-  category: z.string(),
+  name: z.string().min(1, '상품명을 입력해 주세요'),
+  category: z.string().min(1, '카테고리를 선택해 주세요'),
   desc: z.string().max(300, '상품 설명은 최대 300자까지 입력 가능합니다.'),
-  image: z.string(),
+  image: z.string().min(1, '이미지를 업로드해 주세요'),
 });
 
 interface AddProductModalProps {
