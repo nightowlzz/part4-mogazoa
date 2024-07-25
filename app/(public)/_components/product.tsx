@@ -9,7 +9,7 @@ import { FaStar } from 'react-icons/fa';
 export function Product({ id, name, image, rating, reviewCount, favoriteCount }: ProductResponse) {
   return (
     <Link
-      href={`product/${id}`}
+      href={`/product/${id}`}
       className="relative flex flex-col bg-black-500 rounded-lg md:rounded-xl border border-black-400 p-[10px]lg:p-2 w-full min-h-[180px] py-[48%] md:py-[50%] overflow-hidden"
     >
       <figure className="absolute inset-y-0 w-full">

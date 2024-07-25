@@ -8,20 +8,31 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
-function SideBarSuspense() {
-  const searchParams = useSearchParams();
-  const category = searchParams.get('category');
-  const { data: categorys } = useGetCategories();
-  return <>{categorys && categorys.map((cate, i) => <SideBarButton key={cate.id} {...cate} />)}</>;
+interface SideBarProps extends CategoryResponse {
+  categoryId: number | null;
 }
 
-function SideBarButton({ id, name }: CategoryResponse) {
+function SideBarSuspense() {
+  const searchParams = useSearchParams();
+  const categoryId = searchParams.get('categoryId');
+  const { data: categorys } = useGetCategories();
+  return (
+    <>
+      {categorys &&
+        categorys.map((cate, i) => (
+          <SideBarButton key={cate.id} {...cate} categoryId={Number(categoryId)} />
+        ))}
+    </>
+  );
+}
+
+function SideBarButton({ id, name, categoryId }: SideBarProps) {
   return (
     <Link
       href={`/product?category=${name}&categoryId=${id}`}
       className={cn(
         buttonVariants({ variant: 'nav', size: 'sm' }),
-        `${false ? 'border-[#353542] bg-[#252530] text-white' : ''}`,
+        `${categoryId === id ? 'border-[#353542] bg-[#252530] text-white' : ''}`,
       )}
     >
       {name}

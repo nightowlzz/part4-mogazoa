@@ -1,5 +1,4 @@
 'use client';
-
 import styled from '@/app/(public)/_styles/main.module.scss';
 import { useGetUserRanking } from '@/hooks/user';
 import { cn } from '@/lib/utils';
@@ -49,7 +48,9 @@ export default function RankingList() {
         {!isMobile ? (
           <ul className="xl:space-y-7 overflow-x-auto">
             {userRanking.slice(0, 5).map((user, i) => (
-              <Ranking key={user.id} {...user} i={i} />
+              <li key={user.id}>
+                <Ranking {...user} i={i} />
+              </li>
             ))}
           </ul>
         ) : (
