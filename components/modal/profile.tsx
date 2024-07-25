@@ -1,4 +1,3 @@
-'use client';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,11 +10,9 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { IoCloseSharp } from 'react-icons/io5';
-
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -29,30 +26,93 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import { Input } from '../ui/input';
 import { useUpdateMyInfo } from '@/hooks/user';
+import { useUploadImage } from '@/hooks/image';
+import { useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+
 const FormSchema = z.object({
-  nickname: z.string(),
+  nickname: z.string().min(1, { message: '이름은 필수 입력입니다.' }),
   description: z.string(),
-  image: z.string(),
+  image: z.string().nullable(),
 });
-export default function Profile() {
+
+export interface MyInfoData {
+  nickname: string;
+  description: string;
+  image: string | null;
+}
+
+interface ProfileModalProps {
+  nickname: string;
+  description: string;
+  image: string | null;
+  onUpdate: (data: MyInfoData) => void;
+}
+
+export default function ProfileModal({
+  nickname,
+  description,
+  image,
+  onUpdate,
+}: ProfileModalProps) {
+  const [descLength, setDescLength] = useState(description.length);
+  const [isSaving, setIsSaving] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string>('');
+  const [isOpen, setIsOpen] = useState(false);
+
+  const queryClient = useQueryClient();
+
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
+    defaultValues: { description, nickname, image },
+    mode: 'onBlur',
   });
 
-  const { mutate: updateMyInfo } = useUpdateMyInfo({
-    onSuccess: () => {
-      toast.success('프로필이 업데이트 되었습니다.');
-    },
-    onError: () => {
-      toast.error('프로필 업데이트에 실패했습니다.');
-    },
-  });
+  const uploadImageMutation = useUploadImage();
+  const updateMyInfo = useUpdateMyInfo();
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    updateMyInfo(data);
-  }
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      try {
+        const formData = new FormData();
+        formData.append('image', file);
+        const response = await uploadImageMutation.mutateAsync(formData);
+        setImageUrl(response.url);
+        form.setValue('image', response.url);
+      } catch (error) {
+        toast.error('이미지 업로드 중 오류가 발생했습니다.');
+      }
+    }
+  };
+
+  const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
+    try {
+      setIsSaving(true);
+      const { description, nickname, image } = formData;
+      const updatedData = {
+        description,
+        nickname,
+        image: image ?? undefined,
+      };
+      await updateMyInfo.mutateAsync(updatedData);
+
+      await queryClient.invalidateQueries({ queryKey: ['myInfo'] });
+
+      setIsOpen(false);
+
+      toast.success('프로필이 성공적으로 업데이트되었습니다.');
+
+      onUpdate({ ...updatedData, image: updatedData.image ?? null });
+    } catch (error) {
+      toast.error('프로필 업데이트 중 오류가 발생했습니다.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button>프로필 편집</Button>
       </DialogTrigger>
@@ -72,13 +132,19 @@ export default function Profile() {
                   <div className="relative flex h-[140px] md:h-[135px] lg:h-[160px] w-[140px] md:w-[135px] lg:w-[160px]">
                     <FormControl>
                       <>
-                        <Input id="profilePicture" type="file" multiple accept="image/*" />
+                        <Input
+                          id="profilePicture"
+                          type="file"
+                          multiple
+                          accept="image/*"
+                          onChange={handleImageChange}
+                        />
                         {/* label bg로 image 보이게*/}
                         <FormLabel
                           htmlFor="profilePicture"
                           variant="file"
                           style={{
-                            backgroundImage: "url('')",
+                            backgroundImage: imageUrl ? `url(${imageUrl})` : `url(${field.value})`,
                           }}
                         >
                           {/* 삭제버튼 */}
@@ -110,7 +176,7 @@ export default function Profile() {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input type="text" placeholder="닉네임을 입력해 주세요" />
+                    <Input {...field} placeholder="닉네임을 입력해 주세요" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -123,12 +189,20 @@ export default function Profile() {
                 <FormItem className="relative">
                   <FormControl>
                     <Textarea
-                      placeholder="상품 설명을 입력해 주세요"
+                      {...field}
+                      placeholder="프로필 설명을 입력해 주세요"
                       className="h-[120px] smd:h-[160px]"
+                      maxLength={500}
+                      onChange={(e) => {
+                        if (e.target.value.length <= 500) {
+                          field.onChange(e);
+                          setDescLength(e.target.value.length);
+                        }
+                      }}
                     />
                   </FormControl>
                   <span className="absolute bottom-5 right-5 text-sm text-gray-600 px-1 bg-black-450">
-                    2/300
+                    {descLength}/500
                   </span>
                   <FormMessage />
                 </FormItem>
@@ -138,8 +212,13 @@ export default function Profile() {
         </Form>
         <DialogFooter className="sm:justify-start">
           <DialogClose asChild>
-            <Button type="button" variant="default" onClick={form.handleSubmit(onSubmit)}>
-              저장하기
+            <Button
+              type="button"
+              variant="default"
+              onClick={form.handleSubmit(onSubmit)}
+              disabled={!form.formState.isValid || isSaving}
+            >
+              {isSaving ? '저장 중..' : '저장하기'}
             </Button>
           </DialogClose>
         </DialogFooter>

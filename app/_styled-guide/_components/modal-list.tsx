@@ -11,7 +11,6 @@ export default function ModalList() {
       <Confirm />
       <Review />
       <Product />
-      <Profile />
     </div>
   );
 }
