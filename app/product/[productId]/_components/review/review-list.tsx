@@ -1,9 +1,8 @@
 'use client';
 import SortSelector from '@/app/_styled-guide/_components/sort-selector';
 import { useInfinityScroll } from '@/hooks/useInfinityScroll';
-import { useGetMyInfo } from '@/hooks/user';
 import { ReviewResponse, ReviewSortOrder } from '@/types/data';
-import { useDeferredValue, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Review from './review';
 
 interface reviewInfoProps {

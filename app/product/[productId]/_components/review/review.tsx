@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { LegacyRef } from 'react';
 import Thumbs from './thumbs';
 import { toast } from 'sonner';
+import EditReview from '../modal/edit-review';
 
 interface ReviewProps extends ReviewResponse {
   currentUserId: number | undefined;
@@ -96,6 +97,26 @@ export default function Review({
             <p className="text-gray-600 text-xs lg:text-sm font-normal">{handleDataFormat()}</p>
             {isMyReview && (
               <div className="flex gap-[10px]">
+                <EditReview
+                  reviewId={reviewId}
+                  productId={Number(productId)}
+                  categoryName={categoryName}
+                  categoryId={categoryId}
+                  productName={productName}
+                  reviewImages={reviewImages}
+                  content={content}
+                  rating={rating}
+                >
+                  <Button
+                    type="button"
+                    variant="text"
+                    size="auto"
+                    className="text-gray-600 text-xs lg:text-sm font-light underline decoration-gray-600"
+                  >
+                    수정
+                  </Button>
+                </EditReview>
+
                 <Button
                   type="button"
                   variant="text"
