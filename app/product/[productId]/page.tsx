@@ -6,18 +6,15 @@ import { StatisticFavorite } from '@/app/_styled-guide/_components/statistics-fa
 import { StatisticRating } from '@/app/_styled-guide/_components/statistics-rating';
 import { StatisticReview } from '@/app/_styled-guide/_components/statistics-review';
 import { useGetProductDetail } from '@/hooks/product';
-import { useParams } from 'next/navigation';
-import ReviewList from './_components/review/review-list';
 import { useGetMyInfo } from '@/hooks/user';
-import { useSession } from 'next-auth/react';
-import { useAuth } from '@/hooks/nextauth';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import ReviewList from './_components/review/review-list';
 
 export default function ProductPage() {
   const router = useRouter();
   const { productId } = useParams();
   const { data: productDetail, isLoading, error } = useGetProductDetail(Number(productId));
-  const { data: currentUserId, isPending } = useGetMyInfo();
+  const { data: currentUserId } = useGetMyInfo();
 
   if (isLoading) {
     return <div>Loading...</div>;

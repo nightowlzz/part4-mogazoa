@@ -25,12 +25,12 @@ import { PostReviewRequest } from '@/types/data';
 import { limitText, limitTextLength } from '@/utils/textLimitUtils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import StarRating from './components/star-rating';
 import ImageUpload from './components/image-upload';
+import StarRating from './components/star-rating';
 
 interface ReviewProps {
   children: React.ReactNode;
@@ -95,18 +95,21 @@ export default function CreateReview({
       );
     }
 
-    const files: File[] = Array.from(nowFile).slice(0, MAX_REVIEW_IMAGES_LENGTH - prevFileLength);
-    const views: string[] = files.map((_, i) => URL.createObjectURL(files[i]));
-    form.setValue('images', [...prevFile, ...views]);
-    setSelectedFiles((prev) => (prev ? [...prev, ...files] : files));
+    const InputFiles: File[] = Array.from(nowFile).slice(
+      0,
+      MAX_REVIEW_IMAGES_LENGTH - prevFileLength,
+    );
+    const ScreenViews: string[] = InputFiles.map((_, i) => URL.createObjectURL(InputFiles[i]));
+    form.setValue('images', [...prevFile, ...ScreenViews]);
+    setSelectedFiles((prev) => (prev ? [...prev, ...InputFiles] : InputFiles));
   };
 
   // 멀티이미지 삭제
-  const handleImageDelete = (index: number) => {
-    const files = selectedFiles.filter((_, i) => i !== index);
-    const views = form.getValues('images').filter((_, i) => i !== index);
-    form.setValue('images', views);
-    setSelectedFiles(files);
+  const handleImageDelete = ({ index }: { index: string }) => {
+    const InputFiles = selectedFiles.filter((_, i) => String(i) !== index);
+    const ScreenViews = form.getValues('images').filter((_, i) => String(i) !== index);
+    form.setValue('images', ScreenViews);
+    setSelectedFiles(InputFiles);
   };
 
   // image api
@@ -119,7 +122,6 @@ export default function CreateReview({
 
       try {
         const res = await uploadImage.mutateAsync(formData);
-        console.log('res', res.url);
         uploadedUrls.push(res.url);
       } catch (err) {
         console.error(err);
@@ -149,6 +151,10 @@ export default function CreateReview({
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    form.reset();
+  }, [form, isOpen]);
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>

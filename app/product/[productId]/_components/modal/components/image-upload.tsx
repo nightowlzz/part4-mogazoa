@@ -15,15 +15,21 @@ import { MAX_REVIEW_IMAGES_LENGTH } from '@/constants/limit';
 interface ImageUploadProps {
   preview: string[] | { id?: number | undefined; source?: string | undefined }[];
   handlerImageFiles: (e: ChangeEvent<HTMLInputElement>) => void;
-  handleImageDelete: (index: number) => void;
+  handleImageDelete: ({ index, imageUrl }: { index: string; imageUrl?: string }) => void;
 }
 
-const getImageId = (img: string | { id?: number; source?: string }, index: number) => {
-  return typeof img === 'string' ? index : img.id || index;
+const imageKey = (img: string | { id?: number; source?: string }) => {
+  return typeof img === 'string' ? img : img.id ? img.id : img.source;
 };
 
-const getImageSource = (img: string | { id?: number; source?: string }) => {
-  return typeof img === 'string' ? img : img.source || '';
+const imageSource = (img: string | { id?: number; source?: string }) => {
+  return typeof img === 'string' ? img : img.source;
+};
+
+const deletePayload = (img: string | { id?: number; source?: string }, index: number) => {
+  return typeof img === 'string'
+    ? { index: `${index}`, imageUrl: undefined }
+    : { index: `${index}`, imageUrl: img.source };
 };
 
 export default function ImageUpload({
@@ -31,6 +37,7 @@ export default function ImageUpload({
   handlerImageFiles,
   handleImageDelete,
 }: ImageUploadProps) {
+  console.log('previewpreviewpreview', preview);
   return (
     <Swiper
       slidesPerView={'auto'}
@@ -46,7 +53,7 @@ export default function ImageUpload({
               id="reviewPicture"
               type="file"
               multiple
-              accept="image/*"
+              accept=".jpg, .jpeg, .png"
               onChange={handlerImageFiles}
             />
 
@@ -59,20 +66,20 @@ export default function ImageUpload({
         </SwiperSlide>
       )}
       {preview.map((img, i) => (
-        <SwiperSlide key={getImageId(img, i)} className="max-w-[140px] md:max-w-[160px]">
+        <SwiperSlide key={imageKey(img)} className="max-w-[140px] md:max-w-[160px]">
           <li className="relative flex items-center justify-center  h-[140px] md:h-[160px]">
             <FormLabel
               htmlFor="reviewPicture"
               variant="file"
               className="z-[1]"
-              style={{ backgroundImage: `url(${getImageSource(img)})` }}
+              style={{ backgroundImage: `url(${imageSource(img)})` }}
             />
             <Button
               asChild
               variant="iconBg"
               size="auto"
               className="absolute right-1 top-1 flex items-center justify-center h-7 w-7 rounded-lg p-1 z-[2]"
-              onClick={() => handleImageDelete(getImageId(img, i))}
+              onClick={() => handleImageDelete(deletePayload(img, i))}
             >
               <IoCloseSharp className="text-white" size={18} />
             </Button>
@@ -82,3 +89,4 @@ export default function ImageUpload({
     </Swiper>
   );
 }
+// getImageId(img, i)

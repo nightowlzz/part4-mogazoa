@@ -25,7 +25,7 @@ import { UpdateReviewRequest } from '@/types/data';
 import { limitText, limitTextLength } from '@/utils/textLimitUtils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -82,6 +82,14 @@ export default function EditReview({
     },
   });
 
+  useEffect(() => {
+    form.reset({
+      rating: rating,
+      content: content,
+      images: reviewImages ? reviewImages : [],
+    });
+  }, [rating, content, reviewImages, form, isOpen]);
+
   const uploadImage = useUploadImage();
   const reviewMutation = useUpdateReview(reviewId, {
     onSuccess: () => {
@@ -111,34 +119,31 @@ export default function EditReview({
       );
     }
 
-    const files: File[] = Array.from(nowFile).slice(0, MAX_REVIEW_IMAGES_LENGTH - prevFileLength);
-    const views: { id?: number; source: string }[] = files.map((_, i) => ({
-      source: URL.createObjectURL(files[i]),
+    const InputFiles: File[] = Array.from(nowFile).slice(
+      0,
+      MAX_REVIEW_IMAGES_LENGTH - prevFileLength,
+    );
+    const ScreenViews: { id?: number; source: string }[] = InputFiles.map((_, i) => ({
+      source: URL.createObjectURL(InputFiles[i]),
     }));
-    form.setValue('images', [...prevFile, ...views]);
-    setSelectedFiles((prev) => (prev ? [...prev, ...files] : files));
+    form.setValue('images', [...prevFile, ...ScreenViews]);
+    setSelectedFiles((prev) => (prev ? [...prev, ...InputFiles] : InputFiles));
   };
 
   // 이미지 삭제 핸들러
-  const handleImageDelete = (id: number) => {
-    console.log('id', id);
-
+  const handleImageDelete = ({ index, imageUrl }: { index: string; imageUrl?: string }) => {
     const currentImages = form.getValues('images');
-    const updatedImages = currentImages.filter((img) => img.id !== id);
-
-    const updatedFiles = selectedFiles.filter((file, index) => {
-      const image = currentImages[index];
-      return image.id !== id;
+    const ScreenViews = currentImages.filter((img) => img.source !== imageUrl);
+    form.setValue('images', ScreenViews);
+    setSelectedFiles((prev) => {
+      console.log('handleImageDelete', prev);
+      return prev.filter((_, i) => i !== Number(index));
     });
-
-    form.setValue('images', updatedImages);
-    setSelectedFiles(updatedFiles);
   };
 
   // 선택된 이미지를 업로드하는 함수
   const uploadSelectedImages = async () => {
     const uploadedUrls: { id?: number; source: string }[] = [];
-
     for (const file of selectedFiles) {
       const formData = new FormData();
       formData.append('image', file);
@@ -157,8 +162,6 @@ export default function EditReview({
   const onSubmit = async (data: z.infer<typeof FormSchema>) => {
     const uploadedUrls = await uploadSelectedImages();
     const existingImages = data.images.filter((img) => img.id).map((img) => ({ id: img.id }));
-    console.log('idList', existingImages);
-    console.log('uploadedUrls', uploadedUrls);
 
     let finalImages = [...existingImages, ...uploadedUrls];
 
@@ -167,6 +170,7 @@ export default function EditReview({
       content: data.content,
       rating: data.rating,
     };
+    console.log('resultresult', result);
 
     try {
       reviewMutation.mutate(result);

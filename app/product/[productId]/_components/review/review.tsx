@@ -5,9 +5,9 @@ import { ReviewResponse } from '@/types/data';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { LegacyRef } from 'react';
-import Thumbs from './thumbs';
 import { toast } from 'sonner';
 import EditReview from '../modal/edit-review';
+import Thumbs from './thumbs';
 
 interface ReviewProps extends ReviewResponse {
   currentUserId: number | undefined;
@@ -45,7 +45,6 @@ export default function Review({
     },
   });
 
-  // console.log('reviewImages', reviewId, '/', reviewImages);
   const handleDataFormat = () => {
     const date = new Date(createdAt);
     const formattedDate = date.toISOString().slice(0, 10);
@@ -65,7 +64,6 @@ export default function Review({
       <div className="w-full md:w-[160px]">
         <ReviewProfile user={user} rating={rating} />
       </div>
-      <div className="text-white">{reviewId}</div>
       <div className="flex-1">
         <p
           className="text-[#F1F1F5] text-sm md:text-base font-normal whitespace-pre mt-[10px]"
