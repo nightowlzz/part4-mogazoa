@@ -1,22 +1,41 @@
 'use client';
-import { Button } from '@/components/ui/button';
+import styled from '@/app/(public)/_styles/main.module.scss';
+import { buttonVariants } from '@/components/ui/button';
+import { useGetCategories } from '@/hooks/category';
+import { cn } from '@/lib/utils';
 import { CategoryResponse } from '@/types/data';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
-interface SideBarProps extends CategoryResponse {
-  category: string | null;
-  handleMainNav: ({ id, name }: { id: number; name: string }) => void;
+function SideBarSuspense() {
+  const searchParams = useSearchParams();
+  const category = searchParams.get('category');
+  const { data: categorys } = useGetCategories();
+  return <>{categorys && categorys.map((cate, i) => <SideBarButton key={cate.id} {...cate} />)}</>;
 }
 
-export default function SideBar({ id, name, category, handleMainNav }: SideBarProps) {
+function SideBarButton({ id, name }: CategoryResponse) {
   return (
-    <Button
-      key={id}
-      variant="nav"
-      size="sm"
-      className={String(category) === String(id) ? 'border-[#353542] bg-[#252530] text-white' : ''}
-      onClick={() => handleMainNav({ id, name })}
+    <Link
+      href={`/product?category=${name}&categoryId=${id}`}
+      className={cn(
+        buttonVariants({ variant: 'nav', size: 'sm' }),
+        `${false ? 'border-[#353542] bg-[#252530] text-white' : ''}`,
+      )}
     >
       {name}
-    </Button>
+    </Link>
+  );
+}
+
+export default function SideBar() {
+  return (
+    <nav className={cn(styled['main-nav'], 'py-[45px] px-[20px] lg:px-[30px] hidden md:block')}>
+      <h2 className="font-sm lg:font-base text-white md:pb-5">카테고리</h2>
+      <Suspense fallback={<div></div>}>
+        <SideBarSuspense />
+      </Suspense>
+    </nav>
   );
 }

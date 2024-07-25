@@ -7,8 +7,8 @@ import { useSearchParams } from 'next/navigation';
 import { Dispatch, SetStateAction, Suspense, useEffect, useState } from 'react';
 import ProductList from '../(public)/_components/product-list';
 import RankingList from '../(public)/_components/ranking-list';
-import SideBarList from '../(public)/_components/side-bar-list';
 import SortSelector from '../_styled-guide/_components/sort-selector';
+import SideBar from '../(public)/_components/side-bar';
 
 interface ProductSearchParamsProps {
   setKeyWord: Dispatch<SetStateAction<string | null>>;
@@ -37,7 +37,7 @@ export default function ProductPage() {
 
   return (
     <div className={cn(styled['main-wrap'], 'max-w-[1560px] m-auto')}>
-      <SideBarList />
+      <SideBar />
       <main className={(cn(styled['main-contact']), 'py-[60px] w-full justify-self-center')}>
         <div className="flex items-center justify-between pb-[30px] ">
           <Suspense fallback={<h2>상품</h2>}>
