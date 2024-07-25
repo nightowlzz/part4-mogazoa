@@ -21,9 +21,9 @@ interface UserProfileProps {
 
 export default function Profile({
   id,
-  image,
-  nickname,
-  description,
+  image: initialImage,
+  nickname: initialNickname,
+  description: initialDescription,
   followeesCount,
   followersCount,
   isFollowing,
@@ -31,6 +31,9 @@ export default function Profile({
 }: UserProfileProps) {
   const [isFollow, setIsFollow] = useState(isFollowing);
   const [followCount, setFollowCount] = useState(followersCount);
+  const [image, setImage] = useState(initialImage);
+  const [nickname, setNickname] = useState(initialNickname);
+  const [description, setDescription] = useState(initialDescription);
 
   const { mutate: followUser, error: followError } = useFollowUser();
   const { mutate: unFollowUser, error: unFollowError } = useUnFollowUser();
@@ -66,6 +69,16 @@ export default function Profile({
     }
   };
 
+  const handleProfileUpdate = (updatedData: {
+    nickname: string;
+    description: string;
+    image: string | null;
+  }) => {
+    setNickname(updatedData.nickname);
+    setDescription(updatedData.description);
+    setImage(updatedData.image);
+  };
+
   return (
     <div className="w-[335px] md:w-[509px] lg:w-[340px] h-full px-5 py-[30px] md:px-[30px] lg:px-5 lg:py-10 flex flex-col items-center border-[#353542] rounded-lg bg-[#252530] gap-[30px] lg:gap-10">
       <Avatar className="w-[120px] h-[120px] lg:w-[180px] lg:h-[180px] rounded-full overflow-hidden">
@@ -98,7 +111,12 @@ export default function Profile({
       </div>
       {isMyPage ? (
         <div className="w-full flex flex-col gap-[10px] md:gap-[15px] lg:gap-5">
-          <ProfileModal nickname={nickname} description={description} image={image} />
+          <ProfileModal
+            nickname={nickname}
+            description={description}
+            image={image}
+            onUpdate={handleProfileUpdate}
+          />
           <Link href="/" className={cn(buttonVariants({ variant: 'outline' }))}>
             로그아웃
           </Link>

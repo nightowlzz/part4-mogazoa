@@ -1,4 +1,3 @@
-'use client';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -11,11 +10,9 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import { IoCloseSharp } from 'react-icons/io5';
-
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -35,7 +32,7 @@ import { useQueryClient } from '@tanstack/react-query';
 
 const FormSchema = z.object({
   nickname: z.string().min(1, { message: '이름은 필수 입력입니다.' }),
-  description: z.string().min(10, { message: '최소 10자 이상 적어주세요.' }),
+  description: z.string(),
   image: z.string().nullable(),
 });
 
@@ -45,7 +42,19 @@ export interface MyInfoData {
   image: string | null;
 }
 
-export default function Profile({ nickname, description, image }: MyInfoData) {
+interface ProfileModalProps {
+  nickname: string;
+  description: string;
+  image: string | null;
+  onUpdate: (data: MyInfoData) => void;
+}
+
+export default function ProfileModal({
+  nickname,
+  description,
+  image,
+  onUpdate,
+}: ProfileModalProps) {
   const [descLength, setDescLength] = useState(description.length);
   const [isSaving, setIsSaving] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>('');
@@ -84,7 +93,7 @@ export default function Profile({ nickname, description, image }: MyInfoData) {
       const updatedData = {
         description,
         nickname,
-        image,
+        image: image ?? undefined,
       };
       await updateMyInfo.mutateAsync(updatedData);
 
@@ -93,6 +102,8 @@ export default function Profile({ nickname, description, image }: MyInfoData) {
       setIsOpen(false);
 
       toast.success('프로필이 성공적으로 업데이트되었습니다.');
+
+      onUpdate({ ...updatedData, image: updatedData.image ?? null });
     } catch (error) {
       toast.error('프로필 업데이트 중 오류가 발생했습니다.');
     } finally {
@@ -135,7 +146,23 @@ export default function Profile({ nickname, description, image }: MyInfoData) {
                           style={{
                             backgroundImage: imageUrl ? `url(${imageUrl})` : `url(${field.value})`,
                           }}
-                        ></FormLabel>
+                        >
+                          {/* 삭제버튼 */}
+                          {false ? (
+                            <Button
+                              asChild
+                              variant="iconBg"
+                              size="auto"
+                              className="absolute right-1 top-1 flex items-center justify-center h-7 w-7 rounded-lg p-1"
+                            >
+                              <IoCloseSharp className="text-white" size={18} />
+                            </Button>
+                          ) : (
+                            <span>
+                              <ImFilePicture className="text-gray-600" size={34} />
+                            </span>
+                          )}
+                        </FormLabel>
                       </>
                     </FormControl>
                   </div>
