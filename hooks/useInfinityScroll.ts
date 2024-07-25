@@ -1,9 +1,9 @@
 import {
-  FolloweesResponse,
   FolloweesList,
+  FolloweesResponse,
+  FollowersList,
   FollowersResponse,
   ProductResponse,
-  FollowersList,
   ProductsListResponse,
   ReviewListResponse,
   ReviewResponse,
@@ -24,23 +24,79 @@ type queryListResponse = ReviewListResponse &
   FolloweesResponse;
 
 interface useInfinityScrollProps {
-  productId: string | string[];
-  queryKey: 'review' | 'product' | 'followers' | 'followed';
-  queryFnUrl: string;
-  sortOrder: string;
+  queryKey: 'review' | 'products' | 'followers' | 'followees';
+  order?: string;
+  productId?: string | string[];
   threshold?: ZeroToOne;
+  keyword?: string;
+  category?: number;
+  userId?: number;
+}
+
+interface QueryParams {
+  order?: string;
+  userId?: number;
+  category?: number;
+  keyword?: string;
+  pageParam?: unknown;
 }
 
 export const useInfinityScroll = ({
-  productId,
   queryKey,
-  queryFnUrl,
-  sortOrder,
+  productId,
   threshold = 0.3,
+  order,
+  keyword,
+  category,
+  userId,
 }: useInfinityScrollProps) => {
   const { ref, inView } = useInView({
     threshold: threshold,
   });
+
+  const buildApiUrl = (queryKey: string) => {
+    switch (queryKey) {
+      case 'review':
+        return `/products/${productId}/reviews`;
+      case 'products':
+        return `/products`;
+      case 'followers':
+        return `/users/${userId}/followers`;
+      case 'followees':
+        return `/users/${userId}/followees`;
+    }
+  };
+
+  const buildQueryString = ({ order, keyword, category, pageParam }: QueryParams) => {
+    const queryParams: QueryParams = {};
+
+    if (order) {
+      console.log('sortOrder');
+      queryParams.order = order;
+    }
+
+    if (keyword) {
+      console.log('keyword');
+      queryParams.keyword = keyword;
+    }
+
+    if (category) {
+      console.log('category');
+      queryParams.category = category;
+    }
+
+    if (pageParam) {
+      console.log('pageParam');
+      queryParams.pageParam = pageParam;
+    }
+
+    const queryString = Object.entries(queryParams)
+      .map(([key, value]) => `${key}=${value}`)
+      .join('&');
+
+    return queryString ? `?${queryString}` : '';
+  };
+
   const {
     data: getData,
     isPending,
@@ -48,10 +104,12 @@ export const useInfinityScroll = ({
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery<queryListResponse>({
-    queryKey: [queryKey, { productId, sortOrder }],
+    queryKey: [queryKey, { productId, order, keyword, category, userId }],
     queryFn: async ({ pageParam = null }) => {
       try {
-        const res = await instance.get(`${queryFnUrl}?order=${sortOrder}&cursor=${pageParam}`);
+        const res = await instance.get(
+          `${buildApiUrl(queryKey)}${buildQueryString({ order, keyword, category, pageParam })}`,
+        );
         if (!res) return;
         return res.data;
       } catch (err: any) {
