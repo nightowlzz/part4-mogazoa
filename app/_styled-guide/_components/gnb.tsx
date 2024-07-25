@@ -26,8 +26,9 @@ function Gnb({ isLogin = true }: GnbProps) {
     }
   }, [isMobileSearchOpen]);
 
+  // mb-[70px] md:mb-20 lg:mb-[100px]
   return (
-    <div className="mb-[70px] md:mb-20 lg:mb-[100px]">
+    <div className="">
       {/* 태블릿 이상일 시 디자인 */}
       <div className="hidden md:block">
         <div className="flex justify-between items-center w-full md:h-20 lg:h-[100px] md:px-[30px] lg:px-[120px] fixed inset-x-0 top-0 bg-black-600 z-50">

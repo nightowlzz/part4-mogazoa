@@ -1,11 +1,11 @@
 'use client';
 
-import { IoSearch } from 'react-icons/io5';
-import React, { useState, useRef, useEffect } from 'react';
-import useSearchSuggestions from '@/hooks/useSearchSuggestions';
-import DropdownList from './DropdownList';
-import { useRouter } from 'next/navigation';
 import useDropdown from '@/hooks/useDropdown';
+import useSearchSuggestions from '@/hooks/useSearchSuggestions';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useRef, useState } from 'react';
+import { IoSearch } from 'react-icons/io5';
+import DropdownList from './DropdownList';
 import { ProductOption } from './suggestive-search-input';
 
 interface SearchBarProps {
@@ -28,7 +28,7 @@ const GnbSearchBar = ({
 
   const executeSearch = () => {
     if (keyword.trim()) {
-      router.push(`/search?q=${keyword}`);
+      router.push(`/product?keyword=${keyword}`);
       if (setIsMobileSearchOpen) setIsMobileSearchOpen(false);
     }
   };
