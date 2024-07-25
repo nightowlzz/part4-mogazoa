@@ -9,11 +9,11 @@ function RankingTag({ rank = 3 }: TagProps) {
   const bgColorClass = rank === 1 ? `bg-pinkBg` : rank === 2 ? 'bg-greenBg' : 'bg-gray-700';
 
   return (
-    <div
-      className={`flex items-center justify-self-center md:px-2 px-[0.375rem] py-[0.5rem] md:h-4 h-[1.125rem] w-fit rounded-full text-[0.625rem] md:text-xs ${textColorClass} ${bgColorClass}`}
+    <span
+      className={`flex items-center justify-center w-8 md:h-4 h-[1.125rem] rounded-full text-[0.625rem] md:text-xs leading-[18px] md:leading-1 ${textColorClass} ${bgColorClass}`}
     >
-      {rank}등
-    </div>
+      {rank + '등'}
+    </span>
   );
 }
 
