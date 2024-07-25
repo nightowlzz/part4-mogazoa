@@ -5,7 +5,7 @@ import QueryProviderWrapper from '@/components/QueryProviderWrapper';
 import { cn } from '@/lib/utils';
 import { Provider } from '@/components/SessionProvider';
 import { Toaster } from 'sonner';
-import KakaoScript from './_styled-guide/_components/KaKaoScript';
+import KakaoScript from './product/[productId]/_components/product-detail/KaKaoScript';
 
 const inter = Inter({ subsets: ['latin'] });
 

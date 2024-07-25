@@ -1,20 +1,19 @@
-import React, { useMemo, useState } from 'react';
-import Image from 'next/image';
+import CompareConfirmModal from '@/app/product/[productId]/_components/product-detail/CompareConfirmModal';
+import CompareProductReplacementModal from '@/app/product/[productId]/_components/product-detail/CompareProductReplacementModal';
+import EditProduct from '@/app/product/[productId]/_components/product-detail/EditProduct';
 import { Button } from '@/components/ui/button';
-import KaKaoShareButton from './KaKaoShareButton';
-import CopyLinkButton from './CopyLinkButton';
 import CategoryTag from '@/components/ui/tags/CategoryTag';
-import { useParams } from 'next/navigation';
-import FavoriteButton from './FavoriteButton';
-import EditProduct from '@/app/product/[productId]/EditProduct';
 import useCompareStore from '@/store/compareStore';
-import CompareConfirmModal from '@/app/product/[productId]/CompareConfirmModal';
-import CompareProductReplacementModal from '@/app/product/[productId]/CompareProductReplacementModal';
-import { toast } from 'sonner';
-import { getCookie } from '@/utils/cookieUtils';
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
+import { useParams } from 'next/navigation';
+import React, { useMemo, useState } from 'react';
+import { toast } from 'sonner';
+import CopyLinkButton from './CopyLinkButton';
+import FavoriteButton from './FavoriteButton';
+import KaKaoShareButton from './KaKaoShareButton';
 
-export interface ProductCardProps {
+interface ProductCardProps {
   name: string;
   description: string;
   image: string;
