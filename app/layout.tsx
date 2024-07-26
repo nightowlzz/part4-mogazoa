@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'sonner';
-import KakaoScript from './_styled-guide/_components/KaKaoScript';
+import KakaoScript from './product/[productId]/_components/product-detail/kakao-script';
 import Gnb from './_styled-guide/_components/gnb';
 import './globals.css';
 
