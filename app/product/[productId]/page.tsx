@@ -1,6 +1,6 @@
 'use client';
 
-import ProductCard from '@/app/product/[productId]/_components/product-detail/ProductCard';
+import ProductCard from './_components/product-detail/product-card';
 import Gnb from '@/app/_styled-guide/_components/gnb';
 import { StatisticFavorite } from '@/app/_styled-guide/_components/statistics-favorite';
 import { StatisticRating } from '@/app/_styled-guide/_components/statistics-rating';
