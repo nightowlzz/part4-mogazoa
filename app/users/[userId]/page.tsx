@@ -16,6 +16,8 @@ import { useParams } from 'next/navigation';
 import exImg from '@/public/assets/images/example-product.svg';
 import { useState } from 'react';
 import ProductSortSelector from '@/app/_styled-guide/_components/ProductSortSelector';
+import { constrainedMemory } from 'process';
+import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 
 interface Product {
   id: number;
@@ -77,7 +79,7 @@ export default function UserId() {
   const userImage = userInfo.image ?? null;
 
   return (
-    <div className="w-full h-full bg-[#1C1C22] flex flex-col items-center">
+    <div className="w-full h-full bg-[#1C1C22] flex flex-col items-center mb-[80px]">
       <div className="flex flex-col mt-[30px] md:mt-[40px] lg:flex-row lg:justify-center lg:items-start">
         <div className="mb-[60px] lg:mr-[60px]">
           <Profile
@@ -113,7 +115,7 @@ export default function UserId() {
                 <ProductCard
                   key={product.id}
                   name={product.name}
-                  image={exImg}
+                  image={product.image}
                   rating={product.rating}
                   reviewCount={product.reviewCount}
                   favoriteCount={product.favoriteCount}
