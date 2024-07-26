@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction, useState } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
-import DropdownList from './DropdownList';
+import DropdownList from './dropdown-list';
 import { ReviewSortOrder } from '@/types/data';
 import { PRODUCT_SORT_OPTIONS, REVIEW_SORT_OPTIONS } from '@/constants/sortOrder';
 

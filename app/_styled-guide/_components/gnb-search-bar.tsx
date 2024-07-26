@@ -5,7 +5,7 @@ import useSearchSuggestions from '@/hooks/useSearchSuggestions';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
-import DropdownList from './DropdownList';
+import DropdownList from './dropdown-list';
 import { ProductOption } from './suggestive-search-input';
 
 interface SearchBarProps {

@@ -1,18 +1,17 @@
 'use client';
 
-import Link from 'next/link';
 import { Follower } from '@/app/_styled-guide/_components/follower';
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 import { useGetUserFollowers } from '@/hooks/user';
+import Link from 'next/link';
 
 interface FollowersProps {
   userId: number;
@@ -21,7 +20,11 @@ interface FollowersProps {
 }
 
 export default function Followers({ userId, userNickname, followersCount }: FollowersProps) {
-  const { data: userFollowers } = useGetUserFollowers(userId);
+  const { data } = useInfinityScroll({
+    queryKey: 'followers',
+    userId: userId,
+  });
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -36,13 +39,17 @@ export default function Followers({ userId, userNickname, followersCount }: Foll
             </DialogTitle>
           </DialogHeader>
           <div className="space-y-5 lg:space-y-[25px]">
-            {userFollowers?.list.map((follower) => (
-              <div key={follower.follower.id}>
-                <Link href={`/users/${follower.follower.id}`}>
-                  <Follower nickname={follower.follower.nickname} image={follower.follower.image} />
-                </Link>
-              </div>
-            ))}
+            {data &&
+              data.map((followers) => (
+                <div key={followers.follower.id}>
+                  <Link href={`/users/${followers.follower.id}`}>
+                    <Follower
+                      nickname={followers.follower.nickname}
+                      image={followers.follower.image}
+                    />
+                  </Link>
+                </div>
+              ))}
           </div>
         </div>
       </DialogContent>

@@ -15,7 +15,13 @@ export function ProductCard({ name, image, rating, reviewCount, favoriteCount }:
   return (
     <div className="flex flex-col bg-black-500 rounded-xl border border-black-400 p-[10px] w-40 md:w-[247px] lg:w-[300px] lg:p-2">
       <div className="relative w-[140px] h-[98px] md:w-[227px] md:h-[167px] lg:w-[284px] lg:h-[200px] mb-[10px] lg:mb-[25px]">
-        <Image src={image || defaultImage} alt="제품 사진" fill priority />
+        <Image
+          src={image || defaultImage}
+          alt="제품 사진"
+          fill
+          priority
+          sizes="(max-width: 768px) 280px, (max-width: 1024px) 355px, 100vw"
+        />
       </div>
       <h2 className="text-white text-sm mb-[5px] md:text-base md:mb-[10px] md:mx-[6.5px] lg:mx-[10px] lg:text-lg">
         {name}

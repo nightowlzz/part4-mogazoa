@@ -1,12 +1,12 @@
-import { Avatar, AvatarImage, AvatarFallback } from '@radix-ui/react-avatar';
-import { Button, buttonVariants } from '@/components/ui/button';
-import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import Followers from '@/components/modal/followers';
 import Followees from '@/components/modal/followees';
-import { useFollowUser, useUnFollowUser } from '@/hooks/follow';
+import Followers from '@/components/modal/followers';
 import ProfileModal from '@/components/modal/profile';
-import { useState, useEffect } from 'react';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { useFollowUser, useUnFollowUser } from '@/hooks/follow';
+import { cn } from '@/lib/utils';
+import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 interface UserProfileProps {
   id: number;

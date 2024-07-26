@@ -32,12 +32,6 @@ export default function FavoriteButton({ productId, initialIsFavorited }: Favori
   });
 
   const toggleFavorite = () => {
-    {
-      /*if (!isLoggedIn) {
-      toast.error('로그인이 필요합니다.');
-      return;
-    }*/
-    } //나중에 추가
     if (isFavorited) {
       unfavoriteProduct.mutate();
     } else {
