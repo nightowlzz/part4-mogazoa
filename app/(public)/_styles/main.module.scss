@@ -1,0 +1,43 @@
+.main {
+  &-wrap {
+    display: grid;
+    grid-template-columns: 220px 1fr 250px;
+    gap: 60px;
+  }
+  @media screen and (max-width: 1280px) {
+    &-wrap {
+      grid-template-columns: 200px 1fr;
+      grid-template-areas:
+      "nav ranking"
+      "nav contact"
+      "nav contact";
+      gap: 25px;
+    }
+    &-nav { grid-area: nav;}
+    &-contact { grid-area: contact;}
+    &-ranking{ grid-area: ranking;}
+  }
+  @media screen and (max-width: 767px) {
+    &-wrap {
+      grid-template-columns: 1fr;
+      grid-template-areas:
+      "ranking"
+      "contact"
+      "nav";
+      gap: 0;
+    }
+  }
+}
+ 
+
+.product-image{
+  height: calc(100% - 96px);
+  @media screen and (max-width: 1023px) {
+    height: calc(100% - 88px);
+  }
+  
+  @media screen and (max-width: 767px) {
+    height: calc(100% - 78px);
+  }
+}
+

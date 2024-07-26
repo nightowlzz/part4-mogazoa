@@ -3,17 +3,18 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import DropdownList from './dropdown-list';
-import { reviewOrderOptions } from '@/constants/sortOrder';
 import { ReviewSortOrder } from '@/types/data';
+import { PRODUCT_SORT_OPTIONS, REVIEW_SORT_OPTIONS } from '@/constants/sortOrder';
 
 interface CategorySelectorProps {
   sort: string;
+  sortSelectOption: typeof REVIEW_SORT_OPTIONS | typeof PRODUCT_SORT_OPTIONS;
   setSortOrder: Dispatch<SetStateAction<ReviewSortOrder>>;
 }
 
 // sort 기능을 위한 드롭다운 메뉴 컴포넌트입니다.
-const SortSelector = ({ sort, setSortOrder }: CategorySelectorProps) => {
-  const options = reviewOrderOptions.map((opt) => opt.label);
+const SortSelector = ({ sort, setSortOrder, sortSelectOption }: CategorySelectorProps) => {
+  const options = sortSelectOption.map((opt) => opt.label);
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleDropdown = () => {
@@ -21,8 +22,7 @@ const SortSelector = ({ sort, setSortOrder }: CategorySelectorProps) => {
   };
 
   const handleOrderSelect = (option: string) => {
-    const result = reviewOrderOptions.find((value) => value.label === option)
-      ?.id as ReviewSortOrder;
+    const result = sortSelectOption.find((value) => value.label === option)?.id as ReviewSortOrder;
     setSortOrder(result);
     setIsOpen(false);
   };
@@ -37,7 +37,7 @@ const SortSelector = ({ sort, setSortOrder }: CategorySelectorProps) => {
           aria-haspopup="true"
           onClick={toggleDropdown}
         >
-          {reviewOrderOptions.find((value) => value.id === sort)?.label}
+          {sortSelectOption.find((value) => value.id === sort)?.label}
           <IoMdArrowDropdown
             className={`ml-2 h-5 md:h-[22px] lg:h-6 mr-[-4px] transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
           />
