@@ -19,7 +19,7 @@ const buttonVariants = cva(
         circleGary: 'border border-[#353542] text-[#f1f1f5] rounded-[50em] hover:border-[#52525f]',
         circleBlue:
           'bg-gradation-secondary text-white rounded-[50em] w-[60px] h-[50px] hover:bg-gradation-secondary-hover',
-        nav: 'border text-gray-600 border-transparent text-sm hover:border-[#353542] hover:bg-[#252530] hover:text-white font-semibold lg:text-base',
+        nav: 'border text-gray-600 border-transparent text-sm justify-start hover:border-[#353542] hover:bg-[#252530] hover:text-white font-semibold lg:text-base',
         text: 'text-white hover:text-[#ccc]',
         icon: 'p-1 cursor-pointer',
         iconBg: 'p-[5px] rounded-md bg-[#252530] cursor-pointer hover:bg-[#353542]',

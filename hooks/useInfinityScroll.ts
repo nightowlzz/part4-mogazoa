@@ -71,22 +71,18 @@ export const useInfinityScroll = ({
     const queryParams: QueryParams = {};
 
     if (order) {
-      console.log('sortOrder');
       queryParams.order = order;
     }
 
     if (keyword) {
-      console.log('keyword');
       queryParams.keyword = keyword;
     }
 
     if (category) {
-      console.log('category');
       queryParams.category = category;
     }
 
     if (pageParam) {
-      console.log('pageParam');
       queryParams.pageParam = pageParam;
     }
 

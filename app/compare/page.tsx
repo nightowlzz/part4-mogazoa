@@ -6,7 +6,6 @@ import Gnb from '../_styled-guide/_components/gnb';
 import ComparePageInput from '../_styled-guide/_components/compare-page-input';
 import CompareTableData from '../_styled-guide/_components/CompareTableData';
 import useCompareStore from '@/store/compareStore';
-import AddProduct from '../_styled-guide/_components/add-product-modal';
 import { IoMdAdd } from 'react-icons/io';
 import { getSession } from 'next-auth/react';
 import FloatAddButton from '../_styled-guide/_components/float-add-button';
