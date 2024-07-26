@@ -1,6 +1,6 @@
-import CompareConfirmModal from '@/app/product/[productId]/_components/product-detail/CompareConfirmModal';
-import CompareProductReplacementModal from '@/app/product/[productId]/_components/product-detail/CompareProductReplacementModal';
-import EditProduct from '@/app/product/[productId]/_components/product-detail/EditProduct';
+import CompareConfirmModal from '@/app/product/[productId]/_components/product-detail/compare-confirm-modal';
+import CompareProductReplacementModal from '@/app/product/[productId]/_components/product-detail/compare-product-replacement-modal';
+import EditProduct from '@/app/product/[productId]/_components/product-detail/edit-product-modal';
 import { Button } from '@/components/ui/button';
 import CategoryTag from '@/components/ui/tags/CategoryTag';
 import useCompareStore from '@/store/compareStore';
@@ -9,9 +9,9 @@ import Image from 'next/image';
 import { useParams } from 'next/navigation';
 import React, { useMemo, useState } from 'react';
 import { toast } from 'sonner';
-import CopyLinkButton from './CopyLinkButton';
-import FavoriteButton from './FavoriteButton';
-import KaKaoShareButton from './KaKaoShareButton';
+import CopyLinkButton from './copy-link-button';
+import FavoriteButton from './favorite-button';
+import KaKaoShareButton from './kakao-share-button';
 
 interface ProductCardProps {
   name: string;
