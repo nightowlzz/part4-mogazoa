@@ -1,15 +1,14 @@
 'use client';
 
-import ProductCard from '@/app/_styled-guide/_components/ProductCard';
+import ProductCard from './_components/product-detail/product-card';
 import Gnb from '@/app/_styled-guide/_components/gnb';
 import { StatisticFavorite } from '@/app/_styled-guide/_components/statistics-favorite';
 import { StatisticRating } from '@/app/_styled-guide/_components/statistics-rating';
 import { StatisticReview } from '@/app/_styled-guide/_components/statistics-review';
 import { useGetProductDetail } from '@/hooks/product';
-import { useParams } from 'next/navigation';
-import ReviewList from './_components/review/review-list';
 import { useGetMyInfo } from '@/hooks/user';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
+import ReviewList from './_components/review/review-list';
 
 export default function ProductPage() {
   const router = useRouter();
