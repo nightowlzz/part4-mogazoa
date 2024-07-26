@@ -3,8 +3,8 @@
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import Gnb from '../_styled-guide/_components/gnb';
-import ComparePageInput from '../_styled-guide/_components/compare-page-input';
-import CompareTableData from '../_styled-guide/_components/CompareTableData';
+import ComparePageInput from './_components/compare-page-input';
+import CompareTableData from './_components/compare-table-data';
 import useCompareStore from '@/store/compareStore';
 import { IoMdAdd } from 'react-icons/io';
 import { getSession } from 'next-auth/react';
