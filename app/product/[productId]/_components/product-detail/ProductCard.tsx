@@ -48,6 +48,7 @@ function ProductCard({
   const handleCompareButtonClick = () => {
     if (!accessToken) {
       toast.error('로그인이 필요합니다.');
+      return;
     }
 
     // 현재 상품이 비교 목록에 이미 존재하는지 확인
@@ -63,7 +64,6 @@ function ProductCard({
         setConfirmModalTitle('이미 비교할 상품으로 추가되었습니다.');
         setConfirmButtonText('확인');
         setIsConfirmModalOpen(true);
-        return;
       } else {
         addCompareItem({ id: Number(productId), name });
         setConfirmModalTitle(
@@ -77,7 +77,6 @@ function ProductCard({
         setIsConfirmModalOpen(true);
       }
     } else if (compareItems.length === 2) {
-      // 상품이 이미 비교 목록에 있는 경우
       if (isItemAlreadyInCompare) {
         setConfirmModalTitle(
           <>
@@ -87,7 +86,6 @@ function ProductCard({
         );
         setConfirmButtonText('바로가기');
         setIsConfirmModalOpen(true);
-        return;
       } else {
         setIsReplacementModalOpen(true);
       }
@@ -124,7 +122,7 @@ function ProductCard({
         />
       </div>
       <div>
-        <div className="flex items-center justify-between mb-[11px] md:mb-[10px]">
+        <div className="flex items-center justify-between mb-[11px] md:mb-[20px]">
           <span className="w-[58px] h-[22px] font-normal whitespace-nowrap">
             <CategoryTag
               categoryName={categoryName}
