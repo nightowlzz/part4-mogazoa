@@ -14,8 +14,8 @@ import {
   useGetUserReviewedProducts,
 } from '@/hooks/user';
 import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
+import { useState } from 'react';
 
 interface Product {
   id: number;
@@ -29,20 +29,11 @@ interface Product {
 }
 
 export default function UserId() {
-  const params = useParams();
-  const router = useRouter();
-  const userId = params.userId;
-  const {
-    data: userInfo,
-    isLoading: userInfoLoading,
-    error: userInfoError,
-  } = useGetUserInfo(Number(userId));
-
   const { data: MyInfo } = useGetMyInfo();
 
-  const { data: userReviewedProducts } = useGetUserReviewedProducts(Number(userId));
-  const { data: userCreatedProducts } = useGetUserCreatedProducts(Number(userId));
-  const { data: userFavoriteProducts } = useGetUserFavoriteProducts(Number(userId));
+  const { data: userReviewedProducts } = useGetUserReviewedProducts(Number(MyInfo?.id));
+  const { data: userCreatedProducts } = useGetUserCreatedProducts(Number(MyInfo?.id));
+  const { data: userFavoriteProducts } = useGetUserFavoriteProducts(Number(MyInfo?.id));
 
   const [selectedCategory, setSelectedCategory] = useState('리뷰 남긴 상품');
   const options = ['리뷰 남긴 상품', '등록한 상품', '찜한 상품'];
@@ -51,26 +42,8 @@ export default function UserId() {
     setSelectedCategory(category);
   };
 
-  useEffect(() => {
-    if (MyInfo?.id === Number(userId)) {
-      router.push('/mypage');
-    }
-  }, [MyInfo, userId, router]);
-
-  if (userInfoLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (userInfoError) {
-    return <div>Error: {userInfoError?.message}</div>;
-  }
-
-  if (!userInfo) {
+  if (!MyInfo) {
     return <div>유저 정보 없음</div>;
-  }
-
-  if (userInfo?.teamId !== '5-6') {
-    return <div>없는 유저 id</div>;
   }
 
   let productsList: Product[] = [];
@@ -82,30 +55,30 @@ export default function UserId() {
     productsList = userFavoriteProducts?.list || [];
   }
 
-  const mostFavoriteCategory = userInfo.mostFavoriteCategory ?? null;
-  const userImage = userInfo.image ?? null;
+  const mostFavoriteCategory = MyInfo?.mostFavoriteCategory ?? null;
+  const userImage = MyInfo?.image ?? null;
 
   return (
     <div className="w-full h-full bg-[#1C1C22] flex flex-col items-center mb-[80px]">
       <div className="flex flex-col mt-[30px] md:mt-[40px] lg:flex-row lg:justify-center lg:items-start">
         <div className="mb-[60px] lg:mr-[60px]">
           <Profile
-            id={userInfo.id}
+            id={MyInfo.id}
             image={userImage}
-            description={userInfo.description}
-            nickname={userInfo.nickname}
-            followeesCount={userInfo.followeesCount}
-            followersCount={userInfo.followersCount}
-            isFollowing={userInfo.isFollowing}
-            isMyPage={false}
+            description={MyInfo.description}
+            nickname={MyInfo.nickname}
+            followeesCount={MyInfo.followeesCount}
+            followersCount={MyInfo.followersCount}
+            isFollowing={MyInfo.isFollowing}
+            isMyPage={true}
           />
         </div>
         <div>
           <div className="mb-[61.5px]">
             <h2 className="text-white text-lg mb-[30px]">활동 내역</h2>
             <div className="flex gap-[10px] lg:gap-[20px]">
-              <ActivityRating rating={userInfo.averageRating} />
-              <ActivityReview reviewCount={userInfo.reviewCount} />
+              <ActivityRating rating={MyInfo.averageRating} />
+              <ActivityReview reviewCount={MyInfo.reviewCount} />
               <ActivityCategory mostFavoriteCategory={mostFavoriteCategory} />
             </div>
           </div>
