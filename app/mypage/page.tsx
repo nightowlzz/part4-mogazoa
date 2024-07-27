@@ -29,7 +29,7 @@ interface Product {
 }
 
 export default function UserId() {
-  const { data: MyInfo } = useGetMyInfo();
+  const { data: MyInfo, isLoading, isError } = useGetMyInfo();
 
   const { data: userReviewedProducts } = useGetUserReviewedProducts(Number(MyInfo?.id));
   const { data: userCreatedProducts } = useGetUserCreatedProducts(Number(MyInfo?.id));
@@ -41,6 +41,14 @@ export default function UserId() {
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error...</div>;
+  }
 
   if (!MyInfo) {
     return <div>유저 정보 없음</div>;
