@@ -12,24 +12,29 @@ interface SideBarProps extends CategoryResponse {
   categoryId: number | null;
 }
 
-function SideBarSuspense() {
+function Categories() {
   const searchParams = useSearchParams();
   const categoryId = searchParams.get('categoryId');
-  const { data: categorys } = useGetCategories();
+  const { data: categories, isError, isPending } = useGetCategories();
+
+  if (isError) return <div>isERROR</div>;
+  // [NOTE]:스켈레톤 작업
+  if (isPending) return <div>로딩중</div>;
+
   return (
     <>
-      {categorys &&
-        categorys.map((cate, i) => (
-          <SideBarButton key={cate.id} {...cate} categoryId={Number(categoryId)} />
+      {categories &&
+        categories.map((cate, i) => (
+          <CategoryButton key={cate.id} {...cate} categoryId={Number(categoryId)} />
         ))}
     </>
   );
 }
 
-function SideBarButton({ id, name, categoryId }: SideBarProps) {
+function CategoryButton({ id, name, categoryId }: SideBarProps) {
   return (
     <Link
-      href={`/product?category=${name}&categoryId=${id}`}
+      href={`/search?category=${name}&categoryId=${id}`}
       className={cn(
         buttonVariants({ variant: 'nav', size: 'sm' }),
         `${categoryId === id ? 'border-[#353542] bg-[#252530] text-white' : ''}`,
@@ -40,12 +45,12 @@ function SideBarButton({ id, name, categoryId }: SideBarProps) {
   );
 }
 
-export default function SideBar() {
+export default function CategoryList() {
   return (
     <nav className={cn(styled['main-nav'], 'py-[45px] px-[20px] lg:px-[30px] hidden md:block')}>
       <h2 className="font-sm lg:font-base text-white md:pb-5">카테고리</h2>
       <Suspense fallback={<div></div>}>
-        <SideBarSuspense />
+        <Categories />
       </Suspense>
     </nav>
   );
