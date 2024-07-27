@@ -10,14 +10,14 @@ import { useGetMyInfo } from '@/hooks/user';
 import { useParams, useRouter } from 'next/navigation';
 import ReviewList from './_components/review/review-list';
 
-export default function ProductPage() {
+export default function ProductDetailPage() {
   const router = useRouter();
   const { productId } = useParams();
 
   const { data: productDetail, isLoading, error } = useGetProductDetail(Number(productId));
   const { data: currentUserId, isPending } = useGetMyInfo();
 
-  if (isLoading) {
+  if (isLoading || isPending) {
     return <div>Loading...</div>;
   }
 
@@ -38,13 +38,13 @@ export default function ProductPage() {
       <Gnb />
       <div className="mt-[60px] mb-[80px]">
         <ProductCard
-          name={productDetail.name}
-          description={productDetail.description}
-          image={productDetail.image}
-          writerId={productDetail.writerId}
-          currentUserId={currentUserId.id}
-          categoryName={productDetail.category.name}
-          categoryId={productDetail.category.id}
+          name={productDetail?.name}
+          description={productDetail?.description}
+          image={productDetail?.image}
+          writerId={productDetail?.writerId}
+          currentUserId={currentUserId?.id}
+          categoryName={productDetail?.category.name}
+          categoryId={productDetail?.category.id}
         />
       </div>
       <div>
