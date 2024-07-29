@@ -1,4 +1,3 @@
-// page.tsx (MyPage)
 'use client';
 
 import {

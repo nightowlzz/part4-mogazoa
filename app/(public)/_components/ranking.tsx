@@ -3,7 +3,7 @@ import RankingTag from '@/components/ui/tags/RankingTag';
 import { RankedUserResponse } from '@/types/data';
 import Image from 'next/image';
 import Link from 'next/link';
-import DefaultImage from '@/public/assets/images/default-image.jpeg';
+import DefaultImage from '@/public/assets/images/avatar-default-image.jpeg';
 
 interface RankingListProps extends RankedUserResponse {
   i: number;

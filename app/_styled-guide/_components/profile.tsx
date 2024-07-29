@@ -8,7 +8,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
-import DefaultImage from '@/public/assets/images/default-image.jpeg';
+import DefaultImage from '@/public/assets/images/avatar-default-image.jpeg';
 
 interface UserProfileProps {
   id: number;

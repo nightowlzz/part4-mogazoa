@@ -7,7 +7,8 @@ import { ProductCard } from '@/app/_styled-guide/_components/card-product';
 import ProductSortSelector from '@/app/_styled-guide/_components/ProductSortSelector';
 import Profile from '@/app/_styled-guide/_components/profile';
 import Link from 'next/link';
-import { useState } from 'react';
+import EmptyImage from '@/public/assets/images/empty-logo.svg';
+import Image from 'next/image';
 
 interface Product {
   id: number;
@@ -55,6 +56,31 @@ export default function ProfileSection({
   handleCategoryChange,
   isMyPage,
 }: ProfileSectionProps) {
+  const renderEmptyMessage = () => {
+    if (selectedCategory === '리뷰 남긴 상품' && productsList.length === 0) {
+      return (
+        <div className="flex flex-col items-center mt-32 gap-3">
+          <Image src={EmptyImage} alt="상품이 없을 때 이미지" />
+          <div className="text-gray-600">리뷰 남긴 상품이 없습니다</div>
+        </div>
+      );
+    } else if (selectedCategory === '등록한 상품' && productsList.length === 0) {
+      return (
+        <div className="flex flex-col items-center mt-32 gap-3">
+          <Image src={EmptyImage} alt="상품이 없을 때 이미지" />
+          <span className="text-gray-600">등록한 상품이 없습니다</span>
+        </div>
+      );
+    } else if (selectedCategory === '찜한 상품' && productsList.length === 0) {
+      return (
+        <div className="flex flex-col items-center mt-32 gap-3">
+          <Image src={EmptyImage} alt="상품이 없을 때 이미지" />
+          <span className="text-gray-600">찜한 상품이 없습니다</span>
+        </div>
+      );
+    }
+    return null;
+  };
   return (
     <div className="w-full h-full bg-[#1C1C22] flex flex-col items-center mb-[80px]">
       <div className="flex flex-col mt-[30px] md:mt-[40px] lg:flex-row lg:justify-center lg:items-start">
@@ -87,19 +113,21 @@ export default function ProfileSection({
                 onChange={handleCategoryChange}
               />
             </div>
-            <div className="grid grid-cols-2 gap-[15px] lg:grid-cols-3 lg:gap-[20px]">
-              {productsList.map((product) => (
-                <Link href={`/product/${product.id}`} key={product.id}>
-                  <ProductCard
-                    name={product.name}
-                    image={product.image}
-                    rating={product.rating}
-                    reviewCount={product.reviewCount}
-                    favoriteCount={product.favoriteCount}
-                  />
-                </Link>
-              ))}
-            </div>
+            {renderEmptyMessage() || (
+              <div className="grid grid-cols-2 gap-[15px] lg:grid-cols-3 lg:gap-[20px]">
+                {productsList.map((product) => (
+                  <Link href={`/product/${product.id}`} key={product.id}>
+                    <ProductCard
+                      name={product.name}
+                      image={product.image}
+                      rating={product.rating}
+                      reviewCount={product.reviewCount}
+                      favoriteCount={product.favoriteCount}
+                    />
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
