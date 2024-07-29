@@ -155,10 +155,7 @@ function ProductCard({
           </div>
         </div>
 
-        <p
-          className="md:w-[383px] lg:w-[545px] text-[#F1F1F5] md:text-sm lg:text-base font-normal mt-5 md:mt-[49px] mb-[67px] md:mb-[60px] whitespace-normal"
-          style={{ wordBreak: 'keep-all' }}
-        >
+        <p className="w-full md:w-[383px] lg:w-[545px] text-[#F1F1F5] md:text-sm lg:text-base font-normal mt-5 md:mt-[49px] mb-[67px] md:mb-[60px] whitespace-normal">
           {description}
         </p>
         <div className="flex flex-col md:flex-row gap-[15px] md:gap-[10px] lg:gap-5">
