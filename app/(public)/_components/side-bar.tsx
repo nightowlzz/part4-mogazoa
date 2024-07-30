@@ -12,7 +12,7 @@ interface SideBarProps extends CategoryResponse {
   categoryId: number | null;
 }
 
-function SideBarSuspense() {
+export function SideBarSuspense() {
   const searchParams = useSearchParams();
   const categoryId = searchParams.get('categoryId');
   const { data: categorys } = useGetCategories();
@@ -26,7 +26,7 @@ function SideBarSuspense() {
   );
 }
 
-function SideBarButton({ id, name, categoryId }: SideBarProps) {
+export function SideBarButton({ id, name, categoryId }: SideBarProps) {
   return (
     <Link
       href={`/product?category=${name}&categoryId=${id}`}
