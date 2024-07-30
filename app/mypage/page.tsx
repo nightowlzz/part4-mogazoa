@@ -4,11 +4,9 @@ import {
   useGetMyInfo,
   useGetUserCreatedProducts,
   useGetUserFavoriteProducts,
-  useGetUserInfo,
   useGetUserReviewedProducts,
 } from '@/hooks/user';
-import { useParams, useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ProfileSection from '@/components/ProfileSection';
 import { UserInfo } from '@/components/ProfileSection';
 
@@ -23,19 +21,11 @@ interface Product {
   categoryId: number;
 }
 
-export default function UserId() {
-  const params = useParams();
-  const router = useRouter();
-  const userId = params.userId;
-  const {
-    data: userInfoResponse,
-    isLoading: userInfoLoading,
-    error: userInfoError,
-  } = useGetUserInfo(Number(userId));
-  const { data: MyInfo } = useGetMyInfo();
-  const { data: userReviewedProducts } = useGetUserReviewedProducts(Number(userId));
-  const { data: userCreatedProducts } = useGetUserCreatedProducts(Number(userId));
-  const { data: userFavoriteProducts } = useGetUserFavoriteProducts(Number(userId));
+export default function MyPage() {
+  const { data: MyInfoResponse, isLoading, isError } = useGetMyInfo();
+  const { data: userReviewedProducts } = useGetUserReviewedProducts(Number(MyInfoResponse?.id));
+  const { data: userCreatedProducts } = useGetUserCreatedProducts(Number(MyInfoResponse?.id));
+  const { data: userFavoriteProducts } = useGetUserFavoriteProducts(Number(MyInfoResponse?.id));
 
   const [selectedCategory, setSelectedCategory] = useState('리뷰 남긴 상품');
   const options = ['리뷰 남긴 상품', '등록한 상품', '찜한 상품'];
@@ -44,32 +34,22 @@ export default function UserId() {
     setSelectedCategory(category);
   };
 
-  useEffect(() => {
-    if (MyInfo?.id === Number(userId)) {
-      router.push('/mypage');
-    }
-  }, [MyInfo, userId, router]);
-
-  if (userInfoLoading) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (userInfoError) {
-    return <div>Error: {userInfoError?.message}</div>;
+  if (isError) {
+    return <div>Error...</div>;
   }
 
-  if (!userInfoResponse) {
+  if (!MyInfoResponse) {
     return <div>유저 정보 없음</div>;
   }
 
-  if (userInfoResponse?.teamId !== '5-6') {
-    return <div>없는 유저 id</div>;
-  }
-
-  const userInfo: UserInfo = {
-    ...userInfoResponse,
-    image: userInfoResponse.image ?? null,
-    mostFavoriteCategory: userInfoResponse.mostFavoriteCategory ?? null,
+  const MyInfo: UserInfo = {
+    ...MyInfoResponse,
+    image: MyInfoResponse.image ?? null,
+    mostFavoriteCategory: MyInfoResponse.mostFavoriteCategory ?? null,
   };
 
   let productsList: Product[] = [];
@@ -83,12 +63,12 @@ export default function UserId() {
 
   return (
     <ProfileSection
-      userInfo={userInfo}
+      userInfo={MyInfo}
       productsList={productsList}
       options={options}
       selectedCategory={selectedCategory}
       handleCategoryChange={handleCategoryChange}
-      isMyPage={false}
+      isMyPage={true}
     />
   );
 }

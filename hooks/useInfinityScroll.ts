@@ -79,7 +79,7 @@ interface QueryParams {
   userId?: number;
   category?: number;
   keyword?: string;
-  pageParam?: unknown;
+  cursor?: unknown;
 }
 
 export const useInfinityScroll = ({
@@ -108,7 +108,7 @@ export const useInfinityScroll = ({
     }
   };
 
-  const buildQueryString = ({ order, keyword, category, pageParam }: QueryParams) => {
+  const buildQueryString = ({ order, keyword, category, cursor }: QueryParams) => {
     const queryParams: QueryParams = {};
 
     if (order) {
@@ -123,8 +123,8 @@ export const useInfinityScroll = ({
       queryParams.category = category;
     }
 
-    if (pageParam) {
-      queryParams.pageParam = pageParam;
+    if (cursor) {
+      queryParams.cursor = cursor;
     }
 
     const queryString = Object.entries(queryParams)
@@ -142,10 +142,10 @@ export const useInfinityScroll = ({
     hasNextPage,
   } = useInfiniteQuery<queryListResponse>({
     queryKey: [queryKey, { productId, order, keyword, category, userId }],
-    queryFn: async ({ pageParam = null }) => {
+    queryFn: async ({ pageParam: cursor = 0 }) => {
       try {
         const res = await instance.get(
-          `${buildApiUrl(queryKey)}${buildQueryString({ order, keyword, category, pageParam })}`,
+          `${buildApiUrl(queryKey)}${buildQueryString({ order, keyword, category, cursor })}`,
         );
         if (!res) return;
         return res.data;

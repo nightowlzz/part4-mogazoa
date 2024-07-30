@@ -21,6 +21,7 @@ export function ProductCard({ name, image, rating, reviewCount, favoriteCount }:
           fill
           priority
           sizes="(max-width: 768px) 280px, (max-width: 1024px) 355px, 100vw"
+          unoptimized
         />
       </div>
       <h2 className="text-white text-sm mb-[5px] md:text-base md:mb-[10px] md:mx-[6.5px] lg:mx-[10px] lg:text-lg">
