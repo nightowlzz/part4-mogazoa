@@ -19,7 +19,7 @@ interface ProductCardProps {
   description: string;
   image: string;
   writerId: number;
-  currentUserId: number;
+  currentUserId: number | null;
   categoryName: string;
   categoryId: number;
 }

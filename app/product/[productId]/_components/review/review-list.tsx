@@ -8,7 +8,7 @@ import { REVIEW_SORT_OPTIONS } from '@/constants/sortOrder';
 
 interface reviewInfoProps {
   productId: string | string[];
-  currentUserId: number;
+  currentUserId: number | null;
   productName: string;
   categoryId: number;
   categoryName: string;
