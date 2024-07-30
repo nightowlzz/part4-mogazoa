@@ -28,7 +28,7 @@ const GnbSearchBar = ({
 
   const executeSearch = () => {
     if (keyword.trim()) {
-      router.push(`/product?keyword=${keyword}`);
+      router.push(`/search?keyword=${keyword}`);
       if (setIsMobileSearchOpen) setIsMobileSearchOpen(false);
     }
   };

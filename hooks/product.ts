@@ -1,16 +1,16 @@
-import { useDataQuery, useDataMutation } from '../services/common';
+import { QueryKey, UseMutationOptions, UseQueryOptions } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { useDataMutation, useDataQuery } from '../services/common';
 import {
+  ProductCombinedProps,
+  ProductDetailResponse,
   ProductsListResponse,
   ProductUpdateRequest,
-  ProductDetailResponse,
   ReviewListResponse,
-  Params,
 } from '../types/data';
-import { UseQueryOptions, QueryKey, UseMutationOptions } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
 
 export const useGetProducts = (
-  params?: Params,
+  params?: ProductCombinedProps,
   options?: Omit<
     UseQueryOptions<ProductsListResponse, AxiosError, ProductsListResponse, QueryKey>,
     'queryKey' | 'queryFn'

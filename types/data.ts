@@ -350,3 +350,8 @@ export interface FollowersList {
     id: number;
   };
 }
+
+// useGetProducts hook 의 타입
+export interface ProductCombinedProps extends Params {
+  initialData?: ProductResponse;
+}

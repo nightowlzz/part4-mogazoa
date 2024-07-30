@@ -1,14 +1,12 @@
 'use client';
 import styled from '@/app/(public)/_styles/main.module.scss';
+import SortSelector from '@/app/_styled-guide/_components/sort-selector';
 import { PRODUCT_SORT_OPTIONS } from '@/constants/sortOrder';
 import { cn } from '@/lib/utils';
 import { ReviewSortOrder } from '@/types/data';
 import { useSearchParams } from 'next/navigation';
 import { Dispatch, SetStateAction, Suspense, useEffect, useState } from 'react';
-import ProductList from '../(public)/_components/product-list';
-import RankingList from '../(public)/_components/ranking-list';
-import SortSelector from '../_styled-guide/_components/sort-selector';
-import SideBar from '../(public)/_components/side-bar';
+import SearchList from './_components/search-list';
 
 interface ProductSearchParamsProps {
   setKeyWord: Dispatch<SetStateAction<string | null>>;
@@ -36,26 +34,22 @@ export default function ProductPage() {
   const [keyword, setKeyWord] = useState<string | null>(null);
 
   return (
-    <div className={cn(styled['main-wrap'], 'max-w-[1560px] m-auto')}>
-      <SideBar />
-      <main className={(cn(styled['main-contact']), 'py-[60px] w-full justify-self-center')}>
-        <div className="flex items-center justify-between pb-[30px] ">
-          <Suspense fallback={<h2>상품</h2>}>
-            <ProductSearchParams setKeyWord={setKeyWord} setCategoryId={setCategoryId} />
-          </Suspense>
-          <SortSelector
-            sort={sortOrder}
-            setSortOrder={setSortOrder}
-            sortSelectOption={PRODUCT_SORT_OPTIONS}
-          />
-        </div>
-        <ProductList
-          category={Number(categoryId)}
-          keyword={keyword ? keyword : undefined}
-          order={sortOrder || 'recent'}
+    <main className={(cn(styled['main-contact']), 'py-[60px] w-full justify-self-center')}>
+      <div className="flex items-center justify-between pb-[30px] ">
+        <Suspense fallback={<h2>상품</h2>}>
+          <ProductSearchParams setKeyWord={setKeyWord} setCategoryId={setCategoryId} />
+        </Suspense>
+        <SortSelector
+          sort={sortOrder}
+          setSortOrder={setSortOrder}
+          sortSelectOption={PRODUCT_SORT_OPTIONS}
         />
-      </main>
-      <RankingList />
-    </div>
+      </div>
+      <SearchList
+        category={Number(categoryId)}
+        keyword={keyword ? keyword : undefined}
+        order={sortOrder || 'recent'}
+      />
+    </main>
   );
 }
