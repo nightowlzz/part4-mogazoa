@@ -7,11 +7,10 @@ import { StatisticRating } from '@/app/_styled-guide/_components/statistics-rati
 import { StatisticReview } from '@/app/_styled-guide/_components/statistics-review';
 import { useGetProductDetail } from '@/hooks/product';
 import { useGetMyInfo } from '@/hooks/user';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import ReviewList from './_components/review/review-list';
 
 export default function ProductDetailPage() {
-  const router = useRouter();
   const { productId } = useParams();
 
   const { data: productDetail, isLoading, error } = useGetProductDetail(Number(productId));
