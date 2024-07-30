@@ -40,7 +40,11 @@ function SideBarButton({ id, name, categoryId }: SideBarButtonProps) {
 function SideBarContents() {
   const searchParams = useSearchParams();
   const categoryId = searchParams.get('categoryId');
-  const { data: categories } = useGetCategories();
+  const { data: categories, isError, isPending } = useGetCategories();
+
+  if (isError) return <div>isERROR</div>;
+  // [NOTE]:스켈레톤 작업
+  if (isPending) return <div>로딩중</div>;
   return (
     <>
       {categories &&
