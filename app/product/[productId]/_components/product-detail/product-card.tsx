@@ -12,6 +12,7 @@ import { toast } from 'sonner';
 import CopyLinkButton from './copy-link-button';
 import FavoriteButton from './favorite-button';
 import KaKaoShareButton from './kakao-share-button';
+import CreateReview from '../modal/create-review';
 
 interface ProductCardProps {
   name: string;
@@ -160,7 +161,14 @@ function ProductCard({
           {description}
         </p>
         <div className="flex flex-col md:flex-row gap-[15px] md:gap-[10px] lg:gap-5">
-          <Button>리뷰 작성하기</Button>
+          <CreateReview
+            productId={Number(productId)}
+            categoryName={categoryName}
+            categoryId={categoryId}
+            name={name}
+          >
+            <Button>리뷰 작성하기</Button>
+          </CreateReview>
 
           <Button variant="outlineBlue" data-text="비교하기" onClick={handleCompareButtonClick}>
             비교하기

@@ -12,9 +12,8 @@ import ReviewList from './_components/review/review-list';
 
 export default function ProductDetailPage() {
   const { productId } = useParams();
-
   const { data: productDetail, isLoading, error } = useGetProductDetail(Number(productId));
-  const { data: currentUserId, isPending } = useGetMyInfo();
+  const { data: currentUserId } = useGetMyInfo();
 
   if (isLoading || isPending) {
     return <div>Loading...</div>;
@@ -63,7 +62,13 @@ export default function ProductDetailPage() {
           />
         </div>
       </div>
-      <ReviewList productId={productId} currentUserId={currentUserId.id} />
+      <ReviewList
+        productId={productId}
+        currentUserId={currentUserId.id}
+        categoryName={productDetail.category.name}
+        categoryId={productDetail.category.id}
+        productName={productDetail.name}
+      />
     </div>
   );
 }

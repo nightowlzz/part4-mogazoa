@@ -5,16 +5,20 @@ import { ReviewResponse } from '@/types/data';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
 import { LegacyRef } from 'react';
-import Thumbs from './thumbs';
 import { toast } from 'sonner';
+import EditReview from '../modal/edit-review';
+import Thumbs from './thumbs';
 
 interface ReviewProps extends ReviewResponse {
   currentUserId: number | undefined;
   reviewRef: LegacyRef<HTMLDivElement> | undefined;
+  categoryName: string;
+  productName: string;
+  categoryId: number;
 }
 
 export default function Review({
-  id,
+  id: reviewId,
   reviewImages,
   createdAt,
   content,
@@ -25,10 +29,14 @@ export default function Review({
   likeCount,
   currentUserId,
   reviewRef,
+  productId,
+  productName,
+  categoryId,
+  categoryName,
 }: ReviewProps) {
   const isMyReview = userId === currentUserId;
   const queryClient = useQueryClient();
-  const deleteReview = useDeleteReview(id, {
+  const deleteReview = useDeleteReview(reviewId, {
     onSuccess: () => {
       toast.success('리뷰가 삭제 되었습니다.');
     },
@@ -87,14 +95,26 @@ export default function Review({
             <p className="text-gray-600 text-xs lg:text-sm font-normal">{handleDataFormat()}</p>
             {isMyReview && (
               <div className="flex gap-[10px]">
-                <Button
-                  type="button"
-                  variant="text"
-                  size="auto"
-                  className="text-gray-600 text-xs lg:text-sm font-light underline decoration-gray-600"
+                <EditReview
+                  reviewId={reviewId}
+                  productId={Number(productId)}
+                  categoryName={categoryName}
+                  categoryId={categoryId}
+                  productName={productName}
+                  reviewImages={reviewImages}
+                  content={content}
+                  rating={rating}
                 >
-                  수정
-                </Button>
+                  <Button
+                    type="button"
+                    variant="text"
+                    size="auto"
+                    className="text-gray-600 text-xs lg:text-sm font-light underline decoration-gray-600"
+                  >
+                    수정
+                  </Button>
+                </EditReview>
+
                 <Button
                   type="button"
                   variant="text"
@@ -108,7 +128,7 @@ export default function Review({
               </div>
             )}
           </div>
-          <Thumbs reviewId={id} isLiked={isLiked} likeCount={likeCount} />
+          <Thumbs reviewId={reviewId} isLiked={isLiked} likeCount={likeCount} />
         </div>
       </div>
     </div>

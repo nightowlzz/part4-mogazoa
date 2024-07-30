@@ -9,7 +9,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { IoCloseSharp } from 'react-icons/io5';
 import {
   Form,
   FormControl,
@@ -19,16 +18,17 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
+import { useUploadImage } from '@/hooks/image';
+import { useUpdateMyInfo } from '@/hooks/user';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ImFilePicture } from 'react-icons/im';
+import { IoCloseSharp } from 'react-icons/io5';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Input } from '../ui/input';
-import { useUpdateMyInfo } from '@/hooks/user';
-import { useUploadImage } from '@/hooks/image';
-import { useState } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 
 const FormSchema = z.object({
   nickname: z.string().min(1, { message: '이름은 필수 입력입니다.' }),
@@ -147,17 +147,7 @@ export default function ProfileModal({
                             backgroundImage: imageUrl ? `url(${imageUrl})` : `url(${field.value})`,
                           }}
                         >
-                          {/* 삭제버튼 */}
-                          {false ? (
-                            <Button
-                              asChild
-                              variant="iconBg"
-                              size="auto"
-                              className="absolute right-1 top-1 flex items-center justify-center h-7 w-7 rounded-lg p-1"
-                            >
-                              <IoCloseSharp className="text-white" size={18} />
-                            </Button>
-                          ) : (
+                          {!imageUrl && !field.value && (
                             <span>
                               <ImFilePicture className="text-gray-600" size={34} />
                             </span>

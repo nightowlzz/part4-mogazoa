@@ -84,14 +84,10 @@ export interface PostReviewRequest {
 // 이미지를 수정할 때, 기존 이미지를 유지하려면 id를, 새로운 이미지를 추가하려면 source를 넣어주세요.
 // 요청에 포함되지 않는 기존 이미지는 삭제됩니다.
 export interface UpdateReviewRequest {
-  images?: [
-    {
-      id: number;
-    },
-    {
-      source: string;
-    },
-  ];
+  images?: {
+    id?: number;
+    source?: string;
+  }[];
   content: string; // 필수입력
   rating: number; // 필수입력
 }
@@ -353,4 +349,9 @@ export interface FollowersList {
     nickname: string;
     id: number;
   };
+}
+
+// useGetProducts hook 의 타입
+export interface ProductCombinedProps extends Params {
+  initialData?: ProductResponse;
 }
