@@ -18,17 +18,19 @@ export default function Ranking({
   i,
 }: RankingListProps) {
   return (
-    <Link href={`/users/${id}`} className="flex gap-[10px] mr-5 items-center w-auto">
+    <Link href={`/users/${id}`} className="flex gap-[10px] mr-5 items-center">
       <Avatar className="w-9 h-9 lg:w-[42px] lg:h-[42px]">
         <AvatarImage src={image} alt={nickname} />
         <AvatarFallback>
           <Image src={DefaultImage} alt="Default Profile" className="w-full h-full object-cover" />
         </AvatarFallback>
       </Avatar>
-      <div className="flex flex-col">
+      <div className="flex flex-col flex-1">
         <div className="flex items-center justify-start gap-2 text-white text-sm lg:text-base">
           <RankingTag rank={i + 1} />
-          <span>{nickname}</span>
+          <span className="text-nowrap text-ellipsis text-white overflow-hidden w-full max-w-[158px]">
+            {nickname}
+          </span>
         </div>
         <div className="flex lg:text-xs gap-[15px] font-light text-gray-600 text-[10px] pt-1">
           <p>팔로워 {followersCount}</p>
