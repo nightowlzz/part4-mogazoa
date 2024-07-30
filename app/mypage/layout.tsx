@@ -2,7 +2,7 @@ import Gnb from '@/app/_styled-guide/_components/gnb';
 import { Button } from '@/components/ui/button';
 import { IoMdAdd } from 'react-icons/io';
 
-export default function UserIdLayout({ children }: { children: React.ReactNode }) {
+export default function MyPageLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Gnb />

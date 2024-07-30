@@ -147,17 +147,7 @@ export default function ProfileModal({
                             backgroundImage: imageUrl ? `url(${imageUrl})` : `url(${field.value})`,
                           }}
                         >
-                          {/* 삭제버튼 */}
-                          {false ? (
-                            <Button
-                              asChild
-                              variant="iconBg"
-                              size="auto"
-                              className="absolute right-1 top-1 flex items-center justify-center h-7 w-7 rounded-lg p-1"
-                            >
-                              <IoCloseSharp className="text-white" size={18} />
-                            </Button>
-                          ) : (
+                          {!imageUrl && !field.value && (
                             <span>
                               <ImFilePicture className="text-gray-600" size={34} />
                             </span>

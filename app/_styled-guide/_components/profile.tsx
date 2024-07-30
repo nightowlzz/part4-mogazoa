@@ -6,7 +6,9 @@ import { useFollowUser, useUnFollowUser } from '@/hooks/follow';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import DefaultImage from '@/public/assets/images/avatar-default-image.jpeg';
 
 interface UserProfileProps {
   id: number;
@@ -83,10 +85,18 @@ export default function Profile({
     <div className="w-[335px] md:w-[509px] lg:w-[340px] h-full px-5 py-[30px] md:px-[30px] lg:px-5 lg:py-10 flex flex-col items-center border-[#353542] rounded-lg bg-[#252530] gap-[30px] lg:gap-10">
       <Avatar className="w-[120px] h-[120px] lg:w-[180px] lg:h-[180px] rounded-full overflow-hidden">
         {image ? (
-          <AvatarImage src={image} alt={`Profile of ${nickname}`} />
+          <AvatarImage
+            src={image}
+            alt={`Profile of ${nickname}`}
+            className="object-cover w-full h-full"
+          />
         ) : (
           <AvatarFallback>
-            <span>{nickname[0]}</span>
+            <Image
+              src={DefaultImage}
+              alt="Default Profile"
+              className="w-full h-full object-cover"
+            />
           </AvatarFallback>
         )}
       </Avatar>
