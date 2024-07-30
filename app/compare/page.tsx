@@ -4,21 +4,11 @@ import { Button } from '@/components/ui/button';
 import ComparePageInput from './_components/compare-page-input';
 import CompareTableData from './_components/compare-table-data';
 import useCompareStore from '@/store/compareStore';
-import { IoMdAdd } from 'react-icons/io';
 import FloatAddButton from '../_styled-guide/_components/float-add-button';
 
 function ComparePage() {
   const clearCompareItems = useCompareStore((state) => state.clearCompareItems);
 
-  const clearButtonOnClick = () => {
-    clearCompareItems();
-  };
-
-  const AddProductButton = (
-    <Button variant="circleBlue" size={'auto'} className="w-[60px] h-[60px] fixed bottom-8 right-8">
-      <IoMdAdd color="white" size={30} />
-    </Button>
-  );
   return (
     <>
       <FloatAddButton />
@@ -33,7 +23,7 @@ function ComparePage() {
             <ComparePageInput index={1} />
           </div>
           <div className="w-full md:w-[160px] lg:w-[200px] shrink-0">
-            <Button className="lg:h-[70px] md:h-[55px] w-full" onClick={clearButtonOnClick}>
+            <Button className="lg:h-[70px] md:h-[55px] w-full" onClick={clearCompareItems}>
               초기화
             </Button>
           </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
 import Logo from './logo';
 import { FiMenu } from 'react-icons/fi';
@@ -132,7 +132,7 @@ function Gnb({ isLogin = true }: GnbProps) {
       {isButtonClicked && (
         <>
           <div className="fixed inset-0 z-50 flex md:hidden">
-            <div className="w-[200px] bg-black-500 flex flex-col space-y-4 p-4">
+            <div className="w-[200px] bg-black-500 flex flex-col space-y-4 p-4 overflow-y-auto">
               {isLogin && (
                 <>
                   <Link href="/compare" className={`${buttonVariants({ variant: 'default' })}`}>
