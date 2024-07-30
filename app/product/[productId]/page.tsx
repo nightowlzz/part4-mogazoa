@@ -15,7 +15,7 @@ export default function ProductDetailPage() {
   const { data: productDetail, isLoading, error } = useGetProductDetail(Number(productId));
   const { data: currentUserId } = useGetMyInfo();
 
-  if (isLoading || isPending) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
