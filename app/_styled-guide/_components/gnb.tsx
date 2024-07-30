@@ -8,51 +8,11 @@ import { FiMenu } from 'react-icons/fi';
 import { IoSearch } from 'react-icons/io5';
 import GnbSearchBar from './gnb-search-bar';
 import useButtonStore from '@/store/globalStore';
-import { useGetCategories } from '@/hooks/category';
-import { useSearchParams } from 'next/navigation';
-import { cn } from '@/lib/utils';
 import { Suspense } from 'react';
+import { Categories } from '@/app/(public)/_components/category-list';
 
 interface GnbProps {
   isLogin?: boolean;
-}
-
-interface SideBarButtonProps {
-  id: number;
-  name: string;
-  categoryId: number | null;
-}
-
-function SideBarButton({ id, name, categoryId }: SideBarButtonProps) {
-  return (
-    <Link
-      href={`/product?category=${name}&categoryId=${id}`}
-      className={cn(
-        buttonVariants({ variant: 'nav', size: 'sm' }),
-        `${categoryId === id ? 'border-[#353542] bg-[#252530] text-white' : ''}`,
-      )}
-    >
-      {name}
-    </Link>
-  );
-}
-
-function SideBarContents() {
-  const searchParams = useSearchParams();
-  const categoryId = searchParams.get('categoryId');
-  const { data: categories, isError, isPending } = useGetCategories();
-
-  if (isError) return <div>isERROR</div>;
-  // [NOTE]:스켈레톤 작업
-  if (isPending) return <div>로딩중</div>;
-  return (
-    <>
-      {categories &&
-        categories.map((cate) => (
-          <SideBarButton key={cate.id} {...cate} categoryId={Number(categoryId)} />
-        ))}
-    </>
-  );
 }
 
 function Gnb({ isLogin = true }: GnbProps) {
@@ -139,20 +99,36 @@ function Gnb({ isLogin = true }: GnbProps) {
             <div className="w-[200px] bg-black-500 flex flex-col space-y-4 p-4 overflow-y-auto">
               {isLogin && (
                 <>
-                  <Link href="/compare" className={`${buttonVariants({ variant: 'default' })}`}>
+                  <Link
+                    href="/compare"
+                    className={buttonVariants({ variant: 'default' })}
+                    onClick={toggleButton}
+                  >
                     비교하기
                   </Link>
-                  <Link href="/mypage" className={buttonVariants({ variant: 'default' })}>
+                  <Link
+                    href="/mypage"
+                    className={buttonVariants({ variant: 'default' })}
+                    onClick={toggleButton}
+                  >
                     내 프로필
                   </Link>
                 </>
               )}
               {!isLogin && (
                 <>
-                  <Link href="/signin" className={buttonVariants({ variant: 'text' })}>
+                  <Link
+                    href="/signin"
+                    className={buttonVariants({ variant: 'text' })}
+                    onClick={toggleButton}
+                  >
                     로그인
                   </Link>
-                  <Link href="/signup" className={buttonVariants({ variant: 'text' })}>
+                  <Link
+                    href="/signup"
+                    className={buttonVariants({ variant: 'text' })}
+                    onClick={toggleButton}
+                  >
                     회원가입
                   </Link>
                 </>
@@ -160,7 +136,7 @@ function Gnb({ isLogin = true }: GnbProps) {
 
               <h2 className="font-sm text-white">카테고리</h2>
               <Suspense fallback={<div></div>}>
-                <SideBarContents />
+                <Categories />
               </Suspense>
             </div>
             <div className="flex-1 bg-black-500 bg-opacity-50" onClick={toggleButton}></div>
