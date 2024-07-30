@@ -18,7 +18,7 @@ export default function Ranking({
   i,
 }: RankingListProps) {
   return (
-    <Link href={`/user/${id}`} className="flex gap-[10px] mr-5 items-center w-auto">
+    <Link href={`/users/${id}`} className="flex gap-[10px] mr-5 items-center w-auto">
       <Avatar className="w-9 h-9 lg:w-[42px] lg:h-[42px]">
         <AvatarImage src={image} alt={nickname} />
         <AvatarFallback>
@@ -28,7 +28,7 @@ export default function Ranking({
       <div className="flex flex-col">
         <div className="flex items-center justify-start gap-2 text-white text-sm lg:text-base">
           <RankingTag rank={i + 1} />
-          {nickname}
+          <span>{nickname}</span>
         </div>
         <div className="flex lg:text-xs gap-[15px] font-light text-gray-600 text-[10px] pt-1">
           <p>팔로워 {followersCount}</p>
