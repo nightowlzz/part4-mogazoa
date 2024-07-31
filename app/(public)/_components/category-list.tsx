@@ -41,7 +41,6 @@ export function Categories() {
 
 function CategoryButton({ id, name, categoryId, keyword }: SideBarProps) {
   const { closeButton } = useButtonStore();
-
   let link;
   if (categoryId && id !== categoryId) {
     link = `/search?category=${name}&categoryId=${id}`;
