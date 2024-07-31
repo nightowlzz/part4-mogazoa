@@ -30,6 +30,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { renameFileWithExtension } from '@/utils/textUtils';
 
 export const FormSchema = z.object({
   name: z.string().min(1, { message: '상품 이름은 필수 입력입니다.' }),
@@ -80,11 +81,7 @@ export default function EditProduct({
     if (file) {
       try {
         const formData = new FormData();
-        // 고유한 파일 이름 생성
-        const uniqueFileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${file.name.split('.').pop()}`;
-        const renamedFile = new File([file], uniqueFileName, { type: file.type });
-
-        formData.append('image', renamedFile);
+        formData.append('image', renameFileWithExtension(file));
         const response = await uploadImageMutation.mutateAsync(formData);
         setImageUrl(response.url);
         form.setValue('image', response.url);

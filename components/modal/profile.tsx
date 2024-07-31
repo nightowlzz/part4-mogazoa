@@ -29,6 +29,7 @@ import { IoCloseSharp } from 'react-icons/io5';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Input } from '../ui/input';
+import { renameFileWithExtension } from '@/utils/textUtils';
 
 const FormSchema = z.object({
   nickname: z.string().min(1, { message: '이름은 필수 입력입니다.' }),
@@ -76,11 +77,7 @@ export default function ProfileModal({
     if (file) {
       try {
         const formData = new FormData();
-        // 고유한 파일 이름 생성
-        const uniqueFileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${file.name.split('.').pop()}`;
-        const renamedFile = new File([file], uniqueFileName, { type: file.type });
-
-        formData.append('image', renamedFile);
+        formData.append('image', renameFileWithExtension(file));
         const response = await uploadImageMutation.mutateAsync(formData);
         setImageUrl(response.url);
         form.setValue('image', response.url);

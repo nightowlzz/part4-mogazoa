@@ -34,6 +34,7 @@ import { useDataQuery } from '@/services/common';
 import { ProductsListResponse } from '@/types/data';
 import { useRouter } from 'next/navigation';
 import { BiImageAdd } from 'react-icons/bi';
+import { renameFileWithExtension } from '@/utils/textUtils';
 
 const FormSchema = z.object({
   name: z
@@ -107,11 +108,7 @@ export default function AddProductModal({ triggerButton }: AddProductModalProps)
     if (file) {
       try {
         const formData = new FormData();
-        // 고유한 파일 이름 생성
-        const uniqueFileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${file.name.split('.').pop()}`;
-        const renamedFile = new File([file], uniqueFileName, { type: file.type });
-
-        formData.append('image', renamedFile);
+        formData.append('image', renameFileWithExtension(file));
         const response = await uploadImageMutation.mutateAsync(formData);
         setImageUrl(response.url);
         form.setValue('image', response.url);
