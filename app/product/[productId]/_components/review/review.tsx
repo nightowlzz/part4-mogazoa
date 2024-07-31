@@ -10,7 +10,7 @@ import EditReview from '../modal/edit-review';
 import Thumbs from './thumbs';
 
 interface ReviewProps extends ReviewResponse {
-  currentUserId: number | undefined;
+  currentUserId: number | null;
   reviewRef: LegacyRef<HTMLDivElement> | undefined;
   categoryName: string;
   productName: string;

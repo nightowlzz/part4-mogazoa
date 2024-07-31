@@ -37,7 +37,6 @@ export default function ImageUpload({
   handlerImageFiles,
   handleImageDelete,
 }: ImageUploadProps) {
-  console.log('previewpreviewpreview', preview);
   return (
     <Swiper
       slidesPerView={'auto'}

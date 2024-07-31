@@ -139,8 +139,7 @@ export default function EditProduct({
                           <Input
                             id="productPicture"
                             type="file"
-                            multiple
-                            accept="image/*"
+                            accept=".jpg, .jpeg, .png"
                             onChange={handleImageChange}
                           />
                           {/* label bg로 image 보이게*/}
