@@ -29,8 +29,6 @@ const nextConfig = {
       'store.storeimages.cdn-apple.com',
     ],
   },
-  reactStrictMode: true,
-  swcMinify: true,
 };
 
 export default nextConfig;

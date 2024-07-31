@@ -26,7 +26,7 @@ interface Product {
 export default function UserId() {
   const params = useParams();
   const router = useRouter();
-  const userId = params.userId;
+  const userId = Number(params.userId);
   const {
     data: userInfoResponse,
     isLoading: userInfoLoading,

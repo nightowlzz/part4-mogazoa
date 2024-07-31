@@ -43,6 +43,7 @@ export function useDataMutation<TData, TResponse>(
     mutateAsync: (data: TData) => mutation.mutateAsync(data),
   };
 }
+
 async function request<TData, TResponse>({
   url,
   data,

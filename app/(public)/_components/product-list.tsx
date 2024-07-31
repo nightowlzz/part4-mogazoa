@@ -4,11 +4,11 @@ import { useGetProducts } from '@/hooks/product';
 import { ProductsListResponse } from '@/types/data';
 import { Product } from './product';
 interface ProductListProps {
-  initialData: ProductsListResponse
+  initialData: ProductsListResponse | undefined;
 }
 
 export default function ProductList({ initialData }: ProductListProps) {
-  const { data: products, isError, isPending } = useGetProducts(undefined,{ initialData });
+  const { data: products, isError, isPending } = useGetProducts(undefined, { initialData });
 
   if (isError) return <div>isERROR</div>;
   // [NOTE]:스켈레톤 작업

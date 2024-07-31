@@ -1,12 +1,17 @@
 import Gnb from '@/app/_styled-guide/_components/gnb';
 import { Button } from '@/components/ui/button';
+import { getServerSession } from 'next-auth';
 import { IoMdAdd } from 'react-icons/io';
+import { authOptions } from '../api/auth/[...nextauth]/auth-options';
+import MyPage from './page';
 
-export default function MyPageLayout({ children }: { children: React.ReactNode }) {
+export default async function MyPageLayout({ children }: { children: React.ReactNode }) {
+  const session = await getServerSession(authOptions);
+  const userId = session?.user.id;
   return (
     <>
       <Gnb />
-      {children}
+      <MyPage userId={userId} />
       <Button
         variant="circleBlue"
         size={'auto'}

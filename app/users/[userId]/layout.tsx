@@ -5,7 +5,7 @@ import { IoMdAdd } from 'react-icons/io';
 export default function UserIdLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <Gnb />
+      {/* <Gnb /> */}
       {children}
       <Button
         variant="circleBlue"
