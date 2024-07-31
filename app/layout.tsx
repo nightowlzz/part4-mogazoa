@@ -9,6 +9,7 @@ import Gnb from './_styled-guide/_components/gnb';
 import './globals.css';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]/auth-options';
+import FloatAddButton from './_styled-guide/_components/float-add-button';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -33,6 +34,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Provider>
             <Gnb isLogin={!!session} />
             {children}
+            {!!session && <FloatAddButton />}
           </Provider>
         </QueryProviderWrapper>
         <Toaster position="top-center" />

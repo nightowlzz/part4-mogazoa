@@ -11,7 +11,6 @@ function ComparePage() {
 
   return (
     <>
-      <FloatAddButton />
       <div className="w-full h-lvh bg-[#1c1c22] flex flex-col items-center">
         <div className="flex flex-col w-full md:flex-row items-end justify-center md:space-x-5 space-y-7 mt-[30px] md:mt-[40px] lg:mt-[60px] px-5 md:px-[30px]">
           <div role="product wrapper" className="w-full lg:w-fit">
