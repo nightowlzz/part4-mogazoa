@@ -10,7 +10,7 @@ interface StatisticRatingProps {
 }
 
 export function StatisticRating({ rating, categoryMetric }: StatisticRatingProps) {
-  const categoryRating = parseFloat(categoryMetric.rating.toFixed(1));
+  const categoryRating = categoryMetric.rating;
   const productRating = parseFloat(rating.toFixed(1));
 
   const comparisonText = () => {

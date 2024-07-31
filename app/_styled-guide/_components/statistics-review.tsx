@@ -10,10 +10,10 @@ interface StatisticReviewProps {
 }
 
 export function StatisticReview({ reviewCount, categoryMetric }: StatisticReviewProps) {
-  const categoryReviewCount = parseFloat(categoryMetric.reviewCount.toFixed(1));
+  const categoryReviewCount = categoryMetric.reviewCount;
 
   const comparisonText = () => {
-    const difference = reviewCount - categoryReviewCount;
+    const difference = parseFloat((reviewCount - categoryReviewCount).toFixed(1));
     if (reviewCount > categoryReviewCount) {
       return (
         <>
