@@ -68,7 +68,7 @@ export default function Product() {
                     <div className="relative flex h-[140px] md:h-full w-[140px] md:w-[135px] lg:w-[160px]">
                       <FormControl>
                         <>
-                          <Input id="productPicture" type="file" multiple accept="image/*" />
+                          <Input id="productPicture" type="file" accept=".jpg, .jpeg, .png" />
                           {/* label bg로 image 보이게*/}
                           <FormLabel
                             htmlFor="productPicture"

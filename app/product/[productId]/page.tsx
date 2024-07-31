@@ -27,22 +27,18 @@ export default function ProductDetailPage() {
     return <p>상품 정보가 없습니다.</p>;
   }
 
-  if (!currentUserId) {
-    return false;
-  }
-
   return (
     <div className="w-full h-full bg-[#1C1C22] flex flex-col items-center">
       <Gnb />
       <div className="mt-[60px] mb-[80px]">
         <ProductCard
-          name={productDetail?.name}
-          description={productDetail?.description}
-          image={productDetail?.image}
-          writerId={productDetail?.writerId}
-          currentUserId={currentUserId?.id}
-          categoryName={productDetail?.category.name}
-          categoryId={productDetail?.category.id}
+          name={productDetail.name}
+          description={productDetail.description}
+          image={productDetail.image}
+          writerId={productDetail.writerId}
+          currentUserId={currentUserId ? currentUserId.id : null}
+          categoryName={productDetail.category.name}
+          categoryId={productDetail.category.id}
         />
       </div>
       <div>
@@ -64,7 +60,7 @@ export default function ProductDetailPage() {
       </div>
       <ReviewList
         productId={productId}
-        currentUserId={currentUserId.id}
+        currentUserId={currentUserId ? currentUserId.id : null}
         categoryName={productDetail.category.name}
         categoryId={productDetail.category.id}
         productName={productDetail.name}

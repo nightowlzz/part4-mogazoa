@@ -3,7 +3,9 @@ import { Button } from '@/components/ui/button';
 import { useLikeReview, useUnlikeReview } from '@/hooks/review';
 import { cn } from '@/lib/utils';
 import { useQueryClient } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 import { RiThumbUpFill, RiThumbUpLine } from 'react-icons/ri';
+import { toast } from 'sonner';
 
 interface ThumbsProps {
   reviewId: number;
@@ -13,7 +15,8 @@ interface ThumbsProps {
 
 const Thumbs = ({ reviewId, isLiked, likeCount }: ThumbsProps) => {
   const queryClient = useQueryClient();
-
+  const { data: session } = useSession();
+  const accessToken = session?.user.accessToken;
   const invalidateReviewQueries = () => {
     queryClient.invalidateQueries({ queryKey: ['review'] });
   };
@@ -37,6 +40,11 @@ const Thumbs = ({ reviewId, isLiked, likeCount }: ThumbsProps) => {
   });
 
   const handleClick = () => {
+    if (!accessToken) {
+      toast.error('로그인이 필요합니다.');
+      return false;
+    }
+
     if (isLiked) {
       unlikeReview.mutate();
     } else {

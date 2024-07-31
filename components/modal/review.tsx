@@ -120,7 +120,7 @@ export default function Review() {
                   <div className="relative flex w-[140px] md:w-[160px] h-[140px] md:h-[160px]">
                     <FormControl>
                       <>
-                        <Input id="reviewPicture" type="file" multiple accept="image/*" />
+                        <Input id="reviewPicture" type="file" multiple accept=".jpg, .jpeg, .png" />
                         {/* label bg로 image 보이게*/}
                         <FormLabel
                           htmlFor="reviewPicture"
