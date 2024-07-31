@@ -183,8 +183,7 @@ export default function AddProductModal({ triggerButton }: AddProductModalProps)
                           <Input
                             id="productPicture"
                             type="file"
-                            multiple
-                            accept="image/*"
+                            accept=".jpg, .jpeg, .png"
                             onChange={handleImageChange}
                           />
                           {/* label bg로 image 보이게*/}

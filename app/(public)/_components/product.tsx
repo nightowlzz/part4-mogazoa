@@ -14,7 +14,16 @@ export function Product({ id, name, image, rating, reviewCount, favoriteCount }:
     >
       <figure className="absolute inset-y-0 w-full">
         <div className={cn(styled['product-image'], 'relative w-full')}>
-          <Image src={String(image)} alt={name} fill priority sizes={'400px auto'} />
+          <Image
+            src={String(image)}
+            alt={name}
+            fill
+            priority
+            sizes={'420px auto'}
+            style={{
+              objectFit: 'cover',
+            }}
+          />
         </div>
         <figcaption className="px-[10px] py-[10px] sm:px-[15px] sm:py-[15px] lg:px-[20px] lg:py-[20px]">
           <h2 className="text-white text-sm md:text-base lg:text-lg pb-1 whitespace-nowrap overflow-hidden text-ellipsis">
@@ -27,7 +36,7 @@ export function Product({ id, name, image, rating, reviewCount, favoriteCount }:
             </div>
             <div className="flex justify-start items-center md:justify-center gap-[2px] text-gray-500 mt-[2px] sm:mt-0">
               <FaStar size={12} color="#FFC83C" className="md:w-[15px] md:h-[15px]" />
-              {rating}
+              {rating.toFixed(1)}
             </div>
           </div>
         </figcaption>

@@ -28,10 +28,6 @@ export default function ProductPage() {
     return <p>상품 정보가 없습니다.</p>;
   }
 
-  if (!currentUserId) {
-    return false;
-  }
-
   return (
     <div className="w-full h-full bg-[#1C1C22] flex flex-col items-center">
       <Gnb />
@@ -41,7 +37,7 @@ export default function ProductPage() {
           description={productDetail.description}
           image={productDetail.image}
           writerId={productDetail.writerId}
-          currentUserId={currentUserId.id}
+          currentUserId={currentUserId ? currentUserId.id : null}
           categoryName={productDetail.category.name}
           categoryId={productDetail.category.id}
         />
@@ -65,7 +61,7 @@ export default function ProductPage() {
       </div>
       <ReviewList
         productId={productId}
-        currentUserId={currentUserId.id}
+        currentUserId={currentUserId ? currentUserId.id : null}
         categoryName={productDetail.category.name}
         categoryId={productDetail.category.id}
         productName={productDetail.name}

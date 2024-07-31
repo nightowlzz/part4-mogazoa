@@ -22,7 +22,6 @@ import {
 import { useUploadImage } from '@/hooks/image';
 import { usePostReview } from '@/hooks/review';
 import { PostReviewRequest } from '@/types/data';
-import { limitText, limitTextLength } from '@/utils/textLimitUtils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -31,6 +30,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import ImageUpload from './components/image-upload';
 import StarRating from './components/star-rating';
+import { limitText, limitTextLength, renameFileWithExtension } from '@/utils/textUtils';
 
 interface ReviewProps {
   children: React.ReactNode;
@@ -118,7 +118,7 @@ export default function CreateReview({
 
     for (const file of selectedFiles) {
       const formData = new FormData();
-      formData.append('image', file);
+      formData.append('image', renameFileWithExtension(file));
 
       try {
         const res = await uploadImage.mutateAsync(formData);
