@@ -21,9 +21,7 @@ export function useDataQuery<TResponse>(
 ) {
   return useQuery<TResponse, AxiosError, TResponse, QueryKey>({
     queryKey,
-    queryFn: () => {
-      return request<undefined, TResponse>({ url, method: 'get', params });
-    },
+    queryFn: () => request<undefined, TResponse>({ url, method: 'get', params }),
     ...options,
   });
 }
