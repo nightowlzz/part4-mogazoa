@@ -10,7 +10,7 @@ interface StatisticFavoriteProps {
 }
 
 export function StatisticFavorite({ favoriteCount, categoryMetric }: StatisticFavoriteProps) {
-  const categoryFavoriteCount = categoryMetric.favoriteCount;
+  const categoryFavoriteCount = parseFloat(categoryMetric.favoriteCount.toFixed(1));
 
   const comparisonText = () => {
     const difference = favoriteCount - categoryFavoriteCount;
