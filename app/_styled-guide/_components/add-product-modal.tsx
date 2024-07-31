@@ -107,7 +107,11 @@ export default function AddProductModal({ triggerButton }: AddProductModalProps)
     if (file) {
       try {
         const formData = new FormData();
-        formData.append('image', file);
+        // 고유한 파일 이름 생성
+        const uniqueFileName = `${Date.now()}-${Math.random().toString(36).substring(2, 15)}.${file.name.split('.').pop()}`;
+        const renamedFile = new File([file], uniqueFileName, { type: file.type });
+
+        formData.append('image', renamedFile);
         const response = await uploadImageMutation.mutateAsync(formData);
         setImageUrl(response.url);
         form.setValue('image', response.url);
