@@ -17,7 +17,7 @@ export const useGetMyInfo = (
   >,
 ) => {
   const url = '/users/me';
-  return useDataQuery<void, UserResponse>(['myInfo'], url, undefined, options);
+  return useDataQuery<UserResponse>(['myInfo'], url, options);
 };
 
 export const useUpdateMyInfo = (
@@ -35,7 +35,7 @@ export const useGetUserRanking = (
   >,
 ) => {
   const url = '/users/ranking';
-  return useDataQuery<void, RankedUserResponse[]>(['userRanking'], url, undefined, options);
+  return useDataQuery<RankedUserResponse[]>(['userRanking'], url, options);
 };
 
 export const useGetUserInfo = (
@@ -45,12 +45,7 @@ export const useGetUserInfo = (
     'queryKey' | 'queryFn'
   >,
 ) => {
-  return useDataQuery<void, UserResponse>(
-    ['userInfo', userId],
-    `/users/${userId}`,
-    undefined,
-    options,
-  );
+  return useDataQuery<UserResponse>(['userInfo', userId], `/users/${userId}`, options);
 };
 
 export const useGetUserCreatedProducts = (
@@ -61,10 +56,9 @@ export const useGetUserCreatedProducts = (
     'queryKey' | 'queryFn'
   >,
 ) => {
-  return useDataQuery<void, ProductsListResponse>(
+  return useDataQuery<ProductsListResponse>(
     ['userCreatedProducts', userId],
     `/users/${userId}/created-products`,
-    undefined,
     options,
     params,
   );
@@ -78,10 +72,9 @@ export const useGetUserReviewedProducts = (
     'queryKey' | 'queryFn'
   >,
 ) => {
-  return useDataQuery<void, ProductsListResponse>(
+  return useDataQuery<ProductsListResponse>(
     ['userReviewedProducts', userId],
     `/users/${userId}/reviewed-products`,
-    undefined,
     options,
     params,
   );
@@ -95,10 +88,9 @@ export const useGetUserFavoriteProducts = (
     'queryKey' | 'queryFn'
   >,
 ) => {
-  return useDataQuery<void, ProductsListResponse>(
+  return useDataQuery<ProductsListResponse>(
     ['userFavoriteProducts', userId],
     `/users/${userId}/favorite-products`,
-    undefined,
     options,
     params,
   );
@@ -106,32 +98,32 @@ export const useGetUserFavoriteProducts = (
 
 export const useGetUserFollowees = (
   userId: number,
-  cursor?: number | undefined,
+  params?: { cursor: number | undefined },
   options?: Omit<
     UseQueryOptions<FolloweesResponse, AxiosError, FolloweesResponse, QueryKey>,
     'queryKey' | 'queryFn'
   >,
 ) => {
-  return useDataQuery<{ cursor?: number }, FolloweesResponse>(
-    ['userFollowees', userId, cursor],
+  return useDataQuery<FolloweesResponse>(
+    ['userFollowees', userId],
     `/users/${userId}/followees`,
-    { cursor },
     options,
+    params,
   );
 };
 
 export const useGetUserFollowers = (
   userId: number,
-  cursor?: number | undefined,
+  params?: { cursor: number | undefined },
   options?: Omit<
     UseQueryOptions<FollowersResponse, AxiosError, FollowersResponse, QueryKey>,
     'queryKey' | 'queryFn'
   >,
 ) => {
-  return useDataQuery<{ cursor?: number }, FollowersResponse>(
-    ['userFollowers', userId, cursor],
+  return useDataQuery<FollowersResponse>(
+    ['userFollowers', userId, params?.cursor],
     `/users/${userId}/followers`,
-    { cursor },
     options,
+    params,
   );
 };
