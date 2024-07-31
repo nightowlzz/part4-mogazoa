@@ -1,14 +1,14 @@
 'use client';
 import ContentEmpty from '@/components/content-empty';
 import { useGetProducts } from '@/hooks/product';
-import { ProductResponse } from '@/types/data';
+import { ProductsListResponse } from '@/types/data';
 import { Product } from './product';
 interface ProductListProps {
-  initialData: ProductResponse | undefined;
+  initialData: ProductsListResponse
 }
 
 export default function ProductList({ initialData }: ProductListProps) {
-  const { data: products, isError, isPending } = useGetProducts({ initialData: initialData });
+  const { data: products, isError, isPending } = useGetProducts(undefined,{ initialData });
 
   if (isError) return <div>isERROR</div>;
   // [NOTE]:스켈레톤 작업
