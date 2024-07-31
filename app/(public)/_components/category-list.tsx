@@ -3,6 +3,7 @@ import styled from '@/app/(public)/_styles/main.module.scss';
 import { buttonVariants } from '@/components/ui/button';
 import { useGetCategories } from '@/hooks/category';
 import { cn } from '@/lib/utils';
+import useButtonStore from '@/store/globalStore';
 import { CategoryResponse } from '@/types/data';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -13,7 +14,7 @@ interface SideBarProps extends CategoryResponse {
   keyword?: string | null;
 }
 
-function Categories() {
+export function Categories() {
   const searchParams = useSearchParams();
   const categoryId = searchParams.get('categoryId');
   const keyword = searchParams.get('keyword');
@@ -39,6 +40,7 @@ function Categories() {
 }
 
 function CategoryButton({ id, name, categoryId, keyword }: SideBarProps) {
+  const { closeButton } = useButtonStore();
   let link;
   if (categoryId && id !== categoryId) {
     link = `/search?category=${name}&categoryId=${id}`;
@@ -52,6 +54,7 @@ function CategoryButton({ id, name, categoryId, keyword }: SideBarProps) {
         buttonVariants({ variant: 'nav', size: 'sm' }),
         `${categoryId === id ? 'border-[#353542] bg-[#252530] text-white' : ''}`,
       )}
+      onClick={closeButton}
     >
       {name}
     </Link>
