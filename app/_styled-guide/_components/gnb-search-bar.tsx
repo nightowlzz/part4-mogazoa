@@ -2,7 +2,7 @@
 
 import useDropdown from '@/hooks/useDropdown';
 import useSearchSuggestions from '@/hooks/useSearchSuggestions';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import DropdownList from './dropdown-list';
@@ -20,6 +20,10 @@ const GnbSearchBar = ({
   isMobileMode = false,
   setIsMobileSearchOpen,
 }: SearchBarProps) => {
+  const searchParams = useSearchParams();
+  const categoryName = searchParams.get('category');
+  const categoryId = searchParams.get('categoryId');
+
   const [keyword, setKeyword] = useState('');
   const { suggestions, isLoading, isError } = useSearchSuggestions(keyword);
   const { inputRef, isDropdownOpen, handleFocus, handleBlur } = useDropdown();
@@ -28,8 +32,16 @@ const GnbSearchBar = ({
 
   const executeSearch = () => {
     if (keyword.trim()) {
-      router.push(`/search?keyword=${keyword}`);
+      if (categoryName) {
+        router.push(
+          `/search?category=${categoryName}&categoryId=${categoryId}${keyword ? `&keyword=${keyword}` : ''}`,
+        );
+      } else {
+        router.push(`/search?keyword=${keyword}`);
+      }
+
       if (setIsMobileSearchOpen) setIsMobileSearchOpen(false);
+      setKeyword('');
     }
   };
 

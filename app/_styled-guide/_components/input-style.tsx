@@ -83,7 +83,7 @@ export default function InputStyle() {
                     <div className="relative flex h-[140px] md:h-[135px] lg:h-[160px] w-[140px] md:w-[135px] lg:w-[160px]">
                       <FormControl>
                         <>
-                          <Input id="textPicture" type="file" multiple accept="image/*" />
+                          <Input id="textPicture" type="file" multiple accept=".jpg, .jpeg, .png" />
                           {/* label bg로 image 보이게*/}
                           <FormLabel
                             htmlFor="textPicture"
