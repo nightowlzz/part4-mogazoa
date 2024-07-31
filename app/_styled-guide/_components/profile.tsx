@@ -5,10 +5,11 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { useFollowUser, useUnFollowUser } from '@/hooks/follow';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
-import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import DefaultImage from '@/public/assets/images/avatar-default-image.jpeg';
+import { useAuth } from '@/hooks/nextauth';
+import { useRouter } from 'next/navigation';
 
 interface UserProfileProps {
   id: number;
@@ -39,6 +40,8 @@ export default function Profile({
 
   const { mutate: followUser, error: followError } = useFollowUser();
   const { mutate: unFollowUser, error: unFollowError } = useUnFollowUser();
+  const { logout } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     setIsFollow(isFollowing);
@@ -79,6 +82,11 @@ export default function Profile({
     setNickname(updatedData.nickname);
     setDescription(updatedData.description);
     setImage(updatedData.image);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    router.push('/');
   };
 
   return (
@@ -127,9 +135,9 @@ export default function Profile({
             image={image}
             onUpdate={handleProfileUpdate}
           />
-          <Link href="/" className={cn(buttonVariants({ variant: 'outline' }))}>
+          <button className={cn(buttonVariants({ variant: 'outline' }))} onClick={handleLogout}>
             로그아웃
-          </Link>
+          </button>
         </div>
       ) : isFollow ? (
         <Button variant="outline" onClick={handleUnfollow}>
