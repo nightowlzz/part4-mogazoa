@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Suspense } from 'react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import Link from 'next/link';
 import Logo from './logo';
@@ -34,7 +34,9 @@ function Gnb({ isLogin = true }: GnbProps) {
         <div className="flex justify-between items-center w-full md:h-20 lg:h-[100px] md:px-[30px] lg:px-[120px] fixed inset-x-0 top-0 bg-black-600 z-50">
           <Logo />
           <div className="flex justify-between md:gap-[30px] lg:gap-[60px]">
-            <GnbSearchBar />
+            <Suspense>
+              <GnbSearchBar />
+            </Suspense>
             {isLogin && (
               <>
                 <Link href="/compare" className={buttonVariants({ variant: 'text', size: 'auto' })}>
