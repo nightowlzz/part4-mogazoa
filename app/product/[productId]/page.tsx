@@ -30,7 +30,7 @@ export default function ProductDetailPage() {
   return (
     <div className="w-full h-full bg-[#1C1C22] flex flex-col justify-center items-center">
       <Gnb />
-      <div className="w-full max-w-[980px] px-5 mx-auto mt-[60px] mb-[80px]">
+      <div className="w-full max-w-[980px] mx-auto mt-[60px] mb-[80px]">
         <ProductCard
           name={productDetail.name}
           description={productDetail.description}
@@ -41,7 +41,7 @@ export default function ProductDetailPage() {
           categoryId={productDetail.category.id}
         />
       </div>
-      <div className="w-full max-w-[980px] px-5 mx-auto">
+      <div className="w-full max-w-[980px] mx-auto">
         <h3 className="text-[#F1F1F5] text-xl font-normal">상품 통계</h3>
         <div className="flex flex-col md:flex-row mt-[30px] mb-[60px] gap-[15px] lg:gap-5">
           <StatisticRating
