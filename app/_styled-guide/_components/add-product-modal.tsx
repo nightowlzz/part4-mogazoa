@@ -34,6 +34,7 @@ import { useDataQuery } from '@/services/common';
 import { ProductsListResponse } from '@/types/data';
 import { useRouter } from 'next/navigation';
 import { BiImageAdd } from 'react-icons/bi';
+import { renameFileWithExtension } from '@/utils/textUtils';
 
 const FormSchema = z.object({
   name: z
@@ -107,7 +108,7 @@ export default function AddProductModal({ triggerButton }: AddProductModalProps)
     if (file) {
       try {
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', renameFileWithExtension(file));
         const response = await uploadImageMutation.mutateAsync(formData);
         setImageUrl(response.url);
         form.setValue('image', response.url);
