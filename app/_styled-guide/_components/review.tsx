@@ -1,6 +1,6 @@
 import Image from 'next/image';
-import { ReviewProfile } from './review-profile';
 import Thumbs from './Thumbs';
+import { ReviewProfile } from '@/app/product/[productId]/_components/review/review-profile';
 
 interface ReviewImage {
   source: string;
