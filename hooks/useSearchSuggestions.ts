@@ -39,7 +39,7 @@ const useSearchSuggestions = (
       setIsLoading(true);
       setIsError(false);
       if (!queryLoading && data) {
-        // 상품 목록 데이터에서 이름만 추출
+        // 상품 목록 데이터에서 이름과 id 추출
         const options = data.list.map((product) => ({
           id: product.id,
           name: product.name,

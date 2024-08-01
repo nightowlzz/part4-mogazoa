@@ -2,8 +2,8 @@ import styled from '@/app/(public)/_styles/main.module.scss';
 import { cn } from '@/lib/utils';
 import { ProductResponse } from '@/types/data';
 import axiosInstance from '@/utils/axiosInstance';
-import ProductList from './_components/product-list';
 import { QueryClient } from '@tanstack/react-query';
+import ProductList from './_components/product-list';
 
 export default async function Home() {
   const queryClient = new QueryClient();
