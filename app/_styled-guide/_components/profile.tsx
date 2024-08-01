@@ -106,6 +106,7 @@ export default function Profile({
               src={DefaultImage}
               alt="Default Profile"
               className="w-full h-full object-cover"
+              priority
             />
           </AvatarFallback>
         )}
