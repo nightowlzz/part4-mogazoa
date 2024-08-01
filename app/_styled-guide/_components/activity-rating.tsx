@@ -12,7 +12,7 @@ export function ActivityRating({ rating }: ActivityRatingProps) {
       </h2>
       <div className="flex items-center justify-center ">
         <FaStar className="mr-[5px] lg:w-6 lg:h-6" size="19px" color="#FFC83C" />
-        <p className="text-white text-base md:text-xl lg:text-2xl">{rating}</p>
+        <p className="text-white text-base md:text-xl lg:text-2xl">{rating.toFixed(1)}</p>
       </div>
     </div>
   );
