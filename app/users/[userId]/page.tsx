@@ -11,7 +11,6 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import ProfileSection from '@/components/ProfileSection';
 import { UserInfo } from '@/components/ProfileSection';
-import { getSession } from 'next-auth/react';
 
 interface Product {
   id: number;
@@ -39,7 +38,7 @@ export default function UserId() {
   const { data: userFavoriteProducts } = useGetUserFavoriteProducts(Number(userId));
 
   const [selectedCategory, setSelectedCategory] = useState('리뷰 남긴 상품');
-  const [isLogin, setIsLogin] = useState(false);
+
   const options = ['리뷰 남긴 상품', '등록한 상품', '찜한 상품'];
 
   const handleCategoryChange = (category: string) => {
