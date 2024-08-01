@@ -157,7 +157,7 @@ function ProductCard({
           </div>
         </div>
 
-        <p className="text-[#F1F1F5] md:text-sm lg:text-base font-normal mt-5 md:mt-[49px] mb-[67px] md:mb-[60px] whitespace-normal">
+        <p className="text-[#F1F1F5] md:text-sm lg:text-base font-normal mt-5 md:mt-[49px] mb-[67px] md:mb-[60px] whitespace-pre-wrap">
           {description}
         </p>
         <div className="flex flex-col md:flex-row gap-[15px] md:gap-[10px] lg:gap-5">
