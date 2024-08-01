@@ -1,3 +1,5 @@
+// [NOTE] 외부 공통으로 분리 search, product/[productId] 페이지 에서 사용
+
 'use client';
 
 import { Dispatch, SetStateAction, useState } from 'react';

@@ -1,4 +1,3 @@
-import { ReviewProfile } from '@/app/_styled-guide/_components/review-profile';
 import { Button } from '@/components/ui/button';
 import { useDeleteReview } from '@/hooks/review';
 import { ReviewResponse } from '@/types/data';
@@ -8,6 +7,7 @@ import { LegacyRef } from 'react';
 import { toast } from 'sonner';
 import EditReview from '../modal/edit-review';
 import Thumbs from './thumbs';
+import { ReviewProfile } from './review-profile';
 
 interface ReviewProps extends ReviewResponse {
   currentUserId: number | null;
