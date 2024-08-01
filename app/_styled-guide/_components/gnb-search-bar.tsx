@@ -6,11 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import DropdownList from './dropdown-list';
-
-export interface ProductOption {
-  id: number;
-  name: string;
-}
+import { ProductOption, usePreviousSearchStore } from '@/store/globalStore';
 
 interface SearchBarProps {
   placeholder?: string;
@@ -29,10 +25,12 @@ const GnbSearchBar = ({
   const categoryId = searchParams.get('categoryId');
 
   const [keyword, setKeyword] = useState('');
-  const { suggestions } = useSearchSuggestions(keyword);
-  const { inputRef, dropdownRef, isDropdownOpen, handleFocus } = useDropdown();
+  const { previousSearches, addPreviousSearch } = usePreviousSearchStore();
+  const { suggestions } = useSearchSuggestions({ keyword, previousSearches });
+  const { inputRef, dropdownRef, isDropdownOpen, setIsDropdownOpen, handleFocus } = useDropdown();
   const router = useRouter();
 
+  //검색 동작
   const executeSearch = () => {
     if (keyword.trim()) {
       if (categoryName) {
@@ -43,8 +41,10 @@ const GnbSearchBar = ({
         router.push(`/search?keyword=${keyword}`);
       }
 
+      addPreviousSearch(keyword.trim());
       if (setIsMobileSearchOpen) setIsMobileSearchOpen(false);
       setKeyword('');
+      inputRef.current?.blur();
     }
   };
 
@@ -57,6 +57,7 @@ const GnbSearchBar = ({
   const onSelect = (value: ProductOption) => {
     setKeyword(value.name);
     inputRef.current?.focus();
+    setIsDropdownOpen(false);
   };
 
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {

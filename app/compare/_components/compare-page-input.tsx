@@ -8,20 +8,20 @@ import { IoMdArrowDropdown } from 'react-icons/io';
 import useSearchSuggestions from '@/hooks/useSearchSuggestions';
 import useDropdown from '@/hooks/useDropdown';
 import DropdownList from '@/app/_styled-guide/_components/dropdown-list';
+import { ProductOption, usePreviousCompareStore } from '@/store/globalStore';
 
 interface ComparePageInputProps {
   index: number;
 }
 
-export interface ProductOption {
-  id: number;
-  name: string;
-}
-
 function ComparePageInput({ index }: ComparePageInputProps) {
   const [keyword, setKeyword] = useState<string>('');
   const [tag, setTag] = useState<string>('');
-  const { suggestions, isLoading, isError } = useSearchSuggestions(keyword);
+  const { previousComparedValues, addPreviousComparedValue } = usePreviousCompareStore();
+  const { suggestions } = useSearchSuggestions({
+    keyword,
+    previousSearches: previousComparedValues,
+  });
   const { inputRef, dropdownRef, isDropdownOpen, setIsDropdownOpen, handleFocus } = useDropdown();
 
   const { compareItem, updateCompareItem, deleteCompareItem } = useCompareStore((state) => ({
@@ -41,6 +41,7 @@ function ComparePageInput({ index }: ComparePageInputProps) {
     setKeyword('');
     setTag(option.name);
     updateCompareItem(index, { id: option.id, name: option.name });
+    addPreviousComparedValue(option);
   };
 
   const onTagDelete = () => {
