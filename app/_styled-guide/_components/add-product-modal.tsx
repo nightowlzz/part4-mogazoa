@@ -207,9 +207,7 @@ export default function AddProductModal({ triggerButton }: AddProductModalProps)
                             htmlFor="productPicture"
                             variant="file"
                             style={{
-                              backgroundImage: imageUrl
-                                ? `url(${imageUrl})`
-                                : `url(${field.value})`,
+                              backgroundImage: imageUrl ? `url(${imageUrl})` : field.value,
                             }}
                           >
                             {!imageUrl && (
