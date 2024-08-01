@@ -58,10 +58,6 @@ export default function UserId() {
     return <div>Error: {userInfoError?.message}</div>;
   }
 
-  if (!userInfoResponse) {
-    return <div>유저 정보 없음</div>;
-  }
-
   if (userInfoResponse?.teamId !== '5-6') {
     return <div>없는 유저 id</div>;
   }

@@ -25,13 +25,15 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ImFilePicture } from 'react-icons/im';
-import { IoCloseSharp } from 'react-icons/io5';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Input } from '../ui/input';
 
 const FormSchema = z.object({
-  nickname: z.string().min(1, { message: '이름은 필수 입력입니다.' }),
+  nickname: z
+    .string()
+    .min(1, { message: '이름은 필수 입력입니다.' })
+    .max(9, { message: '10자 이내로 입력해주세요.' }),
   description: z.string(),
   image: z.string().nullable(),
 });

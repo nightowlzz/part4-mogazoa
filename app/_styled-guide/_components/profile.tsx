@@ -10,6 +10,7 @@ import { useEffect, useState } from 'react';
 import DefaultImage from '@/public/assets/images/avatar-default-image.jpeg';
 import { useAuth } from '@/hooks/nextauth';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 interface UserProfileProps {
   id: number;
@@ -86,6 +87,7 @@ export default function Profile({
 
   const handleLogout = async () => {
     await logout();
+    toast.success('로그아웃에 성공했습니다.');
     router.push('/');
   };
 
