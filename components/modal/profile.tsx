@@ -28,6 +28,7 @@ import { ImFilePicture } from 'react-icons/im';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Input } from '../ui/input';
+import { renameFileWithExtension } from '@/utils/textUtils';
 
 const FormSchema = z.object({
   nickname: z
@@ -78,7 +79,7 @@ export default function ProfileModal({
     if (file) {
       try {
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', renameFileWithExtension(file));
         const response = await uploadImageMutation.mutateAsync(formData);
         setImageUrl(response.url);
         form.setValue('image', response.url);

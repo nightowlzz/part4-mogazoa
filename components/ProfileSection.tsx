@@ -102,7 +102,10 @@ export default function ProfileSection({
             <div className="flex gap-[10px] lg:gap-[20px]">
               <ActivityRating rating={userInfo.averageRating} />
               <ActivityReview reviewCount={userInfo.reviewCount} />
-              <ActivityCategory mostFavoriteCategory={userInfo.mostFavoriteCategory} />
+              <ActivityCategory
+                mostFavoriteCategory={userInfo.mostFavoriteCategory}
+                className="whitespace-nowrap"
+              />
             </div>
           </div>
           <div>

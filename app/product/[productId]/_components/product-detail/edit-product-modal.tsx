@@ -30,6 +30,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+import { renameFileWithExtension } from '@/utils/textUtils';
 
 export const FormSchema = z.object({
   name: z.string().min(1, { message: '상품 이름은 필수 입력입니다.' }),
@@ -80,7 +81,7 @@ export default function EditProduct({
     if (file) {
       try {
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', renameFileWithExtension(file));
         const response = await uploadImageMutation.mutateAsync(formData);
         setImageUrl(response.url);
         form.setValue('image', response.url);
