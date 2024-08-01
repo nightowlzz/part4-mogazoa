@@ -3,10 +3,14 @@
 import useDropdown from '@/hooks/useDropdown';
 import useSearchSuggestions from '@/hooks/useSearchSuggestions';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import DropdownList from './dropdown-list';
-import { ProductOption } from './suggestive-search-input';
+
+export interface ProductOption {
+  id: number;
+  name: string;
+}
 
 interface SearchBarProps {
   placeholder?: string;
@@ -25,10 +29,9 @@ const GnbSearchBar = ({
   const categoryId = searchParams.get('categoryId');
 
   const [keyword, setKeyword] = useState('');
-  const { suggestions, isLoading, isError } = useSearchSuggestions(keyword);
-  const { inputRef, isDropdownOpen, handleFocus, handleBlur } = useDropdown();
+  const { suggestions } = useSearchSuggestions(keyword);
+  const { inputRef, dropdownRef, isDropdownOpen, handleFocus } = useDropdown();
   const router = useRouter();
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   const executeSearch = () => {
     if (keyword.trim()) {
@@ -60,7 +63,6 @@ const GnbSearchBar = ({
     if (dropdownRef.current && dropdownRef.current.contains(e.relatedTarget)) {
       return;
     }
-    handleBlur();
     if (setIsMobileSearchOpen) setIsMobileSearchOpen(false);
   };
 
