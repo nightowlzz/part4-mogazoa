@@ -89,10 +89,9 @@ export default function AddProductModal({ triggerButton }: AddProductModalProps)
     data,
     isLoading: queryLoading,
     isError: queryError,
-  } = useDataQuery<undefined, ProductsListResponse>(
+  } = useDataQuery<ProductsListResponse>(
     ['products', 'searchSuggestions', form.getValues('name')],
     '/products',
-    undefined,
     {
       staleTime: 60 * 1000,
     },
