@@ -66,7 +66,7 @@ export default function Review({
       </div>
       <div className="flex-1">
         <p
-          className="text-[#F1F1F5] text-sm md:text-base font-normal whitespace-pre mt-[10px]"
+          className="text-[#F1F1F5] text-sm md:text-base font-normal whitespace-pre-wrap mt-[10px]"
           style={{ wordBreak: 'keep-all' }}
         >
           {content}
