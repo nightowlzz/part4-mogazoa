@@ -310,7 +310,7 @@ export default function AddProductModal({ triggerButton }: AddProductModalProps)
               type="button"
               variant="default"
               onClick={form.handleSubmit(onSubmit)}
-              disabled={!form.formState.isValid || isSaving}
+              disabled={isSaving}
             >
               {isSaving ? '저장 중..' : '추가하기'}
             </Button>
