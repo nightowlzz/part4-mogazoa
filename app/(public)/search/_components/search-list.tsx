@@ -14,7 +14,7 @@ interface ProductListProps {
 export default function SearchList({ order = 'recent', keyword, category }: ProductListProps) {
   const {
     ref,
-    data: getProducts,
+    data: products,
     isPending,
     isError,
   } = useInfinityScroll({
@@ -52,9 +52,9 @@ export default function SearchList({ order = 'recent', keyword, category }: Prod
   return (
     <>
       <div className="grid grid-cols-2 2xl:grid-cols-3 gap-[15px] md:gap-5" ref={ref}>
-        {getProducts?.slice(0, 6).map((card) => <Product key={card.id} {...card} />)}
+        {products?.slice(0, 6).map((card) => <Product key={card.id} {...card} />)}
       </div>
-      {getProducts?.length || <ContentEmpty />}
+      {!products?.length ? <ContentEmpty /> : null}
     </>
   );
 }
