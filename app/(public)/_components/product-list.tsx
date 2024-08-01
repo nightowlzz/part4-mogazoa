@@ -9,7 +9,7 @@ interface ProductListProps {
 
 export default function ProductList({ initialData }: ProductListProps) {
   const { data: products, isError, isPending } = useGetProducts(undefined, { initialData });
-
+  console.log(products);
   if (isError) return <div>isERROR</div>;
   // [NOTE]:스켈레톤 작업
   if (isPending) return <div>로딩중</div>;
