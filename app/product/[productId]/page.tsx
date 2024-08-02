@@ -39,6 +39,7 @@ export default function ProductDetailPage() {
           currentUserId={currentUserId ? currentUserId.id : null}
           categoryName={productDetail.category.name}
           categoryId={productDetail.category.id}
+          isFavorite={productDetail.isFavorite}
         />
       </div>
       <div className="w-full max-w-[980px] mx-auto">

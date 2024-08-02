@@ -22,6 +22,7 @@ interface ProductCardProps {
   currentUserId: number | null;
   categoryName: string;
   categoryId: number;
+  isFavorite: boolean;
 }
 
 function ProductCard({
@@ -32,6 +33,7 @@ function ProductCard({
   currentUserId,
   categoryName,
   categoryId,
+  isFavorite,
 }: ProductCardProps) {
   const isUserProduct = useMemo(() => writerId === currentUserId, [writerId, currentUserId]); //내가 등록한 상품인지 비교(나중에 수정)
   const [isReplacementModalOpen, setIsReplacementModalOpen] = useState(false);
@@ -142,12 +144,12 @@ function ProductCard({
         <div className="h-[29px] flex justify-between">
           <div className="hidden md:flex items-center gap-[15px]">
             <h2 className="text-[#F1F1F5] md:text-xl lg:text-2xl font-semibold">{name}</h2>
-            <FavoriteButton productId={Number(productId)} initialIsFavorited={false} />
+            <FavoriteButton productId={Number(productId)} isFavorite={isFavorite} />
           </div>
 
           <h2 className="md:hidden text-[#F1F1F5] md:text-xl lg:text-2xl font-semibold">{name}</h2>
           <span className="md:hidden">
-            <FavoriteButton productId={Number(productId)} initialIsFavorited={false} />
+            <FavoriteButton productId={Number(productId)} isFavorite={isFavorite} />
           </span>
 
           {/* 태블릿 이상 화면에서는 하트 버튼 옆에 카카오톡과 공유 버튼을 배치 */}
