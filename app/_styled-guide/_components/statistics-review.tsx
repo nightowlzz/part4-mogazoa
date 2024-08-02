@@ -33,7 +33,7 @@ export function StatisticReview({ reviewCount, categoryMetric }: StatisticReview
   };
 
   return (
-    <div className="w-[355px] p-5 bg-black-500 rounded-xl border border-black-400 md:w-[218px] md:py-[30px] md:px-[30px] lg:w-[300px] lg:px-[60px] lg:py-[30px]">
+    <div className="flex flex-col p-5 bg-black-500 rounded-xl border border-black-400 md:py-[30px] md:px-[30px] lg:px-[60px] lg:py-[30px]">
       <div className="flex items-center md:flex-col">
         <h2 className="text-sm text-white mr-[10px] md:mr-0 md:text-base md:mb-[15px] lg:text-lg lg:mb-[20px]">
           리뷰

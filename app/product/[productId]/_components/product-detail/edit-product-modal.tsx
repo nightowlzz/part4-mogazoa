@@ -14,6 +14,7 @@ import CategorySelector from '@/app/_styled-guide/_components/CategorySelector';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,19 +28,23 @@ import { useUpdateProduct } from '@/hooks/product';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { renameFileWithExtension } from '@/utils/textUtils';
+import useDebounce from '@/hooks/useDebounce';
+import { useDataQuery } from '@/services/common';
+import { ProductsListResponse } from '@/types/data';
 
-export const FormSchema = z.object({
-  name: z.string().min(1, { message: '상품 이름은 필수 입력입니다.' }),
-  categoryName: z.string().min(1, { message: '카테고리를 선택해주세요.' }),
+const FormSchema = z.object({
+  name: z
+    .string({ message: '상품 이름은 필수 입력입니다.' })
+    .max(20, { message: '상품명은 최대 20자까지 입력 가능합니다.' }),
+  categoryName: z.string({ message: '카테고리를 선택해주세요.' }),
   desc: z
-    .string()
-    .min(1, { message: '상품 설명은 필수 입력입니다.' })
+    .string({ message: '상품 설명은 필수 입력입니다.' })
     .min(10, { message: '최소 10자 이상 적어주세요.' }),
-  image: z.string().min(1, { message: '대표 이미지를 추가해주세요.' }),
+  image: z.string({ message: '이미지를 업로드해 주세요' }),
   categoryId: z.number(),
 });
 
@@ -73,6 +78,45 @@ export default function EditProduct({
     mode: 'onBlur',
   });
 
+  const watchedName = useDebounce(
+    useWatch({
+      control: form.control,
+      name: 'name',
+      defaultValue: '', // Provide a default value to avoid undefined
+    }),
+    100,
+  );
+  // 상품명 중복 체크
+  const { data } = useDataQuery<undefined, ProductsListResponse>(
+    ['products', 'searchSuggestions', watchedName],
+    '/products',
+    undefined,
+    { enabled: !!watchedName },
+    { keyword: watchedName },
+  );
+  function isProductNameDuplicate(name: string): boolean {
+    return data ? data.list.some((product: { name: string }) => product.name === name) : false;
+  }
+
+  const handleNameBlur = async () => {
+    if (watchedName === name) {
+      form.clearErrors('name'); // 원래 이름일 경우 경고가 없음
+      return;
+    } else if (watchedName) {
+      const isDuplicate = isProductNameDuplicate(watchedName);
+      if (isDuplicate) {
+        form.setError('name', { type: 'manual', message: '이미 등록된 상품명입니다.' });
+        return;
+      } else {
+        form.clearErrors('name'); // 중복이 아니고 값이 있음
+        return;
+      }
+    } else {
+      form.setError('name', { type: 'manual', message: '상품 이름은 필수 입력입니다.' });
+      return;
+    }
+  };
+
   const uploadImageMutation = useUploadImage();
   const updateProductMutation = useUpdateProduct(Number(productId));
 
@@ -85,6 +129,7 @@ export default function EditProduct({
         const response = await uploadImageMutation.mutateAsync(formData);
         setImageUrl(response.url);
         form.setValue('image', response.url);
+        form.clearErrors('image');
       } catch (error) {
         toast.error('이미지 업로드 중 오류가 발생했습니다.');
       }
@@ -167,7 +212,11 @@ export default function EditProduct({
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Input {...field} placeholder="상품명 (상품 등록 여부를 확인해 주세요)" />
+                        <Input
+                          {...field}
+                          placeholder="상품명 (상품 등록 여부를 확인해 주세요)"
+                          onBlur={handleNameBlur}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -180,10 +229,20 @@ export default function EditProduct({
                     <FormItem>
                       <FormControl>
                         <CategorySelector
-                          initialValue={{ id: categoryId, name: categoryName }}
+                          initialValue={
+                            form.getValues('categoryName')
+                              ? {
+                                  name: form.getValues('categoryName'),
+                                  id: form.getValues('categoryId'),
+                                }
+                              : undefined
+                          }
                           onChange={(value) => {
                             form.setValue('categoryId', value.id);
                             form.setValue('categoryName', value.name);
+                          }}
+                          onSelectOption={() => {
+                            form.clearErrors('categoryName');
                           }}
                         />
                       </FormControl>
@@ -198,23 +257,25 @@ export default function EditProduct({
               name="desc"
               render={({ field }) => (
                 <FormItem className="relative">
-                  <FormControl>
-                    <Textarea
-                      {...field}
-                      placeholder="상품 설명을 입력해 주세요"
-                      className="h-[120px] smd:h-[160px]"
-                      maxLength={500}
-                      onChange={(e) => {
-                        if (e.target.value.length <= 500) {
-                          field.onChange(e);
-                          setDescLength(e.target.value.length);
-                        }
-                      }}
-                    />
-                  </FormControl>
-                  <span className="absolute bottom-5 right-5 text-sm text-gray-600 px-1 bg-black-450">
-                    {descLength}/500
-                  </span>
+                  <div className="relative">
+                    <FormControl>
+                      <Textarea
+                        {...field}
+                        placeholder="상품 설명을 입력해 주세요"
+                        className="h-[120px] smd:h-[160px]"
+                        maxLength={500}
+                        onChange={(e) => {
+                          if (e.target.value.length <= 500) {
+                            field.onChange(e);
+                            setDescLength(e.target.value.length);
+                          }
+                        }}
+                      />
+                    </FormControl>
+                    <FormDescription className="absolute bottom-5 right-5 text-sm text-gray-600">
+                      {descLength}/500
+                    </FormDescription>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
