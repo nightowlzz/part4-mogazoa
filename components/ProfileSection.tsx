@@ -65,7 +65,6 @@ export default function ProfileSection({
   useEffect(() => {
     const queryCategory = searchParams.get('category');
 
-    // 카테고리 쿼리 파라미터가 없는 경우 초기값 설정
     if (!queryCategory) {
       const params = new URLSearchParams(searchParams.toString());
       params.set('category', '리뷰 남긴 상품');

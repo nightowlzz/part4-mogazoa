@@ -10,7 +10,6 @@ import { useEffect, useState } from 'react';
 import ProfileSection from '@/components/ProfileSection';
 import { UserInfo } from '@/components/ProfileSection';
 import { useSession } from 'next-auth/react';
-import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
 interface Product {
