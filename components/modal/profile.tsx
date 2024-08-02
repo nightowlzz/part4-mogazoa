@@ -32,9 +32,8 @@ import { renameFileWithExtension } from '@/utils/textUtils';
 
 const FormSchema = z.object({
   nickname: z
-    .string()
-    .min(1, { message: '이름은 필수 입력입니다.' })
-    .max(9, { message: '10자 이내로 입력해주세요.' }),
+    .string({ message: '이름은 필수 입력입니다.' })
+    .max(10, { message: '이름은 최대 10자까지 입력 가능합니다.' }),
   description: z.string(),
   image: z.string().nullable(),
 });

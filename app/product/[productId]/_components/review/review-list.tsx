@@ -27,7 +27,7 @@ export default function ReviewList({
 }: reviewInfoProps) {
   const [sortOrder, setSortOrder] = useState<ReviewSortOrder>('recent');
   return (
-    <div className="w-full max-w-[980px] px-5 mx-auto mb-[60px]">
+    <div className="w-full max-w-[980px] mx-auto mb-[60px]">
       <div className="flex items-center justify-between w-full">
         <h3 className="text-[#F1F1F5] text-xl font-normal">상품 리뷰</h3>
         <SortSelector
