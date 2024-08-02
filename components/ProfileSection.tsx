@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { ActivityCategory } from '@/app/_styled-guide/_components/activity-category';
 import { ActivityRating } from '@/app/_styled-guide/_components/activity-rating';
 import { ActivityReview } from '@/app/_styled-guide/_components/activity-review';
@@ -56,6 +58,30 @@ export default function ProfileSection({
   handleCategoryChange,
   isMyPage,
 }: ProfileSectionProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const queryCategory = searchParams.get('category');
+
+    // 카테고리 쿼리 파라미터가 없는 경우 초기값 설정
+    if (!queryCategory) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set('category', '리뷰 남긴 상품');
+      router.replace(`${pathname}?${params.toString()}`);
+    } else if (options.includes(queryCategory) && queryCategory !== selectedCategory) {
+      handleCategoryChange(queryCategory);
+    }
+  }, [searchParams, options, handleCategoryChange, selectedCategory, pathname, router]);
+
+  const onCategoryChange = (category: string) => {
+    handleCategoryChange(category);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('category', category);
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
   const renderEmptyMessage = () => {
     if (selectedCategory === '리뷰 남긴 상품' && productsList.length === 0) {
       return (
@@ -81,6 +107,7 @@ export default function ProfileSection({
     }
     return null;
   };
+
   return (
     <div style={{ overflowX: 'hidden' }}>
       <div className="w-full h-full bg-[#1C1C22] flex flex-col items-center mb-[80px]">
@@ -114,7 +141,7 @@ export default function ProfileSection({
                 <ProductSortSelector
                   category={options}
                   placeHolder={selectedCategory}
-                  onChange={handleCategoryChange}
+                  onChange={onCategoryChange}
                 />
               </div>
               {renderEmptyMessage() || (

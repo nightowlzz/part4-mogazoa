@@ -43,7 +43,6 @@ export default function MyPage() {
 
   useEffect(() => {
     if (!accessToken) {
-      toast.error('로그인이 필요합니다.');
       router.push('/signin');
     }
   }, []);
