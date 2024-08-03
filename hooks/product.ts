@@ -2,7 +2,7 @@ import { QueryKey, UseMutationOptions, UseQueryOptions } from '@tanstack/react-q
 import { AxiosError } from 'axios';
 import { useDataMutation, useDataQuery } from '../services/common';
 import {
-  ProductCombinedProps,
+  Params,
   ProductDetailResponse,
   ProductsListResponse,
   ProductUpdateRequest,
@@ -10,7 +10,7 @@ import {
 } from '../types/data';
 
 export const useGetProducts = (
-  params?: ProductCombinedProps,
+  params?: Params,
   options?: Omit<
     UseQueryOptions<ProductsListResponse, AxiosError, ProductsListResponse, QueryKey>,
     'queryKey' | 'queryFn'

@@ -2,8 +2,7 @@
 import SortSelector from '@/app/_styled-guide/_components/sort-selector';
 import { REVIEW_SORT_OPTIONS } from '@/constants/sortOrder';
 import { useInfinityScroll } from '@/hooks/useInfinityScroll';
-import { ReviewResponse, ReviewSortOrder } from '@/types/data';
-import { useState } from 'react';
+import useSortOrderStore from '@/store/sortOrderStore';
 import Review from './review';
 
 interface reviewInfoProps {
@@ -14,10 +13,6 @@ interface reviewInfoProps {
   categoryName: string;
 }
 
-interface reviewInfoSortOderProps extends reviewInfoProps {
-  sortOrder: string;
-}
-
 export default function ReviewList({
   productId,
   currentUserId,
@@ -25,20 +20,14 @@ export default function ReviewList({
   categoryId,
   categoryName,
 }: reviewInfoProps) {
-  const [sortOrder, setSortOrder] = useState<ReviewSortOrder>('recent');
   return (
     <div className="w-full max-w-[980px] mx-auto mb-[60px]">
       <div className="flex items-center justify-between w-full">
         <h3 className="text-[#F1F1F5] text-xl font-normal">상품 리뷰</h3>
-        <SortSelector
-          sort={sortOrder}
-          setSortOrder={setSortOrder}
-          sortSelectOption={REVIEW_SORT_OPTIONS}
-        />
+        <SortSelector sortSelectOption={REVIEW_SORT_OPTIONS} />
       </div>
       <ReviewListContent
         productId={productId}
-        sortOrder={sortOrder}
         currentUserId={currentUserId}
         productName={productName}
         categoryId={categoryId}
@@ -54,9 +43,8 @@ export function ReviewListContent({
   productName,
   categoryId,
   categoryName,
-  sortOrder,
-}: reviewInfoSortOderProps) {
-  const [displayReviews, setDisplayReviews] = useState<ReviewResponse[]>();
+}: reviewInfoProps) {
+  const { sortOrder } = useSortOrderStore();
   const {
     ref,
     data: getReviewList,
