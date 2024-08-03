@@ -38,6 +38,7 @@ export default function UserId() {
   const { data: userFavoriteProducts } = useGetUserFavoriteProducts(Number(userId));
 
   const [selectedCategory, setSelectedCategory] = useState('리뷰 남긴 상품');
+
   const options = ['리뷰 남긴 상품', '등록한 상품', '찜한 상품'];
 
   const handleCategoryChange = (category: string) => {
@@ -56,10 +57,6 @@ export default function UserId() {
 
   if (userInfoError) {
     return <div>Error: {userInfoError?.message}</div>;
-  }
-
-  if (!userInfoResponse) {
-    return <div>유저 정보 없음</div>;
   }
 
   if (userInfoResponse?.teamId !== '5-6') {

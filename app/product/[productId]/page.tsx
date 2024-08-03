@@ -27,25 +27,22 @@ export default function ProductDetailPage() {
     return <p>상품 정보가 없습니다.</p>;
   }
 
-  if (!currentUserId) {
-    return false;
-  }
-
   return (
-    <div className="w-full h-full bg-[#1C1C22] flex flex-col items-center">
+    <div className="w-full h-full bg-[#1C1C22] flex flex-col justify-center items-center">
       <Gnb />
-      <div className="mt-[60px] mb-[80px]">
+      <div className="w-full max-w-[980px] mx-auto mt-[60px] mb-[80px]">
         <ProductCard
-          name={productDetail?.name}
-          description={productDetail?.description}
-          image={productDetail?.image}
-          writerId={productDetail?.writerId}
-          currentUserId={currentUserId?.id}
-          categoryName={productDetail?.category.name}
-          categoryId={productDetail?.category.id}
+          name={productDetail.name}
+          description={productDetail.description}
+          image={productDetail.image}
+          writerId={productDetail.writerId}
+          currentUserId={currentUserId ? currentUserId.id : null}
+          categoryName={productDetail.category.name}
+          categoryId={productDetail.category.id}
+          isFavorite={productDetail.isFavorite}
         />
       </div>
-      <div>
+      <div className="w-full max-w-[980px] mx-auto">
         <h3 className="text-[#F1F1F5] text-xl font-normal">상품 통계</h3>
         <div className="flex flex-col md:flex-row mt-[30px] mb-[60px] gap-[15px] lg:gap-5">
           <StatisticRating
@@ -64,7 +61,7 @@ export default function ProductDetailPage() {
       </div>
       <ReviewList
         productId={productId}
-        currentUserId={currentUserId.id}
+        currentUserId={currentUserId ? currentUserId.id : null}
         categoryName={productDetail.category.name}
         categoryId={productDetail.category.id}
         productName={productDetail.name}

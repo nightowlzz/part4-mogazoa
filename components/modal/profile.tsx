@@ -25,13 +25,15 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { ImFilePicture } from 'react-icons/im';
-import { IoCloseSharp } from 'react-icons/io5';
 import { toast } from 'sonner';
 import { z } from 'zod';
 import { Input } from '../ui/input';
+import { renameFileWithExtension } from '@/utils/textUtils';
 
 const FormSchema = z.object({
-  nickname: z.string().min(1, { message: '이름은 필수 입력입니다.' }),
+  nickname: z
+    .string({ message: '이름은 필수 입력입니다.' })
+    .max(10, { message: '이름은 최대 10자까지 입력 가능합니다.' }),
   description: z.string(),
   image: z.string().nullable(),
 });
@@ -76,7 +78,7 @@ export default function ProfileModal({
     if (file) {
       try {
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', renameFileWithExtension(file));
         const response = await uploadImageMutation.mutateAsync(formData);
         setImageUrl(response.url);
         form.setValue('image', response.url);
@@ -135,8 +137,7 @@ export default function ProfileModal({
                         <Input
                           id="profilePicture"
                           type="file"
-                          multiple
-                          accept="image/*"
+                          accept=".jpg, .jpeg, .png"
                           onChange={handleImageChange}
                         />
                         {/* label bg로 image 보이게*/}

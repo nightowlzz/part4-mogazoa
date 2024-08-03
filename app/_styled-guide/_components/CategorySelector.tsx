@@ -15,6 +15,7 @@ interface CategorySelectorProps {
 
   placeHolder?: string;
   onChange?: (value: CategoryOption) => void;
+  onSelectOption?: () => void;
 }
 
 // 카테고리 선택 기능을 위한 드롭다운 메뉴 컴포넌트입니다.
@@ -35,6 +36,7 @@ const CategorySelector = ({
   ],
   placeHolder = '카테고리 선택',
   onChange,
+  onSelectOption,
 }: CategorySelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<CategoryOption | undefined>(initialValue);
@@ -49,6 +51,7 @@ const CategorySelector = ({
     if (onChange) {
       onChange(option);
     }
+    if (onSelectOption) onSelectOption();
   };
 
   return (

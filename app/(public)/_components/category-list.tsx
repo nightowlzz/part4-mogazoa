@@ -3,6 +3,7 @@ import styled from '@/app/(public)/_styles/main.module.scss';
 import { buttonVariants } from '@/components/ui/button';
 import { useGetCategories } from '@/hooks/category';
 import { cn } from '@/lib/utils';
+import useButtonStore from '@/store/globalStore';
 import { CategoryResponse } from '@/types/data';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -10,11 +11,13 @@ import { Suspense } from 'react';
 
 interface SideBarProps extends CategoryResponse {
   categoryId: number | null;
+  keyword?: string | null;
 }
 
-function Categories() {
+export function Categories() {
   const searchParams = useSearchParams();
   const categoryId = searchParams.get('categoryId');
+  const keyword = searchParams.get('keyword');
   const { data: categories, isError, isPending } = useGetCategories();
 
   if (isError) return <div>isERROR</div>;
@@ -25,20 +28,33 @@ function Categories() {
     <>
       {categories &&
         categories.map((cate, i) => (
-          <CategoryButton key={cate.id} {...cate} categoryId={Number(categoryId)} />
+          <CategoryButton
+            key={cate.id}
+            {...cate}
+            categoryId={Number(categoryId)}
+            keyword={keyword}
+          />
         ))}
     </>
   );
 }
 
-function CategoryButton({ id, name, categoryId }: SideBarProps) {
+function CategoryButton({ id, name, categoryId, keyword }: SideBarProps) {
+  const { closeButton } = useButtonStore();
+  let link;
+  if (categoryId && id !== categoryId) {
+    link = `/search?category=${name}&categoryId=${id}`;
+  } else {
+    link = `/search?category=${name}&categoryId=${id}${keyword ? `&keyword=${keyword}` : ''}`;
+  }
   return (
     <Link
-      href={`/search?category=${name}&categoryId=${id}`}
+      href={link}
       className={cn(
         buttonVariants({ variant: 'nav', size: 'sm' }),
         `${categoryId === id ? 'border-[#353542] bg-[#252530] text-white' : ''}`,
       )}
+      onClick={closeButton}
     >
       {name}
     </Link>

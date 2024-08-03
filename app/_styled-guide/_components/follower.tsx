@@ -1,4 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Image from 'next/image';
+import DefaultImage from '@/public/assets/images/avatar-default-image.jpeg';
 
 interface FollowerProfileProps {
   image: string | undefined;
@@ -11,7 +13,7 @@ export function Follower({ image, nickname }: FollowerProfileProps) {
       <Avatar className="w-12 h-12 lg:w-[52px] lg:h-[52px]">
         <AvatarImage src={image} alt={`Profile of ${nickname}`} />
         <AvatarFallback>
-          <span>{nickname[0]}</span>
+          <Image src={DefaultImage} alt="Default Profile" className="w-full h-full object-cover" />
         </AvatarFallback>
       </Avatar>
       <div className="flex flex-col">

@@ -16,10 +16,10 @@ export default function ProductList({ initialData }: ProductListProps) {
 
   return (
     <>
-      <div className="grid grid-cols-2 2xl:grid-cols-3 gap-[15px] md:gap-5">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-[15px] md:gap-5">
         {products?.list.slice(0, 6).map((card) => <Product key={card.id} {...card} />)}
       </div>
-      {products?.list.length || <ContentEmpty />}
+      {!products?.list.length ? <ContentEmpty /> : null}
     </>
   );
 }

@@ -22,7 +22,6 @@ import {
 import { useUploadImage } from '@/hooks/image';
 import { useUpdateReview } from '@/hooks/review';
 import { UpdateReviewRequest } from '@/types/data';
-import { limitText, limitTextLength } from '@/utils/textLimitUtils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -31,6 +30,7 @@ import { toast } from 'sonner';
 import { z } from 'zod';
 import ImageUpload from './components/image-upload';
 import StarRating from './components/star-rating';
+import { limitText, limitTextLength, renameFileWithExtension } from '@/utils/textUtils';
 
 type images = { id?: number; source?: string };
 
@@ -136,7 +136,6 @@ export default function EditReview({
     const ScreenViews = currentImages.filter((img) => img.source !== imageUrl);
     form.setValue('images', ScreenViews);
     setSelectedFiles((prev) => {
-      console.log('handleImageDelete', prev);
       return prev.filter((_, i) => i !== Number(index));
     });
   };
@@ -146,7 +145,8 @@ export default function EditReview({
     const uploadedUrls: { id?: number; source: string }[] = [];
     for (const file of selectedFiles) {
       const formData = new FormData();
-      formData.append('image', file);
+
+      formData.append('image', renameFileWithExtension(file));
 
       try {
         const res = await uploadImage.mutateAsync(formData);
@@ -170,7 +170,6 @@ export default function EditReview({
       content: data.content,
       rating: data.rating,
     };
-    console.log('resultresult', result);
 
     try {
       reviewMutation.mutate(result);
