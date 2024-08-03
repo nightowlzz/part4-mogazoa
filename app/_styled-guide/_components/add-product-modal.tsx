@@ -94,12 +94,17 @@ export default function AddProductModal({ triggerButton }: AddProductModalProps)
     100,
   );
   // 상품명 중복 체크
-  const { data } = useDataQuery<undefined, ProductsListResponse>(
-    ['products', 'searchSuggestions', watchedName],
+  const {
+    data,
+    isLoading: queryLoading,
+    isError: queryError,
+  } = useDataQuery<ProductsListResponse>(
+    ['products', 'searchSuggestions', form.getValues('name')],
     '/products',
-    undefined,
-    { enabled: !!watchedName },
-    { keyword: watchedName },
+    {
+      staleTime: 60 * 1000,
+    },
+    { keyword: form.getValues('name') },
   );
   function isProductNameDuplicate(name: string): boolean {
     return data ? data.list.some((product: { name: string }) => product.name === name) : false;

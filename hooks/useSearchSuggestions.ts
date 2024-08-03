@@ -19,10 +19,9 @@ const useSearchSuggestions = ({ keyword, previousSearches }: UseSearchSuggestion
     data,
     isLoading: queryLoading,
     isError: queryError,
-  } = useDataQuery<undefined, ProductsListResponse>(
+  } = useDataQuery<ProductsListResponse>(
     ['products', 'searchSuggestions', debouncedKeyword],
     '/products',
-    undefined,
     {
       enabled: !!debouncedKeyword,
       staleTime: 60 * 1000,
@@ -38,7 +37,6 @@ const useSearchSuggestions = ({ keyword, previousSearches }: UseSearchSuggestion
           id: product.id,
           name: product.name,
         }));
-
         // 항목 최대 수
         const limitedOptions = options.slice(0, MAX_SUGGESTION);
 

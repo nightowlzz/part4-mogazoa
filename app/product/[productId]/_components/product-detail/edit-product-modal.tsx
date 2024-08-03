@@ -87,10 +87,9 @@ export default function EditProduct({
     100,
   );
   // 상품명 중복 체크
-  const { data } = useDataQuery<undefined, ProductsListResponse>(
+  const { data } = useDataQuery<ProductsListResponse>(
     ['products', 'searchSuggestions', watchedName],
     '/products',
-    undefined,
     { enabled: !!watchedName },
     { keyword: watchedName },
   );
