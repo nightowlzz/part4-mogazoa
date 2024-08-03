@@ -25,7 +25,10 @@ const FormSchema = z
     email: z.string().email({ message: '올바른 이메일 주소를 입력해주세요.' }),
     password: z.string().min(8, { message: '비밀번호는 최소 8자 이상이어야 합니다.' }),
     passwordConfirmation: z.string(),
-    nickname: z.string().min(2, { message: '닉네임은 최소 2자 이상이어야 합니다.' }),
+    nickname: z
+      .string()
+      .min(2, { message: '닉네임은 최소 2자 이상이어야 합니다.' })
+      .max(10, { message: '닉네임은 최대 10자 이하이어야 합니다.' }),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
     message: '비밀번호가 일치하지 않습니다.',
