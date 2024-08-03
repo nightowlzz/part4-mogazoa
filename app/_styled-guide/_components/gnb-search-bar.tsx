@@ -2,11 +2,11 @@
 
 import useDropdown from '@/hooks/useDropdown';
 import useSearchSuggestions from '@/hooks/useSearchSuggestions';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useRef, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import DropdownList from './dropdown-list';
-import { ProductOption } from './suggestive-search-input';
+import { ProductOption, usePreviousSearchStore } from '@/store/globalStore';
 
 interface SearchBarProps {
   placeholder?: string;
@@ -20,16 +20,31 @@ const GnbSearchBar = ({
   isMobileMode = false,
   setIsMobileSearchOpen,
 }: SearchBarProps) => {
-  const [keyword, setKeyword] = useState('');
-  const { suggestions, isLoading, isError } = useSearchSuggestions(keyword);
-  const { inputRef, isDropdownOpen, handleFocus, handleBlur } = useDropdown();
-  const router = useRouter();
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const searchParams = useSearchParams();
+  const categoryName = searchParams.get('category');
+  const categoryId = searchParams.get('categoryId');
 
+  const [keyword, setKeyword] = useState('');
+  const { previousSearches, addPreviousSearch } = usePreviousSearchStore();
+  const { suggestions } = useSearchSuggestions({ keyword, previousSearches });
+  const { inputRef, dropdownRef, isDropdownOpen, setIsDropdownOpen, handleFocus } = useDropdown();
+  const router = useRouter();
+
+  //검색 동작
   const executeSearch = () => {
     if (keyword.trim()) {
-      router.push(`/search?keyword=${keyword}`);
+      if (categoryName) {
+        router.push(
+          `/search?category=${categoryName}&categoryId=${categoryId}${keyword ? `&keyword=${keyword}` : ''}`,
+        );
+      } else {
+        router.push(`/search?keyword=${keyword}`);
+      }
+
+      addPreviousSearch(keyword.trim());
       if (setIsMobileSearchOpen) setIsMobileSearchOpen(false);
+      setKeyword('');
+      inputRef.current?.blur();
     }
   };
 
@@ -42,13 +57,13 @@ const GnbSearchBar = ({
   const onSelect = (value: ProductOption) => {
     setKeyword(value.name);
     inputRef.current?.focus();
+    setIsDropdownOpen(false);
   };
 
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     if (dropdownRef.current && dropdownRef.current.contains(e.relatedTarget)) {
       return;
     }
-    handleBlur();
     if (setIsMobileSearchOpen) setIsMobileSearchOpen(false);
   };
 

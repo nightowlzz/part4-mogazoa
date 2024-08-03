@@ -10,7 +10,7 @@ function RankingTag({ rank = 3 }: TagProps) {
 
   return (
     <span
-      className={`flex items-center justify-center w-8 md:h-4 h-[1.125rem] rounded-full text-[0.625rem] md:text-xs leading-[18px] md:leading-1 ${textColorClass} ${bgColorClass}`}
+      className={`flex flex-shrink-0 items-center justify-center w-8 md:h-4 h-[1.125rem] rounded-full text-[0.625rem] md:text-xs leading-[18px] md:leading-1 ${textColorClass} ${bgColorClass}`}
     >
       {rank + '등'}
     </span>

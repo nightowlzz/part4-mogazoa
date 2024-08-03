@@ -11,8 +11,12 @@ const CompareTableData = () => {
     compareItems: state.compareItems,
   }));
 
-  const product1Detail = useGetProductDetail(compareItems[0]?.id || 0);
-  const product2Detail = useGetProductDetail(compareItems[1]?.id || 0);
+  const product1Detail = useGetProductDetail(compareItems[0]?.id || 0, {
+    enabled: !!compareItems[0]?.id,
+  });
+  const product2Detail = useGetProductDetail(compareItems[1]?.id || 0, {
+    enabled: !!compareItems[1]?.id,
+  });
 
   const product1 = product1Detail.data;
   const product2 = product2Detail.data;

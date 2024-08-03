@@ -6,9 +6,11 @@ import {
   useGetUserFavoriteProducts,
   useGetUserReviewedProducts,
 } from '@/hooks/user';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ProfileSection from '@/components/ProfileSection';
 import { UserInfo } from '@/components/ProfileSection';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 interface Product {
   id: number;
@@ -27,12 +29,22 @@ export default function MyPage() {
   const { data: userCreatedProducts } = useGetUserCreatedProducts(Number(MyInfoResponse?.id));
   const { data: userFavoriteProducts } = useGetUserFavoriteProducts(Number(MyInfoResponse?.id));
 
+  const router = useRouter();
+  const { data: session } = useSession();
+  const accessToken = session?.user.accessToken;
+
   const [selectedCategory, setSelectedCategory] = useState('리뷰 남긴 상품');
   const options = ['리뷰 남긴 상품', '등록한 상품', '찜한 상품'];
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
   };
+
+  useEffect(() => {
+    if (!accessToken) {
+      router.push('/signin');
+    }
+  }, []);
 
   if (isLoading) {
     return <div>Loading...</div>;

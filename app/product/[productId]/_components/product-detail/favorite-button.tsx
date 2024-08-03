@@ -1,16 +1,19 @@
 import { Button } from '@/components/ui/button';
 import { useFavoriteProduct, useUnfavoriteProduct } from '@/hooks/product';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { IoIosHeart, IoMdHeartEmpty } from 'react-icons/io';
 import { toast } from 'sonner';
 
 interface FavoriteButtonProps {
   productId: number;
-  initialIsFavorited: boolean;
+  isFavorite: boolean;
 }
 
-export default function FavoriteButton({ productId, initialIsFavorited }: FavoriteButtonProps) {
-  const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
+export default function FavoriteButton({
+  productId,
+  isFavorite: initialIsFavorite,
+}: FavoriteButtonProps) {
+  const [isFavorited, setIsFavorited] = useState(initialIsFavorite);
 
   const favoriteProduct = useFavoriteProduct(Number(productId), {
     onSuccess: () => {
@@ -30,6 +33,10 @@ export default function FavoriteButton({ productId, initialIsFavorited }: Favori
       console.error('Failed to unfavorite product:', error);
     },
   });
+
+  useEffect(() => {
+    setIsFavorited(initialIsFavorite);
+  }, [productId, initialIsFavorite]);
 
   const toggleFavorite = () => {
     if (isFavorited) {

@@ -1,21 +1,16 @@
 'use client';
 import SortSelector from '@/app/_styled-guide/_components/sort-selector';
-import { useInfinityScroll } from '@/hooks/useInfinityScroll';
-import { ReviewResponse, ReviewSortOrder } from '@/types/data';
-import { useEffect, useState } from 'react';
-import Review from './review';
 import { REVIEW_SORT_OPTIONS } from '@/constants/sortOrder';
+import { useInfinityScroll } from '@/hooks/useInfinityScroll';
+import useSortOrderStore from '@/store/sortOrderStore';
+import Review from './review';
 
 interface reviewInfoProps {
   productId: string | string[];
-  currentUserId: number;
+  currentUserId: number | null;
   productName: string;
   categoryId: number;
   categoryName: string;
-}
-
-interface reviewInfoSortOderProps extends reviewInfoProps {
-  sortOrder: string;
 }
 
 export default function ReviewList({
@@ -25,20 +20,14 @@ export default function ReviewList({
   categoryId,
   categoryName,
 }: reviewInfoProps) {
-  const [sortOrder, setSortOrder] = useState<ReviewSortOrder>('recent');
   return (
-    <div className="w-full max-w-[980px] px-5 mx-auto mb-[60px]">
+    <div className="w-full max-w-[980px] mx-auto mb-[60px]">
       <div className="flex items-center justify-between w-full">
         <h3 className="text-[#F1F1F5] text-xl font-normal">상품 리뷰</h3>
-        <SortSelector
-          sort={sortOrder}
-          setSortOrder={setSortOrder}
-          sortSelectOption={REVIEW_SORT_OPTIONS}
-        />
+        <SortSelector sortSelectOption={REVIEW_SORT_OPTIONS} />
       </div>
       <ReviewListContent
         productId={productId}
-        sortOrder={sortOrder}
         currentUserId={currentUserId}
         productName={productName}
         categoryId={categoryId}
@@ -54,48 +43,21 @@ export function ReviewListContent({
   productName,
   categoryId,
   categoryName,
-  sortOrder,
-}: reviewInfoSortOderProps) {
-  const [displayReviews, setDisplayReviews] = useState<ReviewResponse[]>();
+}: reviewInfoProps) {
+  const { sortOrder } = useSortOrderStore();
   const {
     ref,
     data: getReviewList,
     isPending,
     isError,
-    fetchNextPage,
-    hasNextPage,
   } = useInfinityScroll({
     queryKey: 'review',
     productId: productId,
     order: sortOrder,
   });
 
-  useEffect(() => {
-    if (!isPending || hasNextPage) {
-      const result = getReviewList;
-      setDisplayReviews(result);
-    }
-  }, [isPending, fetchNextPage, hasNextPage]);
-
   // [NOTE] 추 후 스켈레톤 작업
-  if (isPending)
-    return (
-      <div className="relative flex flex-col gap-5 mt-[30px]">
-        <div className="absolute left-0 top-0 right-0 bottom-0 bg-black-600 opacity-50 z-[1]"></div>
-        {displayReviews &&
-          displayReviews.map((review) => (
-            <Review
-              key={review.id}
-              {...review}
-              currentUserId={currentUserId}
-              reviewRef={ref}
-              productName={productName}
-              categoryId={categoryId}
-              categoryName={categoryName}
-            />
-          ))}
-      </div>
-    );
+  if (isPending) return <div>isPending</div>;
 
   if (isError) return <div>ERROR</div>;
 

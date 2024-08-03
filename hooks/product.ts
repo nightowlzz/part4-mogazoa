@@ -1,10 +1,10 @@
 import { useDataQuery, useDataMutation } from '../services/common';
 import {
+  Params,
+  ProductDetailResponse,
   ProductsListResponse,
   ProductUpdateRequest,
-  ProductDetailResponse,
   ReviewListResponse,
-  Params,
 } from '../types/data';
 import { UseQueryOptions, QueryKey, UseMutationOptions } from '@tanstack/react-query';
 import { AxiosError } from 'axios';

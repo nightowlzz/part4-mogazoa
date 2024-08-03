@@ -56,7 +56,11 @@ export default function CompareProductReplacementModal({
             <Button
               key={item?.id}
               variant="outline"
-              className={selectedItem === index ? 'border-pink text-pink' : ''}
+              className={
+                selectedItem === index
+                  ? 'border-pink text-pink hover:border-pink hover:text-pink'
+                  : ''
+              }
               onClick={() => handleSelectItem(index)}
             >
               {item?.name}
