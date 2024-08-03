@@ -1,6 +1,4 @@
-import { QueryKey, UseMutationOptions, UseQueryOptions } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import { useDataMutation, useDataQuery } from '../services/common';
+import { useDataQuery, useDataMutation } from '../services/common';
 import {
   Params,
   ProductDetailResponse,
@@ -8,6 +6,8 @@ import {
   ProductUpdateRequest,
   ReviewListResponse,
 } from '../types/data';
+import { UseQueryOptions, QueryKey, UseMutationOptions } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 
 export const useGetProducts = (
   params?: Params,
@@ -17,13 +17,7 @@ export const useGetProducts = (
   >,
 ) => {
   const url = '/products';
-  return useDataQuery<undefined, ProductsListResponse>(
-    ['products', params],
-    url,
-    undefined,
-    options,
-    params,
-  );
+  return useDataQuery<ProductsListResponse>(['products'], url, options, params);
 };
 
 export const useGetProductDetail = (
@@ -33,10 +27,9 @@ export const useGetProductDetail = (
     'queryKey' | 'queryFn'
   >,
 ) => {
-  return useDataQuery<undefined, ProductDetailResponse>(
+  return useDataQuery<ProductDetailResponse>(
     ['productDetail', productId],
     `/products/${productId}`,
-    undefined,
     options,
   );
 };
@@ -49,10 +42,9 @@ export const useGetProductReviews = (
     'queryKey' | 'queryFn'
   >,
 ) => {
-  return useDataQuery<undefined, ReviewListResponse>(
+  return useDataQuery<ReviewListResponse>(
     ['productReviews', productId],
     `/products/productId}/reviews`,
-    undefined,
     options,
     params,
   );

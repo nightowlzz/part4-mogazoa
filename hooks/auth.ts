@@ -30,7 +30,7 @@ export const useOauthSignUp = (
   options?: Omit<UseMutationOptions<AuthResponse, AxiosError, OauthSignUpRequest>, 'mutationFn'>,
 ) => {
   const method = 'post';
-  const url = `/auth/oauthSignUp/${provider}`;
+  const url = `/auth/SignUp/${provider}`;
   return useDataMutation<OauthSignUpRequest, AuthResponse>(url, method, options);
 };
 
@@ -39,6 +39,6 @@ export const useOauthSignIn = (
   options?: Omit<UseMutationOptions<AuthResponse, AxiosError, OauthSignInRequest>, 'mutationFn'>,
 ) => {
   const method = 'post';
-  const url = `/auth/oauthSignIn/${provider}`;
+  const url = `/auth/SignIn/${provider}`;
   return useDataMutation<OauthSignInRequest, AuthResponse>(url, method, options);
 };
