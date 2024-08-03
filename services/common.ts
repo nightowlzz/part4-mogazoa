@@ -10,10 +10,9 @@ import { AxiosError } from 'axios';
 import { axiosInstance } from '@/utils/axiosInstance';
 import { HttpMethod, Params } from '@/types/data';
 
-export function useDataQuery<TData, TResponse>(
+export function useDataQuery<TResponse>(
   queryKey: QueryKey,
   url: string,
-  data?: TData,
   options?: Omit<
     UseQueryOptions<TResponse, AxiosError, TResponse, QueryKey>,
     'queryKey' | 'queryFn'
@@ -22,11 +21,10 @@ export function useDataQuery<TData, TResponse>(
 ) {
   return useQuery<TResponse, AxiosError, TResponse, QueryKey>({
     queryKey,
-    queryFn: () => fetchData<TData, TResponse>({ url, method: 'get', data, params }),
+    queryFn: () => request<undefined, TResponse>({ url, method: 'get', params }),
     ...options,
   });
 }
-
 export function useDataMutation<TData, TResponse>(
   url: string,
   method: HttpMethod,
@@ -36,7 +34,7 @@ export function useDataMutation<TData, TResponse>(
 ) {
   const mutation = useMutation<TResponse, AxiosError, TData>({
     mutationFn: (data: TData) =>
-      fetchData<TData, TResponse>({ url, method, data, headers: options?.headers }),
+      request<TData, TResponse>({ url, method, data, headers: options?.headers }),
     ...options,
   });
   return {
@@ -46,7 +44,7 @@ export function useDataMutation<TData, TResponse>(
   };
 }
 
-async function fetchData<TData, TResponse>({
+async function request<TData, TResponse>({
   url,
   data,
   method,
@@ -66,6 +64,5 @@ async function fetchData<TData, TResponse>({
     headers,
     data: method !== 'get' ? data : undefined,
   });
-
   return response.data;
 }

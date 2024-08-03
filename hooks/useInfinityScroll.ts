@@ -7,22 +7,7 @@
  * React Query를 사용하여 서버에서 데이터를 페이징 처리하여
  * 가져오며, Intersection Observer를 활용해 스크롤 위치를 감지합니다.
  *
- * @param {Object} props - 훅에 전달할 프로퍼티
  * @param {'review' | 'products' | 'followers' | 'followees'} props.queryKey - 데이터 요청의 종류
- * @param {string} [props.order] - 정렬 기준
- * @param {string | string[]} [props.productId] - 제품 ID (리뷰 요청 시)
- * @param {0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1} [props.threshold] - Intersection Observer 값
- * @param {string} [props.keyword] - 검색 키워드
- * @param {number} [props.category] - 카테고리 ID
- * @param {number} [props.userId] - 사용자 ID (팔로워/팔로잉 요청 시)
- *
- * @returns {Object} - 훅의 반환 값
- * @returns {React.Ref} ref - Intersection Observer의 ref
- * @returns {Array<queryResponse>} data - 요청한 데이터
- * @returns {boolean} isError - 에러 여부
- * @returns {boolean} isPending - 요청 중 여부
- * @returns {Function} fetchNextPage - 다음 페이지 요청 함수
- * @returns {boolean} hasNextPage - 다음 페이지 존재 여부
  *
  * @example
  * const { ref, data, isError, isPending, fetchNextPage, hasNextPage } = useInfinityScroll({
@@ -31,40 +16,42 @@
  *   category: 1, - 사이드바 메뉴에서 선택된 카테고리 ID 값
  * });
  *
- *
+ * @param {string} [props.order] - 정렬 기준
  * @requires @tanstack/react-query
  * @requires react-intersection-observer
  * @requires sonner
  * @requires @/utils/axiosInstance
+ * @requires @/utils/hookUtils/addQueryParams
  * @requires @/types/data
  */
-
-import {
-  FolloweesList,
-  FolloweesResponse,
-  FollowersList,
-  FollowersResponse,
-  ProductResponse,
-  ProductsListResponse,
-  ReviewListResponse,
-  ReviewResponse,
-} from '@/types/data';
+import { ProductResponse } from '@/types/data';
 import instance from '@/utils/axiosInstance';
+import { addQueryParams } from '@/utils/hookUtils';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { toast } from 'sonner';
 
+export interface QueryParams {
+  cursor?: number;
+  order?: string;
+  keyword?: string;
+  category?: number;
+}
+
+export interface InfiniteQueryData<T> {
+  pages: T[]; // 각 페이지의 데이터 배열
+  pageParams: any[]; // 각 페이지에 대한 파라미터 배열
+}
+
+export interface QueryListResponse<T> {
+  list: T[]; // 실제 데이터 구조에 맞게 수정
+  nextCursor?: number | null; // 다음 페이지를 위한 커서
+}
+
 type ZeroToOne = 0 | 0.1 | 0.2 | 0.3 | 0.4 | 0.5 | 0.6 | 0.7 | 0.8 | 0.9 | 1;
 
-type queryResponse = ReviewResponse & ProductResponse & FolloweesList & FollowersList;
-
-type queryListResponse = ReviewListResponse &
-  ProductsListResponse &
-  FollowersResponse &
-  FolloweesResponse;
-
-interface useInfinityScrollProps {
+interface useInfinityScrollProps<T> {
   queryKey: 'review' | 'products' | 'followers' | 'followees';
   order?: string;
   productId?: string | string[];
@@ -72,17 +59,10 @@ interface useInfinityScrollProps {
   keyword?: string;
   category?: number;
   userId?: number;
+  initialData?: InfiniteQueryData<QueryListResponse<T>>; // 제네릭 타입 추가
 }
 
-interface QueryParams {
-  order?: string;
-  userId?: number;
-  category?: number;
-  keyword?: string;
-  cursor?: unknown;
-}
-
-export const useInfinityScroll = ({
+export const useInfinityScroll = <T>({
   queryKey,
   productId,
   threshold = 0.3,
@@ -90,7 +70,8 @@ export const useInfinityScroll = ({
   keyword,
   category,
   userId,
-}: useInfinityScrollProps) => {
+  initialData,
+}: useInfinityScrollProps<T>) => {
   const { ref, inView } = useInView({
     threshold: threshold,
   });
@@ -105,64 +86,53 @@ export const useInfinityScroll = ({
         return `/users/${userId}/followers`;
       case 'followees':
         return `/users/${userId}/followees`;
+      default:
+        return '';
     }
   };
 
-  const buildQueryString = ({ order, keyword, category, cursor }: QueryParams) => {
-    const queryParams: QueryParams = {};
-
-    if (order) {
-      queryParams.order = order;
+  const buildFetchingData = async ({ order, keyword, category, cursor }: QueryParams) => {
+    try {
+      const res = await instance.get(
+        `${buildApiUrl(queryKey)}${addQueryParams({ order, keyword, category, cursor })}`,
+      );
+      if (!res) return;
+      return res.data;
+    } catch (err: any) {
+      let errorMessage = '데이터를 불러 오는데 실패 했습니다.';
+      if (err.response && err.response.data && err.response.data.message) {
+        errorMessage = err.response.data.message;
+      }
+      toast.error(errorMessage);
+      throw err;
     }
-
-    if (keyword) {
-      queryParams.keyword = keyword;
-    }
-
-    if (category) {
-      queryParams.category = category;
-    }
-
-    if (cursor) {
-      queryParams.cursor = cursor;
-    }
-
-    const queryString = Object.entries(queryParams)
-      .map(([key, value]) => `${key}=${value}`)
-      .join('&');
-
-    return queryString ? `?${queryString}` : '';
   };
 
   const {
-    data: getData,
+    data: fetchData,
     isPending,
     isError,
     fetchNextPage,
     hasNextPage,
-  } = useInfiniteQuery<queryListResponse>({
+  } = useInfiniteQuery({
     queryKey: [queryKey, { productId, order, keyword, category, userId }],
     queryFn: async ({ pageParam: cursor = 0 }) => {
-      try {
-        const res = await instance.get(
-          `${buildApiUrl(queryKey)}${buildQueryString({ order, keyword, category, cursor })}`,
-        );
-        if (!res) return;
-        return res.data;
-      } catch (err: any) {
-        let errorMessage = '데이터를 불러 오는데 실패 했습니다.';
-        if (err.response && err.response.data && err.response.data.message) {
-          errorMessage = err.response.data.message;
-        }
-        toast.error(errorMessage);
-        throw err;
-      }
+      return buildFetchingData({ order, keyword, category, cursor });
     },
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage?.nextCursor,
+    getNextPageParam: (lastPage) => {
+      if ('nextCursor' in lastPage) {
+        return lastPage.nextCursor; // nextCursor가 존재하면 반환
+      }
+      return undefined; // 다음 커서가 없으면 undefined 반환
+    },
+    initialData: initialData ? { pages: [initialData], pageParams: [1] } : undefined,
   });
 
-  const data = getData?.pages.flatMap((value) => value.list.map((list) => list as queryResponse));
+  // [NOTE] list만 추출
+  const data = fetchData?.pages.flatMap(
+    (value) => value?.list?.map((list: ProductResponse) => list) || [],
+  );
 
   useEffect(() => {
     if (inView) {

@@ -3,10 +3,10 @@
 import useDropdown from '@/hooks/useDropdown';
 import useSearchSuggestions from '@/hooks/useSearchSuggestions';
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import DropdownList from './dropdown-list';
-import { ProductOption } from './suggestive-search-input';
+import { ProductOption, usePreviousSearchStore } from '@/store/globalStore';
 
 interface SearchBarProps {
   placeholder?: string;
@@ -25,11 +25,12 @@ const GnbSearchBar = ({
   const categoryId = searchParams.get('categoryId');
 
   const [keyword, setKeyword] = useState('');
-  const { suggestions, isLoading, isError } = useSearchSuggestions(keyword);
-  const { inputRef, isDropdownOpen, handleFocus, handleBlur } = useDropdown();
+  const { previousSearches, addPreviousSearch } = usePreviousSearchStore();
+  const { suggestions } = useSearchSuggestions({ keyword, previousSearches });
+  const { inputRef, dropdownRef, isDropdownOpen, setIsDropdownOpen, handleFocus } = useDropdown();
   const router = useRouter();
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
+  //검색 동작
   const executeSearch = () => {
     if (keyword.trim()) {
       if (categoryName) {
@@ -40,8 +41,10 @@ const GnbSearchBar = ({
         router.push(`/search?keyword=${keyword}`);
       }
 
+      addPreviousSearch(keyword.trim());
       if (setIsMobileSearchOpen) setIsMobileSearchOpen(false);
       setKeyword('');
+      inputRef.current?.blur();
     }
   };
 
@@ -54,13 +57,13 @@ const GnbSearchBar = ({
   const onSelect = (value: ProductOption) => {
     setKeyword(value.name);
     inputRef.current?.focus();
+    setIsDropdownOpen(false);
   };
 
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     if (dropdownRef.current && dropdownRef.current.contains(e.relatedTarget)) {
       return;
     }
-    handleBlur();
     if (setIsMobileSearchOpen) setIsMobileSearchOpen(false);
   };
 

@@ -5,10 +5,12 @@ import { Button, buttonVariants } from '@/components/ui/button';
 import { useFollowUser, useUnFollowUser } from '@/hooks/follow';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar';
-import Link from 'next/link';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import DefaultImage from '@/public/assets/images/avatar-default-image.jpeg';
+import { useAuth } from '@/hooks/nextauth';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 interface UserProfileProps {
   id: number;
@@ -39,6 +41,8 @@ export default function Profile({
 
   const { mutate: followUser, error: followError } = useFollowUser();
   const { mutate: unFollowUser, error: unFollowError } = useUnFollowUser();
+  const { logout } = useAuth();
+  const router = useRouter();
 
   useEffect(() => {
     setIsFollow(isFollowing);
@@ -81,6 +85,12 @@ export default function Profile({
     setImage(updatedData.image);
   };
 
+  const handleLogout = async () => {
+    await logout();
+    toast.success('로그아웃에 성공했습니다.');
+    router.push('/');
+  };
+
   return (
     <div className="w-[335px] md:w-[509px] lg:w-[340px] h-full px-5 py-[30px] md:px-[30px] lg:px-5 lg:py-10 flex flex-col items-center border-[#353542] rounded-lg bg-[#252530] gap-[30px] lg:gap-10">
       <Avatar className="w-[120px] h-[120px] lg:w-[180px] lg:h-[180px] rounded-full overflow-hidden">
@@ -96,6 +106,7 @@ export default function Profile({
               src={DefaultImage}
               alt="Default Profile"
               className="w-full h-full object-cover"
+              priority
             />
           </AvatarFallback>
         )}
@@ -127,9 +138,9 @@ export default function Profile({
             image={image}
             onUpdate={handleProfileUpdate}
           />
-          <Link href="/" className={cn(buttonVariants({ variant: 'outline' }))}>
+          <button className={cn(buttonVariants({ variant: 'outline' }))} onClick={handleLogout}>
             로그아웃
-          </Link>
+          </button>
         </div>
       ) : isFollow ? (
         <Button variant="outline" onClick={handleUnfollow}>

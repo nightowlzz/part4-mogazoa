@@ -59,7 +59,7 @@ export default function Review({
   return (
     <div
       ref={reviewRef}
-      className="flex flex-col md:flex-row lg:flex-row gap-[30px] lg:gap-[80px] p-5 md:p-[30px] bg-[#252530] border border-[#353542] rounded-xl"
+      className="flex flex-col md:flex-row lg:flex-row gap-[30px] lg:gap-[80px] p-5 md:p-[30px] bg-[#252530] border border-[#353542] rounded-xl overflow-hidden"
     >
       <div className="w-full md:w-[160px]">
         <ReviewProfile user={user} rating={rating} />

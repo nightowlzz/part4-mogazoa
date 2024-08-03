@@ -22,6 +22,7 @@ interface ProductCardProps {
   currentUserId: number | null;
   categoryName: string;
   categoryId: number;
+  isFavorite: boolean;
 }
 
 function ProductCard({
@@ -32,6 +33,7 @@ function ProductCard({
   currentUserId,
   categoryName,
   categoryId,
+  isFavorite,
 }: ProductCardProps) {
   const isUserProduct = useMemo(() => writerId === currentUserId, [writerId, currentUserId]); //내가 등록한 상품인지 비교(나중에 수정)
   const [isReplacementModalOpen, setIsReplacementModalOpen] = useState(false);
@@ -112,8 +114,8 @@ function ProductCard({
   };
 
   return (
-    <div className="bg-[#1C1C22] w-[335px] md:w-[684px] lg:w-[940px] h-full flex flex-col md:flex-row">
-      <div className="relative w-[335px] md:w-[280px] lg:w-[355px] h-[236px] md:h-[197px] lg:h-[250px] mb-5 md:mb-[88px] lg:mb-[29px] md:mr-5 lg:mr-10">
+    <div className="bg-[#1C1C22] h-full flex flex-col items-center md:flex-row">
+      <div className="relative w-full max-w-[355px] h-[236px] md:h-[197px] lg:h-[250px] mb-5 md:mb-[88px] lg:mb-[29px] md:mr-5 lg:mr-10">
         <Image
           src={image}
           alt="상품 이미지"
@@ -123,9 +125,9 @@ function ProductCard({
           objectFit="contain"
         />
       </div>
-      <div>
+      <div className="w-full">
         <div className="flex items-center justify-between mb-[11px] md:mb-[20px]">
-          <span className="w-[58px] h-[22px] font-normal whitespace-nowrap">
+          <span className="h-[22px] font-normal whitespace-nowrap">
             <CategoryTag
               categoryName={categoryName}
               categoryId={categoryId}
@@ -139,15 +141,15 @@ function ProductCard({
           </div>
         </div>
 
-        <div className="w-auto h-[29px] flex justify-between">
+        <div className="h-[29px] flex justify-between">
           <div className="hidden md:flex items-center gap-[15px]">
             <h2 className="text-[#F1F1F5] md:text-xl lg:text-2xl font-semibold">{name}</h2>
-            <FavoriteButton productId={Number(productId)} initialIsFavorited={false} />
+            <FavoriteButton productId={Number(productId)} isFavorite={isFavorite} />
           </div>
 
           <h2 className="md:hidden text-[#F1F1F5] md:text-xl lg:text-2xl font-semibold">{name}</h2>
           <span className="md:hidden">
-            <FavoriteButton productId={Number(productId)} initialIsFavorited={false} />
+            <FavoriteButton productId={Number(productId)} isFavorite={isFavorite} />
           </span>
 
           {/* 태블릿 이상 화면에서는 하트 버튼 옆에 카카오톡과 공유 버튼을 배치 */}
@@ -157,7 +159,7 @@ function ProductCard({
           </div>
         </div>
 
-        <p className="w-full md:w-[383px] lg:w-[545px] text-[#F1F1F5] md:text-sm lg:text-base font-normal mt-5 md:mt-[49px] mb-[67px] md:mb-[60px] whitespace-normal">
+        <p className="text-[#F1F1F5] md:text-sm lg:text-base font-normal mt-5 md:mt-[49px] mb-[67px] md:mb-[60px] whitespace-pre-wrap">
           {description}
         </p>
         <div className="flex flex-col md:flex-row gap-[15px] md:gap-[10px] lg:gap-5">

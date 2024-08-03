@@ -1,5 +1,7 @@
 'use client';
 
+import { useEffect } from 'react';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { ActivityCategory } from '@/app/_styled-guide/_components/activity-category';
 import { ActivityRating } from '@/app/_styled-guide/_components/activity-rating';
 import { ActivityReview } from '@/app/_styled-guide/_components/activity-review';
@@ -56,6 +58,29 @@ export default function ProfileSection({
   handleCategoryChange,
   isMyPage,
 }: ProfileSectionProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    const queryCategory = searchParams.get('category');
+
+    if (!queryCategory) {
+      const params = new URLSearchParams(searchParams.toString());
+      params.set('category', '리뷰 남긴 상품');
+      router.replace(`${pathname}?${params.toString()}`);
+    } else if (options.includes(queryCategory) && queryCategory !== selectedCategory) {
+      handleCategoryChange(queryCategory);
+    }
+  }, [searchParams, options, handleCategoryChange, selectedCategory, pathname, router]);
+
+  const onCategoryChange = (category: string) => {
+    handleCategoryChange(category);
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('category', category);
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
   const renderEmptyMessage = () => {
     if (selectedCategory === '리뷰 남긴 상품' && productsList.length === 0) {
       return (
@@ -81,56 +106,59 @@ export default function ProfileSection({
     }
     return null;
   };
+
   return (
-    <div className="w-full h-full bg-[#1C1C22] flex flex-col items-center mb-[80px]">
-      <div className="flex flex-col mt-[30px] md:mt-[40px] lg:flex-row lg:justify-center lg:items-start">
-        <div className="mb-[60px] lg:mr-[60px]">
-          <Profile
-            id={userInfo.id}
-            image={userInfo.image}
-            description={userInfo.description}
-            nickname={userInfo.nickname}
-            followeesCount={userInfo.followeesCount}
-            followersCount={userInfo.followersCount}
-            isFollowing={userInfo.isFollowing}
-            isMyPage={isMyPage}
-          />
-        </div>
-        <div>
-          <div className="mb-[61.5px]">
-            <h2 className="text-white text-lg mb-[30px]">활동 내역</h2>
-            <div className="flex gap-[10px] lg:gap-[20px]">
-              <ActivityRating rating={userInfo.averageRating} />
-              <ActivityReview reviewCount={userInfo.reviewCount} />
-              <ActivityCategory
-                mostFavoriteCategory={userInfo.mostFavoriteCategory}
-                className="whitespace-nowrap"
-              />
-            </div>
+    <div style={{ overflowX: 'hidden' }}>
+      <div className="w-full h-full bg-[#1C1C22] flex flex-col items-center mb-[80px]">
+        <div className="flex flex-col mt-[30px] md:mt-[40px] lg:flex-row lg:justify-center lg:items-start">
+          <div className="mb-[60px] lg:mr-[60px]">
+            <Profile
+              id={userInfo.id}
+              image={userInfo.image}
+              description={userInfo.description}
+              nickname={userInfo.nickname}
+              followeesCount={userInfo.followeesCount}
+              followersCount={userInfo.followersCount}
+              isFollowing={userInfo.isFollowing}
+              isMyPage={isMyPage}
+            />
           </div>
           <div>
-            <div className="mb-[31.5px]">
-              <ProductSortSelector
-                category={options}
-                placeHolder={selectedCategory}
-                onChange={handleCategoryChange}
-              />
-            </div>
-            {renderEmptyMessage() || (
-              <div className="grid grid-cols-2 gap-[15px] lg:grid-cols-3 lg:gap-[20px]">
-                {productsList.map((product) => (
-                  <Link href={`/product/${product.id}`} key={product.id}>
-                    <ProductCard
-                      name={product.name}
-                      image={product.image}
-                      rating={product.rating}
-                      reviewCount={product.reviewCount}
-                      favoriteCount={product.favoriteCount}
-                    />
-                  </Link>
-                ))}
+            <div className="mb-[61.5px]">
+              <h2 className="text-white text-lg mb-[30px]">활동 내역</h2>
+              <div className="flex gap-[10px] lg:gap-[20px]">
+                <ActivityRating rating={userInfo.averageRating} />
+                <ActivityReview reviewCount={userInfo.reviewCount} />
+                <ActivityCategory
+                  mostFavoriteCategory={userInfo.mostFavoriteCategory}
+                  className="whitespace-nowrap"
+                />
               </div>
-            )}
+            </div>
+            <div>
+              <div className="mb-[31.5px]">
+                <ProductSortSelector
+                  category={options}
+                  placeHolder={selectedCategory}
+                  onChange={onCategoryChange}
+                />
+              </div>
+              {renderEmptyMessage() || (
+                <div className="grid grid-cols-2 gap-[15px] lg:grid-cols-3 lg:gap-[20px]">
+                  {productsList.map((product) => (
+                    <Link href={`/product/${product.id}`} key={product.id}>
+                      <ProductCard
+                        name={product.name}
+                        image={product.image}
+                        rating={product.rating}
+                        reviewCount={product.reviewCount}
+                        favoriteCount={product.favoriteCount}
+                      />
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
