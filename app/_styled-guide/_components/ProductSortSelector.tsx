@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import DropdownList from './dropdown-list';
 
@@ -14,6 +14,11 @@ const ProductSortSelector = (props: CategorySelectorProps) => {
   const { category, placeHolder = '최신순', onChange } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(placeHolder);
+
+  // placeHolder가 변경될 때 selectedItem도 업데이트
+  useEffect(() => {
+    setSelectedItem(placeHolder);
+  }, [placeHolder]);
 
   // 버튼 이벤트
   const toggleDropdown = () => {
