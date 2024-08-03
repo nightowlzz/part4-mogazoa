@@ -18,7 +18,7 @@ export const useGetProducts = (
 ) => {
   const url = '/products';
   return useDataQuery<undefined, ProductsListResponse>(
-    ['products'],
+    ['products', params],
     url,
     undefined,
     options,
