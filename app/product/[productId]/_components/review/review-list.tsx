@@ -4,6 +4,7 @@ import { REVIEW_SORT_OPTIONS } from '@/constants/sortOrder';
 import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 import useSortOrderStore from '@/store/sortOrderStore';
 import Review from './review';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface reviewInfoProps {
   productId: string | string[];
@@ -56,10 +57,16 @@ export function ReviewListContent({
     order: sortOrder,
   });
 
-  // [NOTE] 추 후 스켈레톤 작업
-  if (isPending) return <div>isPending</div>;
-
   if (isError) return <div>ERROR</div>;
+
+  if (isPending)
+    return (
+      <div className="h-[150px] space-y-4 mt-[30px] opacity-50">
+        {Array.from({ length: 4 }).map((_, i) => (
+          <Skeleton key={'revuew' + i} className="h-full w-full" />
+        ))}
+      </div>
+    );
 
   return (
     <>
