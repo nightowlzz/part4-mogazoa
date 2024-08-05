@@ -66,7 +66,6 @@ export default function EditProduct({
   categoryName,
 }: ProductData) {
   const [descLength, setDescLength] = useState(description.length);
-  const [isSaving, setIsSaving] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -117,7 +116,7 @@ export default function EditProduct({
   };
 
   const uploadImageMutation = useUploadImage();
-  const updateProductMutation = useUpdateProduct(Number(productId));
+  const { mutateAsync: updateProduct, isPending: isUpdating } = useUpdateProduct(Number(productId));
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -137,10 +136,9 @@ export default function EditProduct({
 
   const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
     try {
-      setIsSaving(true);
       const { name, desc, image, categoryId } = formData;
       const updatedData = { name, description: desc, image, categoryId };
-      await updateProductMutation.mutateAsync(updatedData);
+      await updateProduct(updatedData);
 
       // 쿼리 무효화
       await queryClient.invalidateQueries({ queryKey: ['productDetail'] });
@@ -151,8 +149,6 @@ export default function EditProduct({
       toast.success('상품이 성공적으로 업데이트되었습니다.');
     } catch (error) {
       toast.error('상품 업데이트 중 오류가 발생했습니다.');
-    } finally {
-      setIsSaving(false);
     }
   };
 
@@ -286,9 +282,9 @@ export default function EditProduct({
             type="button"
             variant="default"
             onClick={form.handleSubmit(onSubmit)}
-            disabled={!form.formState.isValid || isSaving}
+            disabled={!form.formState.isValid || isUpdating}
           >
-            {isSaving ? '저장 중..' : '저장하기'}
+            {isUpdating ? '저장 중..' : '저장하기'}
           </Button>
         </DialogFooter>
       </DialogContent>
