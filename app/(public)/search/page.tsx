@@ -45,7 +45,7 @@ function createMessage(categoryName: string | undefined, keyword: string | undef
 
 const ProductSearchParams = ({ searchParams }: TemplateProps) => {
   return (
-    <h2 className="text-[22px] text-white font-bold">
+    <h2 className="text-[18px] md:text-[22px] text-white font-bold">
       {createMessage(searchParams.category, searchParams.keyword)}
     </h2>
   );

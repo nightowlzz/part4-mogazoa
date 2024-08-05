@@ -19,12 +19,15 @@
     left: 0;
     width: 100%;
     height: 100%;
-    font-weight: 600;
+    font-weight: bold;
     font-size: 18px;
     background-image: linear-gradient(45deg, #5097fa, #5363ff);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    @media screen and  (max-width: 768px) { 
+      font-size: 14px;
+    }
   }
 
   &:hover {

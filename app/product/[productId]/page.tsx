@@ -38,7 +38,7 @@ export default function ProductDetailPage() {
             </div>
           </div>
         </div>
-        <h3 className="text-[#F1F1F5] text-xl font-normal">상품 통계</h3>
+        <h3 className="text-[#F1F1F5] text-xl font-normal text-[18px] md:text-[20px]">상품 통계</h3>
         <div className="flex flex-col md:flex-row mt-[30px] mb-[60px] gap-[15px] lg:gap-5">
           {Array.from({ length: 3 }).map((_, i) => (
             <Skeleton key={'detail' + i} className="w-full h-[100px] md:h-[197px] lg:h-[250px]" />
@@ -67,7 +67,7 @@ export default function ProductDetailPage() {
         />
       </div>
       <div className="w-full max-w-[980px] mx-auto">
-        <h3 className="text-[#F1F1F5] text-xl font-normal">상품 통계</h3>
+        <h3 className="text-[#F1F1F5] text-xl font-normal text-[18px] md:text-[20px]">상품 통계</h3>
         <div className="flex flex-col md:flex-row mt-[30px] mb-[60px] gap-[15px] lg:gap-5">
           <StatisticRating
             rating={productDetail.rating}
