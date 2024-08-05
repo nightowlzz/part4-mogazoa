@@ -25,13 +25,12 @@ declare global {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
-
   return (
     <html lang="ko">
       <body className={(inter.className, 'bg-BgBlack px-5 pt-[70px] md:pt-[80px] lg:pt-[100px]')}>
         <QueryProviderWrapper>
           <Provider>
-            <Gnb isLogin={!!session} />
+            <Gnb isLoginServer={!!session} />
             {children}
             {!!session && <FloatAddButton />}
           </Provider>

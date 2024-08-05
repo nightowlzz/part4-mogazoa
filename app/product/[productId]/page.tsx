@@ -29,7 +29,6 @@ export default function ProductDetailPage() {
 
   return (
     <div className="w-full h-full bg-[#1C1C22] flex flex-col justify-center items-center">
-      <Gnb />
       <div className="w-full max-w-[980px] mx-auto mt-[60px] mb-[80px]">
         <ProductCard
           name={productDetail.name}
