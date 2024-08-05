@@ -17,7 +17,7 @@ export const useGetProducts = (
   >,
 ) => {
   const url = '/products';
-  return useDataQuery<ProductsListResponse>(['products'], url, options, params);
+  return useDataQuery<ProductsListResponse>(['products', params], url, options, params);
 };
 
 export const useGetProductDetail = (
