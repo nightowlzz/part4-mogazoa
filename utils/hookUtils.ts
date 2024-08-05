@@ -6,6 +6,8 @@ export const addQueryParams = ({ order, keyword, category, cursor }: QueryParams
   if (cursor !== undefined) queryParams.append('cursor', cursor.toString());
   if (order !== undefined) queryParams.append('order', order);
   if (keyword !== undefined) queryParams.append('keyword', keyword);
-  if (category !== undefined) queryParams.append('category', category.toString());
+  if (category !== undefined && !isNaN(category))
+    queryParams.append('category', category.toString());
+
   return queryParams.toString() ? `?${queryParams.toString()}` : '';
 };
