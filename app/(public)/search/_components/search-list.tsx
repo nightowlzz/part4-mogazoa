@@ -3,8 +3,8 @@ import ContentEmpty from '@/components/content-empty';
 import { InfiniteQueryData, QueryListResponse, useInfinityScroll } from '@/hooks/useInfinityScroll';
 import useSortOrderStore from '@/store/sortOrderStore';
 import { ProductResponse, ProductsListResponse } from '@/types/data';
-import { Product } from '../../_components/product';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Product } from '@/components/products/product';
 interface ProductListProps {
   keyword?: string | undefined;
   category?: number | undefined;

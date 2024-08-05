@@ -34,11 +34,11 @@ const ProductSortSelector = (props: CategorySelectorProps) => {
   };
 
   return (
-    <div className="relative inline-block text-left w-full">
+    <div className="relative text-left w-full">
       <div>
         <button
           type="button"
-          className="inline-flex justify-between align-middle w-[141px] md:w-[139px] lg:w-40 border-none bg-none text-lg text-white"
+          className="inline-flex justify-between align-middle w-[160px] lg:w-40 border-none bg-none text-lg text-white"
           aria-expanded="true"
           aria-haspopup="true"
           onClick={toggleDropdown}

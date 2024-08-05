@@ -92,7 +92,7 @@ export default function Profile({
   };
 
   return (
-    <div className="w-[335px] md:w-[509px] lg:w-[340px] h-full px-5 py-[30px] md:px-[30px] lg:px-5 lg:py-10 flex flex-col items-center border-[#353542] rounded-lg bg-[#252530] gap-[30px] lg:gap-10">
+    <div className="w-full md:w-[300px] lg:w-[340px] shrink-0 h-full px-5 py-[30px] md:px-[30px] lg:px-5 lg:py-10 flex flex-col items-center border-[#353542] rounded-lg bg-[#252530] gap-[30px] lg:gap-10">
       <Avatar className="w-[120px] h-[120px] lg:w-[180px] lg:h-[180px] rounded-full overflow-hidden">
         {image ? (
           <AvatarImage
@@ -111,7 +111,7 @@ export default function Profile({
           </AvatarFallback>
         )}
       </Avatar>
-      <div className="w-[295px] md:w-[449px] lg:w-[300px] flex flex-col items-center gap-5">
+      <div className="w-full flex flex-col items-center gap-5">
         <h2 className="text-[#F1F1F5] text-xl lg:text-2xl font-semibold">{nickname}</h2>
         <p className="text-[#6E6E82] text-sm lg:text-base">{description}</p>
       </div>

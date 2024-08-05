@@ -50,7 +50,7 @@ export default function MyPage() {
   if (isPending) {
     return (
       <div className="w-full max-w-[1340px] mt-[60px] m-auto opacity-50">
-        <div className="flex items-start justify-center flex-col md:flex-row gap-[50px] md:gap-[70px]">
+        <div className="flex items-start justify-center flex-col md:flex-row gap-[50px] md:gap-[60px]">
           <div className="w-full md:w-[280px] lg:w-[340px] shrink-0">
             <Skeleton className="w-full h-[450px] md:h-[500px] rounded-lg" />
           </div>
