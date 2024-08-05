@@ -1,6 +1,7 @@
 'use client';
 import styled from '@/app/(public)/_styles/main.module.scss';
 import { buttonVariants } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useGetCategories } from '@/hooks/category';
 import { cn } from '@/lib/utils';
 import useButtonStore from '@/store/globalStore';
@@ -21,8 +22,18 @@ export function Categories() {
   const { data: categories, isError, isPending } = useGetCategories();
 
   if (isError) return <div>isERROR</div>;
-  // [NOTE]:스켈레톤 작업
-  if (isPending) return <div>로딩중</div>;
+
+  if (isPending)
+    return (
+      <div className="flex flex-col space-y-3 opacity-50">
+        {Array.from({ length: 10 }).map((_, i) => (
+          <Skeleton
+            key={'cate' + i}
+            className={cn(buttonVariants({ variant: 'nav', size: 'sm' }))}
+          ></Skeleton>
+        ))}
+      </div>
+    );
 
   return (
     <>

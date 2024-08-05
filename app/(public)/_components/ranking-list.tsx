@@ -11,6 +11,7 @@ import { FreeMode, Mousewheel, Scrollbar } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Ranking from './ranking';
 import { RankedUserResponse } from '@/types/data';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface RankingListProps {
   initialData: RankedUserResponse[]; // 올바른 타입 정의
@@ -42,8 +43,31 @@ function RankingContent({ initialData }: RankingListProps) {
   }, []);
 
   if (isError) return <div>에러남</div>;
-  // [NOTE]:스켈레톤 작업
-  if (isPending) return <div>로딩중..</div>;
+
+  if (isPending)
+    return (
+      <>
+        {!isMobile ? (
+          Array.from({ length: 5 }).map((_, i) => (
+            <div key={'rank' + i} className="flex items-center mb-2 opacity-50">
+              <Skeleton className="h-12 w-12 rounded-full shrink-0 mr-2" />
+              <div className="space-y-2 flex-1">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-[70%]" />
+              </div>
+            </div>
+          ))
+        ) : (
+          <div className="flex items-center mb-3 opacity-50">
+            <Skeleton className="h-12 w-12 rounded-full shrink-0 mr-2" />
+            <div className="space-y-2 flex-1">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-[70%]" />
+            </div>
+          </div>
+        )}
+      </>
+    );
 
   return (
     <>

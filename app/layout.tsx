@@ -1,15 +1,14 @@
 import QueryProviderWrapper from '@/components/QueryProviderWrapper';
 import { Provider } from '@/components/SessionProvider';
-import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
+import { getServerSession } from 'next-auth';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'sonner';
-import KakaoScript from './product/[productId]/_components/product-detail/kakao-script';
-import Gnb from './_styled-guide/_components/gnb';
-import './globals.css';
-import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]/auth-options';
 import FloatAddButton from './_styled-guide/_components/float-add-button';
+import Gnb from './_styled-guide/_components/gnb';
+import { authOptions } from './api/auth/[...nextauth]/auth-options';
+import './globals.css';
+import KakaoScript from './product/[productId]/_components/product-detail/kakao-script';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -26,13 +25,12 @@ declare global {
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
-
   return (
     <html lang="ko">
-      <body className={cn(inter.className, 'bg-BgBlack px-5 pt-[70px] md:pt-[80px] lg:pt-[100px]')}>
+      <body className={(inter.className, 'bg-BgBlack px-5 pt-[70px] md:pt-[80px] lg:pt-[100px]')}>
         <QueryProviderWrapper>
           <Provider>
-            <Gnb isLogin={!!session} />
+            <Gnb isLoginServer={!!session} />
             {children}
             {!!session && <FloatAddButton />}
           </Provider>

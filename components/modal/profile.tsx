@@ -58,7 +58,6 @@ export default function ProfileModal({
   onUpdate,
 }: ProfileModalProps) {
   const [descLength, setDescLength] = useState(description.length);
-  const [isSaving, setIsSaving] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>('');
   const [isOpen, setIsOpen] = useState(false);
 
@@ -71,7 +70,7 @@ export default function ProfileModal({
   });
 
   const uploadImageMutation = useUploadImage();
-  const updateMyInfo = useUpdateMyInfo();
+  const { mutateAsync: updateMyInfo, isPending: isUpdating } = useUpdateMyInfo();
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -90,14 +89,13 @@ export default function ProfileModal({
 
   const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
     try {
-      setIsSaving(true);
       const { description, nickname, image } = formData;
       const updatedData = {
         description,
         nickname,
         image: image ?? undefined,
       };
-      await updateMyInfo.mutateAsync(updatedData);
+      await updateMyInfo(updatedData);
 
       await queryClient.invalidateQueries({ queryKey: ['myInfo'] });
 
@@ -108,8 +106,6 @@ export default function ProfileModal({
       onUpdate({ ...updatedData, image: updatedData.image ?? null });
     } catch (error) {
       toast.error('프로필 업데이트 중 오류가 발생했습니다.');
-    } finally {
-      setIsSaving(false);
     }
   };
 
@@ -207,9 +203,9 @@ export default function ProfileModal({
               type="button"
               variant="default"
               onClick={form.handleSubmit(onSubmit)}
-              disabled={!form.formState.isValid || isSaving}
+              disabled={!form.formState.isValid || isUpdating}
             >
-              {isSaving ? '저장 중..' : '저장하기'}
+              {isUpdating ? '저장 중..' : '저장하기'}
             </Button>
           </DialogClose>
         </DialogFooter>

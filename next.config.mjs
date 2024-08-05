@@ -31,8 +31,6 @@ const nextConfig = {
       'blog.kakaocdn.net',
     ],
   },
-  reactStrictMode: true,
-  swcMinify: true,
 };
 
 export default nextConfig;

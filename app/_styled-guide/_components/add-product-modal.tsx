@@ -73,12 +73,11 @@ function isServerError(error: unknown): error is { response: { data: ServerError
 export default function AddProductModal({ triggerButton }: AddProductModalProps) {
   const [imageUrl, setImageUrl] = useState<string>('');
   const [descLength, setDescLength] = useState(0);
-  const [isSaving, setIsSaving] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
 
   const uploadImageMutation = useUploadImage();
-  const createProduct = useCreateProduct();
+  const { mutateAsync: createProduct, isPending: isCreating } = useCreateProduct();
 
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -94,12 +93,17 @@ export default function AddProductModal({ triggerButton }: AddProductModalProps)
     100,
   );
   // 상품명 중복 체크
-  const { data } = useDataQuery<undefined, ProductsListResponse>(
-    ['products', 'searchSuggestions', watchedName],
+  const {
+    data,
+    isLoading: queryLoading,
+    isError: queryError,
+  } = useDataQuery<ProductsListResponse>(
+    ['products', 'searchSuggestions', form.getValues('name')],
     '/products',
-    undefined,
-    { enabled: !!watchedName },
-    { keyword: watchedName },
+    {
+      staleTime: 60 * 1000,
+    },
+    { keyword: form.getValues('name') },
   );
   function isProductNameDuplicate(name: string): boolean {
     return data ? data.list.some((product: { name: string }) => product.name === name) : false;
@@ -139,11 +143,10 @@ export default function AddProductModal({ triggerButton }: AddProductModalProps)
 
   const onSubmit = async (formData: z.infer<typeof FormSchema>) => {
     try {
-      setIsSaving(true);
       const { name, desc, image, categoryId } = formData;
 
       const updatedData = { name, description: desc, image, categoryId };
-      const response = await createProduct.mutateAsync(updatedData);
+      const response = await createProduct(updatedData);
       toast.success('상품이 성공적으로 업데이트되었습니다.');
       router.push(`/product/${response.id}`); // 상품 상세 페이지로 이동
 
@@ -169,8 +172,6 @@ export default function AddProductModal({ triggerButton }: AddProductModalProps)
 
         toast.error(errorMessage);
       }
-    } finally {
-      setIsSaving(false);
     }
   };
 
@@ -308,9 +309,9 @@ export default function AddProductModal({ triggerButton }: AddProductModalProps)
               type="button"
               variant="default"
               onClick={form.handleSubmit(onSubmit)}
-              disabled={isSaving}
+              disabled={isCreating}
             >
-              {isSaving ? '저장 중..' : '추가하기'}
+              {isCreating ? '저장 중..' : '추가하기'}
             </Button>
           </DialogClose>
         </DialogFooter>
