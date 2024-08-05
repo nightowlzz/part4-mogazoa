@@ -12,6 +12,7 @@ import { UserInfo } from '@/components/ProfileSection';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { Skeleton } from '@/components/ui/skeleton';
+import NotFound from '../not-found';
 
 interface Product {
   id: number;
@@ -81,12 +82,8 @@ export default function MyPage() {
     );
   }
 
-  if (isError) {
-    return <div>Error...</div>;
-  }
-
-  if (!MyInfoResponse) {
-    return <div>유저 정보 없음</div>;
+  if (!MyInfoResponse || isError) {
+    return router.push('/not-found');
   }
 
   const MyInfo: UserInfo = {
