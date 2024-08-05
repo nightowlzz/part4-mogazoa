@@ -33,7 +33,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Provider>
             <Gnb isLoginServer={!!session} />
             {children}
-            {!!session && <FloatAddButton />}
+            <FloatAddButton isLoginServer={!!session} />
           </Provider>
         </QueryProviderWrapper>
         <Toaster position="top-center" />
