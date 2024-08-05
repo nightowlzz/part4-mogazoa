@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 /* 
   [NOTE] 고정방식 
   
@@ -13,7 +15,7 @@ export default function Loading({ type = 'fixed' }: { type?: string }) {
       className={`${type === 'fixed' ? 'fixed' : type} left-0 top-0 w-full h-screen bg-black-600/70 z-50 flex items-center justify-center`}
     >
       <div>
-        <img src={loadingImg} alt="로딩중" />
+        <Image src={loadingImg} alt="로딩중" width={100} height={200} />
       </div>
     </div>
   );
