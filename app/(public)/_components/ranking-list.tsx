@@ -12,12 +12,14 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import Ranking from './ranking';
 import { RankedUserResponse } from '@/types/data';
 import { Skeleton } from '@/components/ui/skeleton';
+import useIsMobile from '@/hooks/useMobileDetect';
 
 interface RankingListProps {
   initialData: RankedUserResponse[]; // 올바른 타입 정의
 }
 
 function RankingContent({ initialData }: RankingListProps) {
+  const isMobile = useIsMobile();
   const {
     data: userRanking,
     isPending,
@@ -26,21 +28,6 @@ function RankingContent({ initialData }: RankingListProps) {
     initialData,
     refetchInterval: 1000 * 60,
   });
-
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 1280);
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize(); // 초기 상태 설정
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   if (isError) return <div>에러남</div>;
 

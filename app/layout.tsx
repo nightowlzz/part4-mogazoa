@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             {!!session && <FloatAddButton />}
           </Provider>
         </QueryProviderWrapper>
-        <Toaster position="top-center" />
+        <Toaster position="bottom-center" />
         <KakaoScript />
       </body>
     </html>
