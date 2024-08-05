@@ -27,6 +27,8 @@ const nextConfig = {
     domains: [
       'sprint-fe-project.s3.ap-northeast-2.amazonaws.com',
       'store.storeimages.cdn-apple.com',
+      'img.danawa.com',
+      'blog.kakaocdn.net',
     ],
   },
   reactStrictMode: true,
