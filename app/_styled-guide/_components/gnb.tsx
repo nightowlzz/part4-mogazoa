@@ -9,15 +9,15 @@ import { IoSearch } from 'react-icons/io5';
 import GnbSearchBar from './gnb-search-bar';
 import useButtonStore from '@/store/globalStore';
 import { Categories } from '@/app/(public)/_components/category-list';
+import { useSession } from 'next-auth/react';
 
-interface GnbProps {
-  isLogin?: boolean;
-}
-
-function Gnb({ isLogin = true }: GnbProps) {
+function Gnb({ isLoginServer }: { isLoginServer: boolean }) {
+  const { data: session, status } = useSession();
   const [isMobileSearchOpen, setIsMobileSearchOpen] = useState(false);
   const { isHeaderMenuButtonClicked: isButtonClicked, toggleButton } = useButtonStore();
   const searchInputRef = useRef<HTMLInputElement>(null);
+
+  const isLogin = isLoginServer || status === 'authenticated';
 
   const toggleMobileSearch = () => {
     setIsMobileSearchOpen(!isMobileSearchOpen);
