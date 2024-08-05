@@ -122,7 +122,9 @@ function ProductCard({
           fill
           priority
           sizes="(max-width: 768px) 280px, (max-width: 1024px) 355px, 100vw"
-          objectFit="contain"
+          style={{
+            objectFit: 'cover',
+          }}
         />
       </div>
       <div className="w-full">

@@ -11,6 +11,7 @@ import ProfileSection from '@/components/ProfileSection';
 import { UserInfo } from '@/components/ProfileSection';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface Product {
   id: number;
@@ -24,7 +25,7 @@ interface Product {
 }
 
 export default function MyPage() {
-  const { data: MyInfoResponse, isLoading, isError } = useGetMyInfo();
+  const { data: MyInfoResponse, isPending, isError } = useGetMyInfo();
   const { data: userReviewedProducts } = useGetUserReviewedProducts(Number(MyInfoResponse?.id));
   const { data: userCreatedProducts } = useGetUserCreatedProducts(Number(MyInfoResponse?.id));
   const { data: userFavoriteProducts } = useGetUserFavoriteProducts(Number(MyInfoResponse?.id));
@@ -46,8 +47,38 @@ export default function MyPage() {
     }
   }, []);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
+  if (isPending) {
+    return (
+      <div className="w-full max-w-[1340px] mt-[60px] m-auto opacity-50">
+        <div className="flex items-start justify-center flex-col md:flex-row gap-[50px] md:gap-[70px]">
+          <div className="w-full md:w-[280px] lg:w-[340px] shrink-0">
+            <Skeleton className="w-full h-[450px] md:h-[500px] rounded-lg" />
+          </div>
+          <div className="w-full">
+            <h2 className="text-white text-lg mb-[30px]">활동 내역</h2>
+            <div className="grid grid-cols-3 gap-[15px] md:gap-5 ">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <Skeleton key={'my-list' + i} className="h-[100px] w-full mr-2" />
+              ))}
+            </div>
+            <div className="mt-[50px] md:mt-[80px]">
+              <h2 className="text-white text-lg mb-[30px]">리뷰 남긴 상품</h2>
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-[15px] md:gap-5">
+                {Array.from({ length: 6 }).map((_, i) => (
+                  <div key={'my-review' + i} className="space-y-4">
+                    <Skeleton className="h-[200px] w-full rounded-xl" />
+                    <div className="space-y-2">
+                      <Skeleton className="h-4 w-full" />
+                      <Skeleton className="h-4 w-[80%]" />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   if (isError) {

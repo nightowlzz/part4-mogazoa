@@ -4,6 +4,7 @@ import { InfiniteQueryData, QueryListResponse, useInfinityScroll } from '@/hooks
 import useSortOrderStore from '@/store/sortOrderStore';
 import { ProductResponse, ProductsListResponse } from '@/types/data';
 import { Product } from '../../_components/product';
+import { Skeleton } from '@/components/ui/skeleton';
 interface ProductListProps {
   keyword?: string | undefined;
   category?: number | undefined;
@@ -41,11 +42,25 @@ export default function SearchList({ keyword, category, initialData }: ProductLi
   });
 
   if (isError) return <div>isERROR</div>;
-  // [NOTE] 스켈레톤 작업
-  if (isPending) return <div>로딩중</div>;
+
+  if (isPending)
+    return (
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-[15px] md:gap-5 opacity-50">
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div key={'search' + i} className="space-y-4">
+            <Skeleton className="h-[125px] w-full rounded-xl" />
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-full" />
+              <Skeleton className="h-4 w-[80%w]" />
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+
   return (
     <>
-      <div className="grid grid-cols-2 2xl:grid-cols-3 gap-[15px] md:gap-5" ref={ref}>
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-[15px] md:gap-5" ref={ref}>
         {products ? products.map((card) => <Product key={card.id} {...card} />) : <ContentEmpty />}
       </div>
     </>
