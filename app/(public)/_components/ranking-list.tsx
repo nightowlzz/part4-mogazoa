@@ -72,9 +72,9 @@ function RankingContent({ initialData }: RankingListProps) {
   return (
     <>
       {!isMobile ? (
-        <ul className="xl:space-y-7 overflow-x-auto">
+        <ul className="flex flex-row xl:flex-col xl:space-y-7 overflow-hidden">
           {userRanking.slice(0, 5).map((user, i) => (
-            <li key={user.id}>
+            <li key={user.id} className="flex shrink-0">
               <Ranking {...user} i={i} />
             </li>
           ))}
