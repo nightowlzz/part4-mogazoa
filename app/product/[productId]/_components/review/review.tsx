@@ -1,4 +1,3 @@
-import { ReviewProfile } from '@/app/_styled-guide/_components/review-profile';
 import { Button } from '@/components/ui/button';
 import { useDeleteReview } from '@/hooks/review';
 import { ReviewResponse } from '@/types/data';
@@ -8,6 +7,7 @@ import { LegacyRef } from 'react';
 import { toast } from 'sonner';
 import EditReview from '../modal/edit-review';
 import Thumbs from './thumbs';
+import { ReviewProfile } from './review-profile';
 
 interface ReviewProps extends ReviewResponse {
   currentUserId: number | null;
@@ -66,7 +66,7 @@ export default function Review({
       </div>
       <div className="flex-1">
         <p
-          className="text-[#F1F1F5] text-sm md:text-base font-normal whitespace-pre-line mt-[10px]"
+          className="text-[#F1F1F5] text-sm md:text-base font-normal whitespace-pre-wrap mt-[10px]"
           style={{ wordBreak: 'keep-all' }}
         >
           {content}

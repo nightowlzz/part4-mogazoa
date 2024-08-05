@@ -1,4 +1,5 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Link from 'next/link';
 import { FaStar } from 'react-icons/fa';
 
 interface User {
@@ -15,7 +16,7 @@ interface ReviewProfileProps {
 export function ReviewProfile({ user, rating }: ReviewProfileProps) {
   const { image, nickname } = user;
   return (
-    <div className="flex gap-2.5 items-start">
+    <Link href={`/users/${user.id}`} className="flex gap-2.5 items-start">
       <Avatar className="w-9 h-9 lg:w-[42px] lg:h-[42px]">
         <AvatarImage src={image} alt={`Profile of ${nickname}`} />
         <AvatarFallback>
@@ -30,6 +31,6 @@ export function ReviewProfile({ user, rating }: ReviewProfileProps) {
           ))}
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
