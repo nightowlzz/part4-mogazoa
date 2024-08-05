@@ -1,8 +1,8 @@
 .content-full-height {
-  height: calc(100vh - 70px);
+  height: calc(100vh - 50px);
 
     @media screen and  (min-width: 768px) { // md
-    height: calc(100vh - 80px);
+    height: calc(100vh - 60px);
   }
 
     @media screen and  (min-width: 1024px) { // lg

@@ -24,7 +24,7 @@ export default function ReviewList({
   return (
     <div className="w-full max-w-[980px] mx-auto mb-[60px]">
       <div className="flex items-center justify-between w-full">
-        <h3 className="text-[#F1F1F5] text-xl font-normal">상품 리뷰</h3>
+        <h3 className="text-[#F1F1F5] text-xl font-normal text-[18px] md:text-[20px]">상품 리뷰</h3>
         <SortSelector sortSelectOption={REVIEW_SORT_OPTIONS} />
       </div>
       <ReviewListContent
