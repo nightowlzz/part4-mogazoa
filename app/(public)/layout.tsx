@@ -1,5 +1,4 @@
 import styled from '@/app/(public)/_styles/main.module.scss';
-import { cn } from '@/lib/utils';
 import { CategoryResponse, RankedUserResponse } from '@/types/data';
 import axiosInstance from '@/utils/axiosInstance';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
@@ -28,7 +27,7 @@ export default async function HomeLayout({ children }: { children: React.ReactNo
   ]);
 
   return (
-    <div className={cn(styled['main-wrap'], 'max-w-[1560px] m-auto')}>
+    <div className={`${styled['main-wrap']} max-w-[1560px] m-auto`}>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <CategoryList />
         {children}
