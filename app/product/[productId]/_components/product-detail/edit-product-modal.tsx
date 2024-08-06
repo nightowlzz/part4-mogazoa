@@ -24,7 +24,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useUploadImage } from '@/hooks/image';
-import { useUpdateProduct } from '@/hooks/product';
+import { useGetProducts, useUpdateProduct } from '@/hooks/product';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
@@ -86,11 +86,12 @@ export default function EditProduct({
     100,
   );
   // 상품명 중복 체크
-  const { data } = useDataQuery<ProductsListResponse>(
-    ['products', 'searchSuggestions', watchedName],
-    '/products',
-    { enabled: !!watchedName },
+  const { data } = useGetProducts(
     { keyword: watchedName },
+    {
+      staleTime: 60 * 1000,
+      enabled: !!watchedName,
+    },
   );
   function isProductNameDuplicate(name: string): boolean {
     return data ? data.list.some((product: { name: string }) => product.name === name) : false;
