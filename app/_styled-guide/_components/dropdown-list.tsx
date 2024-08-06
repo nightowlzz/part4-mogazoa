@@ -19,7 +19,7 @@ const DropdownList = <T extends CategoryOption | string>({
   optionClassName,
 }: DropdownListProps<T>) => {
   // options이나 placeholder가 없을 경우 컴포넌트가 나타나지 않습니다.
-  if (options.length === 0) return;
+  if (options.length === 0) return null;
 
   // 검색 결과가 없을 경우 버튼 비활성화
   const isDisabled = options.some((option) =>
@@ -30,7 +30,7 @@ const DropdownList = <T extends CategoryOption | string>({
 
   return (
     <ul
-      className={`flex flex-col z-10 gap-[5px] p-2.5 rounded-lg absolute mt-2 w-full border-gray-700 bg-black-450 text-gray-600 shadow-lg ${className} `}
+      className={`flex flex-col z-10 gap-[5px] overflow-auto max-h-[220px] p-2.5 rounded-lg absolute mt-2 w-full border-gray-700 bg-black-450 text-gray-600 shadow-lg ${className}`}
     >
       {options.map((option) => (
         <li key={typeof option === 'string' ? option : (option as CategoryOption).id}>
