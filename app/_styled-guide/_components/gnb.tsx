@@ -1,15 +1,68 @@
 'use client';
 
-import { useState, useEffect, useRef, Suspense } from 'react';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Categories } from '@/app/(public)/_components/category-list';
+import { buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import useButtonStore from '@/store/globalStore';
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import Logo from './logo';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { FiMenu } from 'react-icons/fi';
 import { IoSearch } from 'react-icons/io5';
 import GnbSearchBar from './gnb-search-bar';
-import useButtonStore from '@/store/globalStore';
-import { Categories } from '@/app/(public)/_components/category-list';
-import { useSession } from 'next-auth/react';
+import Logo from './logo';
+
+function GnbMenus({ isLogin }: { isLogin: boolean }) {
+  return (
+    <div className="flex flex-col gap-[12px] order-3 pt-6 mt-6 border-t border-gray-600 md:order-1 md:border-t-0 md:mt-0 md:pt-0 md:flex-row md:gap-[30px] lg:gap-[60px]">
+      <h2 className="block font-sm text-white pb-2 md:hidden">마이메뉴</h2>
+      {isLogin && (
+        <>
+          <Link
+            href="/compare"
+            className={cn(
+              buttonVariants({ variant: 'text', size: 'auto' }),
+              'py-1 px-3 justify-start text-gray-600 md:justify-center md:text-white',
+            )}
+          >
+            비교하기
+          </Link>
+          <Link
+            href="/mypage"
+            className={cn(
+              buttonVariants({ variant: 'text', size: 'auto' }),
+              'py-1 px-3 justify-start text-gray-600 md:justify-center md:text-white',
+            )}
+          >
+            내 프로필
+          </Link>
+        </>
+      )}
+      {!isLogin && (
+        <>
+          <Link
+            href="/signin"
+            className={cn(
+              buttonVariants({ variant: 'text', size: 'auto' }),
+              'py-1 px-3 justify-start text-gray-600 md:justify-center md:text-white',
+            )}
+          >
+            로그인
+          </Link>
+          <Link
+            href="/signup"
+            className={cn(
+              buttonVariants({ variant: 'text', size: 'auto' }),
+              'py-1 px-3 justify-start text-gray-600 md:justify-center md:text-white',
+            )}
+          >
+            회원가입
+          </Link>
+        </>
+      )}
+    </div>
+  );
+}
 
 function Gnb({ isLoginServer }: { isLoginServer: boolean }) {
   const { data: session, status } = useSession();
@@ -39,26 +92,7 @@ function Gnb({ isLoginServer }: { isLoginServer: boolean }) {
             <Suspense>
               <GnbSearchBar />
             </Suspense>
-            {isLogin && (
-              <>
-                <Link href="/compare" className={buttonVariants({ variant: 'text', size: 'auto' })}>
-                  비교하기
-                </Link>
-                <Link href="/mypage" className={buttonVariants({ variant: 'text', size: 'auto' })}>
-                  내 프로필
-                </Link>
-              </>
-            )}
-            {!isLogin && (
-              <>
-                <Link href="/signin" className={buttonVariants({ variant: 'text', size: 'auto' })}>
-                  로그인
-                </Link>
-                <Link href="/signup" className={buttonVariants({ variant: 'text', size: 'auto' })}>
-                  회원가입
-                </Link>
-              </>
-            )}
+            <GnbMenus isLogin={isLogin} />
           </div>
         </div>
       </div>
@@ -98,43 +132,7 @@ function Gnb({ isLoginServer }: { isLoginServer: boolean }) {
         <>
           <div className="fixed inset-0 z-50 flex md:hidden">
             <div className="w-[200px] bg-black-500 flex flex-col space-y-4 p-4 overflow-y-auto">
-              {isLogin && (
-                <>
-                  <Link
-                    href="/compare"
-                    className={buttonVariants({ variant: 'default' })}
-                    onClick={toggleButton}
-                  >
-                    비교하기
-                  </Link>
-                  <Link
-                    href="/mypage"
-                    className={buttonVariants({ variant: 'default' })}
-                    onClick={toggleButton}
-                  >
-                    내 프로필
-                  </Link>
-                </>
-              )}
-              {!isLogin && (
-                <>
-                  <Link
-                    href="/signin"
-                    className={buttonVariants({ variant: 'text' })}
-                    onClick={toggleButton}
-                  >
-                    로그인
-                  </Link>
-                  <Link
-                    href="/signup"
-                    className={buttonVariants({ variant: 'text' })}
-                    onClick={toggleButton}
-                  >
-                    회원가입
-                  </Link>
-                </>
-              )}
-
+              <GnbMenus isLogin={isLogin} />
               <h2 className="font-sm text-white">카테고리</h2>
               <Suspense fallback={<div></div>}>
                 <Categories />

@@ -29,6 +29,7 @@ const nextConfig = {
       'store.storeimages.cdn-apple.com',
       'img.danawa.com',
       'blog.kakaocdn.net',
+      'via.placeholder.com',
     ],
   },
 };

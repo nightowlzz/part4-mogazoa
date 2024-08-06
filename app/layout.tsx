@@ -27,7 +27,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const session = await getServerSession(authOptions);
   return (
     <html lang="ko">
-      <body className={(inter.className, 'bg-BgBlack px-5 pt-[70px] md:pt-[80px] lg:pt-[100px]')}>
+      <body className={(inter.className, 'bg-BgBlack px-5 pt-[50px] md:pt-[60px] lg:pt-[100px]')}>
         <QueryProviderWrapper>
           <Provider>
             <Gnb isLoginServer={!!session} />
@@ -35,7 +35,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             {!!session && <FloatAddButton />}
           </Provider>
         </QueryProviderWrapper>
-        <Toaster position="top-center" />
+        <Toaster position="bottom-center" />
         <KakaoScript />
       </body>
     </html>

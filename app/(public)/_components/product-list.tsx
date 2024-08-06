@@ -1,10 +1,10 @@
 'use client';
 import ContentEmpty from '@/components/content-empty';
+import { Product } from '@/components/products/product';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetProducts } from '@/hooks/product';
 import { ProductsListResponse } from '@/types/data';
 import { InitialDataFunction } from '@tanstack/react-query';
-import { Product } from './product';
 interface ProductListProps {
   initialData: ProductsListResponse | InitialDataFunction<ProductsListResponse> | undefined;
 }

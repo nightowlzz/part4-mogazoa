@@ -11,6 +11,7 @@ import Profile from '@/app/_styled-guide/_components/profile';
 import Link from 'next/link';
 import EmptyImage from '@/public/assets/images/empty-logo.svg';
 import Image from 'next/image';
+import { Product } from './products/product';
 
 interface Product {
   id: number;
@@ -108,57 +109,47 @@ export default function ProfileSection({
   };
 
   return (
-    <div style={{ overflowX: 'hidden' }}>
-      <div className="w-full h-full bg-[#1C1C22] flex flex-col items-center mb-[80px]">
-        <div className="flex flex-col mt-[30px] md:mt-[40px] lg:flex-row lg:justify-center lg:items-start">
-          <div className="mb-[60px] lg:mr-[60px]">
-            <Profile
-              id={userInfo.id}
-              image={userInfo.image}
-              description={userInfo.description}
-              nickname={userInfo.nickname}
-              followeesCount={userInfo.followeesCount}
-              followersCount={userInfo.followersCount}
-              isFollowing={userInfo.isFollowing}
-              isMyPage={isMyPage}
-            />
+    <div className="w-full max-w-[1340px] py-[60px] m-auto">
+      {/* w-full h-full bg-[#1C1C22] flex flex-col items-center mb-[80px] */}
+      <div className="flex items-start justify-center flex-col md:flex-row gap-[50px] md:gap-[60px]">
+        {/* flex flex-col mt-[30px] md:mt-[40px] lg:flex-row lg:justify-center lg:items-start */}
+        <Profile
+          id={userInfo.id}
+          image={userInfo.image}
+          description={userInfo.description}
+          nickname={userInfo.nickname}
+          followeesCount={userInfo.followeesCount}
+          followersCount={userInfo.followersCount}
+          isFollowing={userInfo.isFollowing}
+          isMyPage={isMyPage}
+        />
+        <div className="w-full">
+          <div className="mb-[61px]">
+            <h2 className="text-white text-lg mb-[30px]">활동 내역</h2>
+            <div className="grid grid-cols-3 gap-[10px] lg:gap-[20px]">
+              <ActivityRating rating={userInfo.averageRating} />
+              <ActivityReview reviewCount={userInfo.reviewCount} />
+              <ActivityCategory
+                mostFavoriteCategory={userInfo.mostFavoriteCategory}
+                className="whitespace-nowrap"
+              />
+            </div>
           </div>
           <div>
-            <div className="mb-[61.5px]">
-              <h2 className="text-white text-lg mb-[30px]">활동 내역</h2>
-              <div className="flex gap-[10px] lg:gap-[20px]">
-                <ActivityRating rating={userInfo.averageRating} />
-                <ActivityReview reviewCount={userInfo.reviewCount} />
-                <ActivityCategory
-                  mostFavoriteCategory={userInfo.mostFavoriteCategory}
-                  className="whitespace-nowrap"
-                />
-              </div>
+            <div className="mb-[30px]">
+              <ProductSortSelector
+                category={options}
+                placeHolder={selectedCategory}
+                onChange={onCategoryChange}
+              />
             </div>
-            <div>
-              <div className="mb-[31.5px]">
-                <ProductSortSelector
-                  category={options}
-                  placeHolder={selectedCategory}
-                  onChange={onCategoryChange}
-                />
+            {renderEmptyMessage() || (
+              <div className="grid grid-cols-2 gap-[15px] lg:grid-cols-3 lg:gap-[20px]">
+                {productsList.map((product) => (
+                  <Product key={product.id} {...product} />
+                ))}
               </div>
-              {renderEmptyMessage() || (
-                <div className="grid grid-cols-2 gap-[15px] lg:grid-cols-3 lg:gap-[20px]">
-                  {productsList.map((product) => (
-                    <Link href={`/product/${product.id}`} key={product.id}>
-                      <ProductCard
-                        name={product.name}
-                        image={product.image}
-                        rating={product.rating}
-                        reviewCount={product.reviewCount}
-                        favoriteCount={product.favoriteCount}
-                      />
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
       </div>
