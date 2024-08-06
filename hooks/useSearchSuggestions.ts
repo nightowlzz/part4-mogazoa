@@ -5,6 +5,7 @@ import { ProductsListResponse } from '@/types/data';
 import { NO_KEYWORD, NO_RESULT } from '@/constants/messages';
 import { MAX_SUGGESTION } from '@/constants/limit';
 import { ProductOption } from '@/store/globalStore';
+import { useGetProducts } from './product';
 
 interface UseSearchSuggestionsOptions {
   keyword: string;
@@ -19,14 +20,13 @@ const useSearchSuggestions = ({ keyword, previousSearches }: UseSearchSuggestion
     data,
     isLoading: queryLoading,
     isError: queryError,
-  } = useDataQuery<ProductsListResponse>(
-    ['products', 'searchSuggestions', debouncedKeyword],
-    '/products',
+  } = useGetProducts(
     {
-      enabled: !!debouncedKeyword,
+      keyword: debouncedKeyword,
+    },
+    {
       staleTime: 60 * 1000,
     },
-    { keyword: debouncedKeyword },
   );
 
   useEffect(() => {

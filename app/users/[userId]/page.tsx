@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import ProfileSection from '@/components/ProfileSection';
 import { UserInfo } from '@/components/ProfileSection';
 import { Skeleton } from '@/components/ui/skeleton';
+import NotFound from '@/app/not-found';
 
 interface Product {
   id: number;
@@ -86,12 +87,8 @@ export default function UserId() {
     );
   }
 
-  if (userInfoError) {
-    return <div>Error: {userInfoError?.message}</div>;
-  }
-
-  if (userInfoResponse?.teamId !== '5-6') {
-    return <div>없는 유저 id</div>;
+  if (userInfoResponse?.teamId !== '5-6' || userInfoError) {
+    return router.push('/not-found');
   }
 
   const userInfo: UserInfo = {

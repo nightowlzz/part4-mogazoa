@@ -25,12 +25,11 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useUploadImage } from '@/hooks/image';
-import { useCreateProduct } from '@/hooks/product';
+import { useCreateProduct, useGetProducts } from '@/hooks/product';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
-import { useDataQuery } from '@/services/common';
 import { ProductsListResponse } from '@/types/data';
 import { useRouter } from 'next/navigation';
 import { BiImageAdd } from 'react-icons/bi';
@@ -97,14 +96,13 @@ export default function AddProductModal({ triggerButton }: AddProductModalProps)
     data,
     isLoading: queryLoading,
     isError: queryError,
-  } = useDataQuery<ProductsListResponse>(
-    ['products', 'searchSuggestions', form.getValues('name')],
-    '/products',
+  } = useGetProducts(
+    { keyword: form.getValues('name') },
     {
       staleTime: 60 * 1000,
     },
-    { keyword: form.getValues('name') },
   );
+
   function isProductNameDuplicate(name: string): boolean {
     return data ? data.list.some((product: { name: string }) => product.name === name) : false;
   }
