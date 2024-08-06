@@ -1,5 +1,5 @@
 import styled from '@/app/(public)/_styles/main.module.scss';
-import { CategoryResponse, RankedUserResponse } from '@/types/data';
+import { CategoryResponse, ProductResponse, RankedUserResponse } from '@/types/data';
 import axiosInstance from '@/utils/axiosInstance';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import CategoryList from './_components/category-list';
@@ -18,9 +18,27 @@ export default async function HomeLayout({ children }: { children: React.ReactNo
     }),
 
     queryClient.prefetchQuery({
-      queryKey: ['ranking'],
+      queryKey: ['userRanking'],
       queryFn: async () => {
         const response = await axiosInstance.get<RankedUserResponse[]>('/users/ranking');
+        return response.data;
+      },
+    }),
+    queryClient.prefetchQuery({
+      queryKey: ['products', { order: 'reviewCount', cursor: 0 }],
+      queryFn: async () => {
+        const response = await axiosInstance.get<ProductResponse[]>('/products', {
+          params: { order: 'reviewCount', cursor: 0 },
+        });
+        return response.data;
+      },
+    }),
+    queryClient.prefetchQuery({
+      queryKey: ['products', { order: 'rating', cursor: 0 }],
+      queryFn: async () => {
+        const response = await axiosInstance.get<ProductResponse[]>('/products', {
+          params: { order: 'rating', cursor: 0 },
+        });
         return response.data;
       },
     }),
@@ -31,7 +49,7 @@ export default async function HomeLayout({ children }: { children: React.ReactNo
       <HydrationBoundary state={dehydrate(queryClient)}>
         <CategoryList />
         {children}
-        <RankingList initialData={queryClient.getQueryData(['ranking']) || []} />
+        <RankingList />
       </HydrationBoundary>
     </div>
   );
