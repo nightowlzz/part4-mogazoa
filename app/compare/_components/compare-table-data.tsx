@@ -1,9 +1,9 @@
 'use client';
 
+import ContentEmpty from '@/components/content-empty';
 import { useGetProductDetail } from '@/hooks/product';
 import useCompareStore from '@/store/compareStore';
 import CompareTable, { roundToOneDecimal } from './compare-table';
-import LoadingTable from './loading-table';
 // 항목을 비교하는 함수
 const CompareTableData = () => {
   const { compareItems } = useCompareStore((state) => ({
@@ -23,8 +23,8 @@ const CompareTableData = () => {
   // 비교할 품목이 모두 들어오지 않으면 Loading을 표시합니다.
   if (!product1 || !product2) {
     return (
-      <div className="flex justify-center mt-[220px] md:mt-[368px] lg:mt-[413px]">
-        <LoadingTable />
+      <div className="flex justify-center">
+        <ContentEmpty text="비교할 항목을 모두 추가해 보세요" />
       </div>
     );
   }
