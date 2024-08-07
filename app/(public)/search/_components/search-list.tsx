@@ -57,12 +57,17 @@ export default function SearchList({ keyword, category, initialData }: ProductLi
         ))}
       </div>
     );
-
   return (
     <>
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-[15px] md:gap-5" ref={ref}>
-        {products ? products.map((card) => <Product key={card.id} {...card} />) : <ContentEmpty />}
-      </div>
+      {products && products?.length !== 0 ? (
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-[15px] md:gap-5" ref={ref}>
+          {products.map((card) => (
+            <Product key={card.id} {...card} />
+          ))}
+        </div>
+      ) : (
+        <ContentEmpty />
+      )}
     </>
   );
 }
