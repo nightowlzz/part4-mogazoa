@@ -40,6 +40,7 @@ const CategorySelector = ({
 }: CategorySelectorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<CategoryOption | undefined>(initialValue);
+
   // 버튼 이벤트
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -55,11 +56,11 @@ const CategorySelector = ({
   };
 
   return (
-    <div className="relative inline-block text-left w-full">
+    <div className="relative inline-block text-left w-full ">
       <div>
         <button
           type="button"
-          className="inline-flex justify-between align-middle w-full rounded-lg border-gray-700 hover:border-blue bg-black-450 px-5 py-[1.063rem] lg:py-[1.438rem] text-sm font-medium text-gray-600 hover:text-white"
+          className="inline-flex justify-between items-center align-middle w-full rounded-lg border-gray-650 border hover:border-blue bg-black-450 px-5 h-[53px] md:h-[68px] text-sm md:text-base font-medium text-gray-600 hover:text-white"
           aria-expanded="true"
           aria-haspopup="true"
           onClick={toggleDropdown}

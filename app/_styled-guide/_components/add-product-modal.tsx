@@ -194,8 +194,8 @@ export default function AddProductModal({ triggerButton }: AddProductModalProps)
                 name="image"
                 render={({ field }) => (
                   <FormItem>
-                    <div className="relative flex h-[140px] md:h-full w-[140px] md:w-[135px] lg:w-[160px]">
-                      <FormControl>
+                    <div className="relative flex h-[152px] w-[140px] md:w-[160px] lg:w-[160px]">
+                      <FormControl className="flex-grow-0">
                         <>
                           <Input
                             id="productPicture"
