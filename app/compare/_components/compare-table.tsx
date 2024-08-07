@@ -23,7 +23,7 @@ const CompareTable = ({ product1, product2, results }: CompareTableProps) => {
   };
 
   return (
-    <div className="w-full lg:w-[940px] px-5 md:px-[30px] lg:px-0 max-w-full overflow-x-auto justify-center">
+    <div className="w-full lg:w-[940px] md:px-[30px] lg:px-0 max-w-full overflow-x-auto justify-center">
       <table className="w-full lg:max-w-[58.75rem] rounded-xl text-center bg-black-450 text-gray-500">
         <thead className="border-b border-gray-700">
           <tr>
