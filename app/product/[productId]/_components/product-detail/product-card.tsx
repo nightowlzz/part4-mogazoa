@@ -57,12 +57,12 @@ function ProductCard({
     // 현재 상품이 비교 목록에 이미 존재하는지 확인
     const isItemAlreadyInCompare = compareItems.some((item) => item?.id === Number(productId));
 
-    if (compareItems.length === 0) {
+    if (compareItems.every((item) => item === null)) {
       addCompareItem({ id: Number(productId), name });
       setConfirmModalTitle('비교상품으로 추가되었습니다');
       setConfirmButtonText('확인');
       setIsConfirmModalOpen(true);
-    } else if (compareItems.length === 1) {
+    } else if (compareItems.filter((item) => item !== null).length === 1) {
       if (isItemAlreadyInCompare) {
         setConfirmModalTitle('이미 비교할 상품으로 추가되었습니다.');
         setConfirmButtonText('확인');
@@ -79,7 +79,7 @@ function ProductCard({
         setConfirmButtonText('바로가기');
         setIsConfirmModalOpen(true);
       }
-    } else if (compareItems.length === 2) {
+    } else if (compareItems.filter((item) => item !== null).length === 2) {
       if (isItemAlreadyInCompare) {
         setConfirmModalTitle(
           <>
