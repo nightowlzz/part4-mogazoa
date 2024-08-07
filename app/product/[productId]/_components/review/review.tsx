@@ -3,11 +3,11 @@ import { useDeleteReview } from '@/hooks/review';
 import { ReviewResponse } from '@/types/data';
 import { useQueryClient } from '@tanstack/react-query';
 import Image from 'next/image';
-import { LegacyRef } from 'react';
+import { Dispatch, LegacyRef, SetStateAction } from 'react';
 import { toast } from 'sonner';
 import EditReview from '../modal/edit-review';
-import Thumbs from './thumbs';
 import { ReviewProfile } from './review-profile';
+import Thumbs from './thumbs';
 
 interface ReviewProps extends ReviewResponse {
   currentUserId: number | null;
@@ -15,6 +15,7 @@ interface ReviewProps extends ReviewResponse {
   categoryName: string;
   productName: string;
   categoryId: number;
+  setReviewId: Dispatch<SetStateAction<number>>;
 }
 
 export default function Review({
@@ -33,11 +34,13 @@ export default function Review({
   productName,
   categoryId,
   categoryName,
+  setReviewId,
 }: ReviewProps) {
   const isMyReview = userId === currentUserId;
   const queryClient = useQueryClient();
   const deleteReview = useDeleteReview(reviewId, {
     onSuccess: () => {
+      setReviewId(reviewId);
       toast.success('리뷰가 삭제 되었습니다.');
     },
     onError: () => {
@@ -53,7 +56,7 @@ export default function Review({
 
   const handleDelete = () => {
     deleteReview.mutate();
-    queryClient.invalidateQueries({ queryKey: ['review'] });
+    queryClient.invalidateQueries({ queryKey: ['review', { reviewId }] });
   };
 
   return (
@@ -110,6 +113,7 @@ export default function Review({
                     variant="text"
                     size="auto"
                     className="text-gray-600 text-xs lg:text-sm font-light underline decoration-gray-600"
+                    disabled={deleteReview.isPending}
                   >
                     수정
                   </Button>
