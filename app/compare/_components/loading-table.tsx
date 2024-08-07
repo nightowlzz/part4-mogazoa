@@ -1,6 +1,7 @@
+import React from 'react';
 import Image from 'next/image';
 
-export default function Loading() {
+export default function LoadingTable() {
   return (
     <div className="flex flex-col items-center gap-3 md:gap-5">
       <div className="relative w-[50px] md:w-[70px] h-[40px] md:h-[50px]">

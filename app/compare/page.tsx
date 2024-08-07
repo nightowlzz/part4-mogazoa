@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import ComparePageInput from './_components/compare-page-input';
 import CompareTableData from './_components/compare-table-data';
 import useCompareStore from '@/store/compareStore';
-import FloatAddButton from '../_styled-guide/_components/float-add-button';
 
 function ComparePage() {
   const clearCompareItems = useCompareStore((state) => state.clearCompareItems);
