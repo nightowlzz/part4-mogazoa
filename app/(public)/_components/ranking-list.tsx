@@ -14,18 +14,13 @@ import { RankedUserResponse } from '@/types/data';
 import { Skeleton } from '@/components/ui/skeleton';
 import useIsMobile from '@/hooks/useMobileDetect';
 
-interface RankingListProps {
-  initialData: RankedUserResponse[]; // 올바른 타입 정의
-}
-
-function RankingContent({ initialData }: RankingListProps) {
+function RankingContent() {
   const isMobile = useIsMobile();
   const {
     data: userRanking,
     isPending,
     isError,
   } = useGetUserRanking({
-    initialData,
     refetchInterval: 1000 * 60,
   });
 
@@ -87,7 +82,7 @@ function RankingContent({ initialData }: RankingListProps) {
   );
 }
 
-export default function RankingList({ initialData }: RankingListProps) {
+export default function RankingList() {
   return (
     <>
       <aside className={cn(styled['main-ranking'], 'pt-[45px] lx:px-[30px] overflow-hidden')}>
@@ -95,7 +90,7 @@ export default function RankingList({ initialData }: RankingListProps) {
           리뷰어 랭킹
           <small className="inline-block xl:block text-gray-600">(실시간 랭킹: 1분 단위)</small>
         </h2>
-        <RankingContent initialData={initialData} />
+        <RankingContent />
       </aside>
     </>
   );

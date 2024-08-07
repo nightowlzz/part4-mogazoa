@@ -3,18 +3,9 @@ import ContentEmpty from '@/components/content-empty';
 import { Product } from '@/components/products/product';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetProducts } from '@/hooks/product';
-import { ProductsListResponse } from '@/types/data';
-import { InitialDataFunction } from '@tanstack/react-query';
-interface ProductListProps {
-  initialData: ProductsListResponse | InitialDataFunction<ProductsListResponse> | undefined;
-}
 
-export default function ProductList({ initialData }: ProductListProps) {
-  const {
-    data: products,
-    isError,
-    isPending,
-  } = useGetProducts(undefined, { initialData: initialData });
+export default function ProductList({ order }: { order?: 'rating' | 'reviewCount' }) {
+  const { data: products, isError, isPending } = useGetProducts({ order, cursor: 0 });
 
   if (isError) return <div>isERROR</div>;
 
