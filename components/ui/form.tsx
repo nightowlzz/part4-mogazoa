@@ -1,3 +1,4 @@
+'use client';
 import * as React from 'react';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
@@ -11,7 +12,8 @@ import {
 } from 'react-hook-form';
 
 import { cn } from '@/lib/utils';
-import { Label } from '@/components/ui/label';
+import { Label, labelVariants } from '@/components/ui/label';
+import { VariantProps } from 'class-variance-authority';
 
 const Form = FormProvider;
 
@@ -72,7 +74,7 @@ const FormItem = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
 
     return (
       <FormItemContext.Provider value={{ id }}>
-        <div ref={ref} className={cn('space-y-2', className)} {...props} />
+        <div ref={ref} className={cn('space-y-[10px]', className)} {...props} />
       </FormItemContext.Provider>
     );
   },
@@ -81,14 +83,15 @@ FormItem.displayName = 'FormItem';
 
 const FormLabel = React.forwardRef<
   React.ElementRef<typeof LabelPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root>
->(({ className, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof LabelPrimitive.Root> & VariantProps<typeof labelVariants>
+>(({ className, variant, ...props }, ref) => {
   const { error, formItemId } = useFormField();
 
   return (
     <Label
       ref={ref}
-      className={cn(error && 'text-destructive', className)}
+      variant={variant}
+      className={cn(`${variant === 'file' ? labelVariants({ variant }) : error && ''}`, className)}
       htmlFor={formItemId}
       {...props}
     />
@@ -124,7 +127,7 @@ const FormDescription = React.forwardRef<
     <p
       ref={ref}
       id={formDescriptionId}
-      className={cn('text-sm text-muted-foreground', className)}
+      className={cn('text-xs text-gray-600 text-muted-foreground', className)}
       {...props}
     />
   );
@@ -146,7 +149,7 @@ const FormMessage = React.forwardRef<
     <p
       ref={ref}
       id={formMessageId}
-      className={cn('text-sm font-medium text-destructive', className)}
+      className={cn('text-xs md:text-sm font-medium text-destructive', className)}
       {...props}
     >
       {body}
