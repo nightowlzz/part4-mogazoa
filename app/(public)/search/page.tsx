@@ -22,8 +22,8 @@ function createMessage(categoryName: string | undefined, keyword: string | undef
   if (categoryName && keyword) {
     return (
       <span>
-        <strong className="text-gray-400 underline">{categoryName}</strong>의 상품 중에
-        <strong className="text-gray-400 underline pl-1">{keyword}</strong> 상품
+        <strong className="text-gray-400 underline">{categoryName}</strong>상품 중
+        <strong className="text-gray-400 underline pl-1">{keyword}</strong>상품
       </span>
     );
   } else if (categoryName) {
@@ -38,8 +38,6 @@ function createMessage(categoryName: string | undefined, keyword: string | undef
         <strong className="text-gray-400 underline pl-1">{keyword}</strong> 상품
       </span>
     );
-  } else {
-    return <span>상품이 없습니다.</span>;
   }
 }
 
@@ -98,6 +96,7 @@ export default async function ProductPage({ searchParams }: TemplateProps) {
       </div>
       <HydrationBoundary state={dehydrate(queryClient)}>
         <SearchList
+          categoryName={searchParams.category}
           category={Number(searchParams.categoryId)}
           keyword={searchParams.keyword ? searchParams.keyword : undefined}
           initialData={initialData}

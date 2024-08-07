@@ -1,13 +1,14 @@
 'use client';
 import ContentEmpty from '@/components/content-empty';
+import { Product } from '@/components/products/product';
+import { Skeleton } from '@/components/ui/skeleton';
 import { InfiniteQueryData, QueryListResponse, useInfinityScroll } from '@/hooks/useInfinityScroll';
 import useSortOrderStore from '@/store/sortOrderStore';
 import { ProductResponse, ProductsListResponse } from '@/types/data';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Product } from '@/components/products/product';
 interface ProductListProps {
   keyword?: string | undefined;
   category?: number | undefined;
+  categoryName?: string | undefined;
   initialData?: ProductsListResponse;
 }
 
@@ -26,7 +27,12 @@ const transformToInitialData = (
   };
 };
 
-export default function SearchList({ keyword, category, initialData }: ProductListProps) {
+export default function SearchList({
+  keyword,
+  category,
+  categoryName,
+  initialData,
+}: ProductListProps) {
   const { sortOrder } = useSortOrderStore();
   const {
     ref,
@@ -51,12 +57,13 @@ export default function SearchList({ keyword, category, initialData }: ProductLi
             <Skeleton className="h-[125px] w-full rounded-xl" />
             <div className="space-y-2">
               <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-[80%w]" />
+              <Skeleton className="h-4 w-[80%]" />
             </div>
           </div>
         ))}
       </div>
     );
+
   return (
     <>
       {products && products?.length !== 0 ? (
@@ -66,7 +73,9 @@ export default function SearchList({ keyword, category, initialData }: ProductLi
           ))}
         </div>
       ) : (
-        <ContentEmpty />
+        <ContentEmpty
+          text={keyword ? `"${keyword}" 상품이 없습니다.` : `"${categoryName}" 상품이 없습니다.`}
+        />
       )}
     </>
   );
