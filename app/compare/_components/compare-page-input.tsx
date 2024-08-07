@@ -31,7 +31,7 @@ function ComparePageInput({ index }: ComparePageInputProps) {
   }));
 
   useEffect(() => {
-    if (compareItem === undefined) {
+    if (compareItem === null) {
       setTag('');
     } else setTag(compareItem?.name);
   }, [compareItem, index]);
@@ -48,15 +48,6 @@ function ComparePageInput({ index }: ComparePageInputProps) {
     setTag('');
     deleteCompareItem(index);
   };
-
-  // 검색창에서 엔터 입력 시 동작. 검색어는 한 글자 이상 입력해야 함
-  /*
-    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Enter' && keyword.trim() && onEnter) {
-        onEnter(keyword);
-      }
-    };
-    */
 
   return (
     <div className="relative flex items-center w-full lg:w-[350px] h-[55px] lg:h-[70px] bg-black-400 rounded-lg">
