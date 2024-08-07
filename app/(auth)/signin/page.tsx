@@ -112,11 +112,12 @@ export default function SignInForm() {
               </FormItem>
             )}
           />
+
+          <Button type="submit" variant="default" className="mt-[60px]">
+            로그인
+          </Button>
         </form>
       </Form>
-      <Button variant="default" className="mt-[60px]" onClick={form.handleSubmit(onSubmit)}>
-        로그인
-      </Button>
       <SocialLogin />
     </div>
   );
