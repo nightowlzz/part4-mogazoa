@@ -5,6 +5,7 @@ import { useInfinityScroll } from '@/hooks/useInfinityScroll';
 import useSortOrderStore from '@/store/sortOrderStore';
 import Review from './review';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useState } from 'react';
 
 interface reviewInfoProps {
   productId: string | string[];
@@ -46,6 +47,7 @@ export function ReviewListContent({
   categoryName,
 }: reviewInfoProps) {
   const { sortOrder } = useSortOrderStore();
+  const [reviewId, setReviewId] = useState();
   const {
     ref,
     data: getReviewList,
@@ -55,6 +57,7 @@ export function ReviewListContent({
     queryKey: 'review',
     productId: productId,
     order: sortOrder,
+    reviewId: reviewId,
   });
 
   if (isError) return <div>ERROR</div>;
@@ -76,6 +79,7 @@ export function ReviewListContent({
             <Review
               key={review.id}
               {...review}
+              setReviewId={setReviewId}
               currentUserId={currentUserId}
               reviewRef={ref}
               productName={productName}

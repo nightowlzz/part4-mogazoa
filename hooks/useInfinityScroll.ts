@@ -59,6 +59,7 @@ interface useInfinityScrollProps<T> {
   keyword?: string;
   category?: number;
   userId?: number;
+  reviewId?: number;
   initialData?: InfiniteQueryData<QueryListResponse<T>>; // 제네릭 타입 추가
 }
 
@@ -70,6 +71,7 @@ export const useInfinityScroll = <T>({
   keyword,
   category,
   userId,
+  reviewId,
   initialData,
 }: useInfinityScrollProps<T>) => {
   const { ref, inView } = useInView({
@@ -115,7 +117,7 @@ export const useInfinityScroll = <T>({
     fetchNextPage,
     hasNextPage,
   } = useInfiniteQuery({
-    queryKey: [queryKey, { productId, order, keyword, category, userId }],
+    queryKey: [queryKey, { productId, order, keyword, category, userId, reviewId }],
     queryFn: async ({ pageParam: cursor = 0 }) => {
       return buildFetchingData({ order, keyword, category, cursor });
     },
