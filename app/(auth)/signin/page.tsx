@@ -54,7 +54,7 @@ export default function SignInForm() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative py-[60px]">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

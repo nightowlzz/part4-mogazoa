@@ -85,7 +85,7 @@ function RankingContent() {
 export default function RankingList() {
   return (
     <>
-      <aside className={cn(styled['main-ranking'], 'pt-[45px] lx:px-[30px] overflow-hidden')}>
+      <aside className={cn(styled['main-ranking'], 'pt-[60px] lx:px-[30px] overflow-hidden')}>
         <h2 className="font-sm lg:font-base text-white pb-5">
           리뷰어 랭킹
           <small className="inline-block xl:block text-gray-600">(실시간 랭킹: 1분 단위)</small>
