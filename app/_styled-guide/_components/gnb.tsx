@@ -13,6 +13,7 @@ import GnbSearchBar from './gnb-search-bar';
 import Logo from './logo';
 
 function GnbMenus({ isLogin }: { isLogin: boolean }) {
+  const { toggleButton } = useButtonStore();
   return (
     <div className="flex flex-col gap-[12px] order-3 pt-6 mt-6 border-t border-gray-600 md:order-1 md:border-t-0 md:mt-0 md:pt-0 md:flex-row md:gap-[30px] lg:gap-[60px]">
       <h2 className="block font-sm text-white pb-2 md:hidden">마이메뉴</h2>
@@ -24,6 +25,7 @@ function GnbMenus({ isLogin }: { isLogin: boolean }) {
               buttonVariants({ variant: 'text', size: 'auto' }),
               'py-1 px-3 justify-start text-gray-600 md:justify-center md:text-white',
             )}
+            onClick={toggleButton}
           >
             비교하기
           </Link>
@@ -33,6 +35,7 @@ function GnbMenus({ isLogin }: { isLogin: boolean }) {
               buttonVariants({ variant: 'text', size: 'auto' }),
               'py-1 px-3 justify-start text-gray-600 md:justify-center md:text-white',
             )}
+            onClick={toggleButton}
           >
             내 프로필
           </Link>
@@ -46,6 +49,7 @@ function GnbMenus({ isLogin }: { isLogin: boolean }) {
               buttonVariants({ variant: 'text', size: 'auto' }),
               'py-1 px-3 justify-start text-gray-600 md:justify-center md:text-white',
             )}
+            onClick={toggleButton}
           >
             로그인
           </Link>
@@ -55,6 +59,7 @@ function GnbMenus({ isLogin }: { isLogin: boolean }) {
               buttonVariants({ variant: 'text', size: 'auto' }),
               'py-1 px-3 justify-start text-gray-600 md:justify-center md:text-white',
             )}
+            onClick={toggleButton}
           >
             회원가입
           </Link>
@@ -134,7 +139,7 @@ function Gnb({ isLoginServer }: { isLoginServer: boolean }) {
             <div className="w-[200px] bg-black-500 flex flex-col space-y-4 p-4 overflow-y-auto">
               <GnbMenus isLogin={isLogin} />
               <h2 className="font-sm text-white">카테고리</h2>
-              <Suspense fallback={<div></div>}>
+              <Suspense>
                 <Categories />
               </Suspense>
             </div>

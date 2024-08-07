@@ -1,16 +1,13 @@
 'use client';
 
-import { useEffect } from 'react';
-import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { ActivityCategory } from '@/app/_styled-guide/_components/activity-category';
 import { ActivityRating } from '@/app/_styled-guide/_components/activity-rating';
 import { ActivityReview } from '@/app/_styled-guide/_components/activity-review';
-import { ProductCard } from '@/app/_styled-guide/_components/card-product';
 import ProductSortSelector from '@/app/_styled-guide/_components/ProductSortSelector';
 import Profile from '@/app/_styled-guide/_components/profile';
-import Link from 'next/link';
-import EmptyImage from '@/public/assets/images/empty-logo.svg';
-import Image from 'next/image';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
+import ContentEmpty from './content-empty';
 import { Product } from './products/product';
 
 interface Product {
@@ -84,35 +81,18 @@ export default function ProfileSection({
 
   const renderEmptyMessage = () => {
     if (selectedCategory === '리뷰 남긴 상품' && productsList.length === 0) {
-      return (
-        <div className="flex flex-col items-center mt-32 gap-3">
-          <Image src={EmptyImage} alt="상품이 없을 때 이미지" />
-          <div className="text-gray-600">리뷰 남긴 상품이 없습니다</div>
-        </div>
-      );
+      return <ContentEmpty text={'리뷰 남긴 상품이 없습니다.'} />;
     } else if (selectedCategory === '등록한 상품' && productsList.length === 0) {
-      return (
-        <div className="flex flex-col items-center mt-32 gap-3">
-          <Image src={EmptyImage} alt="상품이 없을 때 이미지" />
-          <span className="text-gray-600">등록한 상품이 없습니다</span>
-        </div>
-      );
+      return <ContentEmpty text={'등록한 상품이 없습니다.'} />;
     } else if (selectedCategory === '찜한 상품' && productsList.length === 0) {
-      return (
-        <div className="flex flex-col items-center mt-32 gap-3">
-          <Image src={EmptyImage} alt="상품이 없을 때 이미지" />
-          <span className="text-gray-600">찜한 상품이 없습니다</span>
-        </div>
-      );
+      return <ContentEmpty text={'찜한 상품이 없습니다'} />;
     }
     return null;
   };
 
   return (
     <div className="w-full max-w-[1340px] py-[60px] m-auto">
-      {/* w-full h-full bg-[#1C1C22] flex flex-col items-center mb-[80px] */}
       <div className="flex items-start justify-center flex-col md:flex-row gap-[50px] md:gap-[60px]">
-        {/* flex flex-col mt-[30px] md:mt-[40px] lg:flex-row lg:justify-center lg:items-start */}
         <Profile
           id={userInfo.id}
           image={userInfo.image}

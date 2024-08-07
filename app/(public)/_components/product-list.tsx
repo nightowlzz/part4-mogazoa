@@ -26,13 +26,13 @@ export default function ProductList({ order }: { order?: 'rating' | 'reviewCount
 
   return (
     <>
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-[15px] md:gap-5">
-        {products ? (
-          products?.list.slice(0, 6).map((card) => <Product key={card.id} {...card} />)
-        ) : (
-          <ContentEmpty />
-        )}
-      </div>
+      {products && products?.list.length !== 0 ? (
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-[15px] md:gap-5">
+          {products?.list.slice(0, 6).map((card) => <Product key={card.id} {...card} />)}
+        </div>
+      ) : (
+        <ContentEmpty />
+      )}
     </>
   );
 }
