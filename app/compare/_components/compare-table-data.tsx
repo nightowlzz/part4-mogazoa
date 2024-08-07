@@ -87,8 +87,8 @@ const CompareTableData = () => {
       : '';
 
   return (
-    <div className="flex flex-col items-center w-full">
-      <div className="text-white mt-[100px] md:mt-[140px] mb-5 text-xl lg:text-2xl">
+    <div className="flex flex-col items-center w-full pb-[60px]">
+      <div className="text-white mt-[70px] md:mt-[140px] mb-5 text-xl lg:text-2xl">
         {winnerMessage}
       </div>
       <div className="text-white mb-4 text-xs lg:text-base">{overallMessage}</div>
