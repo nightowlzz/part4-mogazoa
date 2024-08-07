@@ -2,9 +2,8 @@
 
 import { useGetProductDetail } from '@/hooks/product';
 import useCompareStore from '@/store/compareStore';
-import Loading from '@/app/_styled-guide/_components/loading';
 import CompareTable, { roundToOneDecimal } from './compare-table';
-
+import LoadingTable from './loading-table';
 // 항목을 비교하는 함수
 const CompareTableData = () => {
   const { compareItems } = useCompareStore((state) => ({
@@ -25,7 +24,7 @@ const CompareTableData = () => {
   if (!product1 || !product2) {
     return (
       <div className="flex justify-center mt-[220px] md:mt-[368px] lg:mt-[413px]">
-        <Loading />
+        <LoadingTable />
       </div>
     );
   }
