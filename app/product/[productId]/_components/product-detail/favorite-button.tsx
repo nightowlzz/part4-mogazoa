@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { useFavoriteProduct, useUnfavoriteProduct } from '@/hooks/product';
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { IoIosHeart, IoMdHeartEmpty } from 'react-icons/io';
 import { toast } from 'sonner';
@@ -14,10 +15,12 @@ export default function FavoriteButton({
   isFavorite: initialIsFavorite,
 }: FavoriteButtonProps) {
   const [isFavorited, setIsFavorited] = useState(initialIsFavorite);
+  const queryClient = useQueryClient();
 
   const favoriteProduct = useFavoriteProduct(Number(productId), {
     onSuccess: () => {
       setIsFavorited(true);
+      queryClient.invalidateQueries({ queryKey: ['productDetail', productId] });
     },
     onError: (error) => {
       toast.error('로그인이 필요합니다.');
@@ -28,6 +31,7 @@ export default function FavoriteButton({
   const unfavoriteProduct = useUnfavoriteProduct(Number(productId), {
     onSuccess: () => {
       setIsFavorited(false);
+      queryClient.invalidateQueries({ queryKey: ['productDetail', productId] });
     },
     onError: (error) => {
       console.error('Failed to unfavorite product:', error);
@@ -36,7 +40,8 @@ export default function FavoriteButton({
 
   useEffect(() => {
     setIsFavorited(initialIsFavorite);
-  }, [productId, initialIsFavorite]);
+    queryClient.invalidateQueries({ queryKey: ['productDetail', productId] });
+  }, [isFavorited, queryClient, productId, initialIsFavorite]);
 
   const toggleFavorite = () => {
     if (isFavorited) {
