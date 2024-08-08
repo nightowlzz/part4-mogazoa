@@ -88,7 +88,6 @@ export default function Profile({
   const handleLogout = async () => {
     await logout();
     toast.success('로그아웃에 성공했습니다.');
-    router.push('/');
   };
 
   return (

@@ -50,7 +50,7 @@ export const useAuth = () => {
    * @returns {Promise<void>}
    */
   const logout = async () => {
-    await signOut({ redirect: false });
+    await signOut({ callbackUrl: '/' });
   };
 
   return {
