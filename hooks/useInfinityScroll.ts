@@ -26,7 +26,7 @@
  */
 import { ProductResponse } from '@/types/data';
 import instance from '@/utils/axiosInstance';
-import { addQueryParams } from '@/utils/hookUtils';
+import { addQueryParams } from '@/utils/hook-utils';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';

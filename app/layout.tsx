@@ -1,14 +1,14 @@
-import QueryProviderWrapper from '@/components/QueryProviderWrapper';
-import { Provider } from '@/components/SessionProvider';
 import type { Metadata } from 'next';
 import { getServerSession } from 'next-auth';
 import { Inter } from 'next/font/google';
 import { Toaster } from 'sonner';
-import FloatAddButton from './_styled-guide/_components/float-add-button';
-import Gnb from './_styled-guide/_components/gnb';
+import Header from '@/components/header/header';
+import FloatAddButton from '@/components/modal/float-add-button';
+import QueryProviderWrapper from '@/components/query-provider-wrapper';
+import { Provider } from '@/components/session-provider';
 import { authOptions } from './api/auth/[...nextauth]/auth-options';
 import './globals.css';
-import KakaoScript from './product/[productId]/_components/product-detail/kakao-script';
+import KakaoScript from './(public)/product/[productId]/_components/product-detail/kakao-script';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -50,7 +50,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body className={(inter.className, 'bg-BgBlack px-5 pt-[50px] md:pt-[60px] lg:pt-[100px]')}>
         <QueryProviderWrapper>
           <Provider>
-            <Gnb isLoginServer={!!session} />
+            <Header isLoginServer={!!session} />
             {children}
             <FloatAddButton isLoginServer={!!session} />
           </Provider>

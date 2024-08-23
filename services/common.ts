@@ -1,4 +1,3 @@
-import { handleErrorResponse } from '@/utils/errorHandler';
 import {
   UseMutationOptions,
   useQuery,

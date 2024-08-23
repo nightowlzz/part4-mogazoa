@@ -3,7 +3,7 @@ import ContentEmpty from '@/components/content-empty';
 import { Product } from '@/components/products/product';
 import { Skeleton } from '@/components/ui/skeleton';
 import { InfiniteQueryData, QueryListResponse, useInfinityScroll } from '@/hooks/useInfinityScroll';
-import useSortOrderStore from '@/store/sortOrderStore';
+import useSortOrderStore from '@/store/sort-order-store';
 import { ProductResponse, ProductsListResponse } from '@/types/data';
 interface ProductListProps {
   keyword?: string | undefined;

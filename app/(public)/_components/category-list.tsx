@@ -4,7 +4,7 @@ import { buttonVariants } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useGetCategories } from '@/hooks/category';
 import { cn } from '@/lib/utils';
-import useButtonStore from '@/store/globalStore';
+import useButtonStore from '@/store/global-store';
 import { CategoryResponse } from '@/types/data';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';

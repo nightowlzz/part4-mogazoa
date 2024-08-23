@@ -1,4 +1,3 @@
-import stringToFraction from '@/utils/stringToFraction';
 import { MdOutlineClose } from 'react-icons/md';
 import { Button } from '../button';
 import { ReactEventHandler } from 'react';

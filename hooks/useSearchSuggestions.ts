@@ -1,11 +1,9 @@
-import { useState, useEffect } from 'react';
-import useDebounce from './useDebounce';
-import { useDataQuery } from '@/services/common';
-import { ProductsListResponse } from '@/types/data';
-import { NO_KEYWORD, NO_RESULT } from '@/constants/messages';
 import { MAX_SUGGESTION } from '@/constants/limit';
-import { ProductOption } from '@/store/globalStore';
+import { NO_KEYWORD, NO_RESULT } from '@/constants/messages';
+import { ProductOption } from '@/store/global-store';
+import { useEffect, useState } from 'react';
 import { useGetProducts } from './product';
+import useDebounce from './useDebounce';
 
 interface UseSearchSuggestionsOptions {
   keyword: string;

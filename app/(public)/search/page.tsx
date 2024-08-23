@@ -1,12 +1,12 @@
 import styled from '@/app/(public)/_styles/main.module.scss';
-import SortSelector from '@/app/_styled-guide/_components/sort-selector';
-import { PRODUCT_SORT_OPTIONS } from '@/constants/sortOrder';
 import { QueryParams } from '@/hooks/useInfinityScroll';
 import { ProductsListResponse, ProductSortOrder, ReviewSortOrder } from '@/types/data';
 import axiosInstance from '@/utils/axiosInstance';
-import { addQueryParams } from '@/utils/hookUtils';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import SearchList from './_components/search-list';
+import { addQueryParams } from '@/utils/hook-utils';
+import { PRODUCT_SORT_OPTIONS } from '@/constants/sort-order';
+import SortSelector from '../product/[productId]/_components/sort-selector';
 
 interface TemplateProps {
   searchParams: {
