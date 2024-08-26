@@ -25,7 +25,6 @@ const SortSelector = ({ sortSelectOption }: CategorySelectorProps) => {
       id: 'recent',
       label: '최신순',
     };
-    console.log('result', result);
     setSortOrder(result.id);
     setIsOpen(false);
   };
