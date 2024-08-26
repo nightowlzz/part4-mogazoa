@@ -1,20 +1,20 @@
-## 코딩 컨벤션
+# Mogazoa
 
-`FLOW`에 적힌 코딩 컨벤션 공지를 보시고 작성을 부탁드립니다!
-ESLINT를 활용해서 코드의 스타일을 맞춰서 잘 작성해 주시면 크게 문제없을 것 같습니다.
+![Image Description](public/assets/images/image.png)
 
-## 브랜치 전략
+상품을 등록하고 리뷰나 비교를 통해 유저들이 상품에 대해 소통하는 사이트입니다.
 
-main브랜치는 최종적으로 안정성 잡혔을 때 dev브랜치에서 main으로 pr 날릴 예정입니다.
-feature/기능 혹은 feature-이슈(으)로 브랜치 만드셔서 작업하신 후 dev로 pr 넣어주세요!
+## Info
 
-## PR 양식
+링크 : https://part4-mogazoa-three.vercel.app/<br/>
+개발기간 : 2024.7.8 ~ 2024.8.7<br/>
+작업자 : 김미소, 김현서, 이상우, 장재혁, 최준엽<br/>
 
-PR 날리실 때는 Conversation에는 사전에 약속한 양식대로 작성해 주시고
-Comment 기능을 통해 로직별로 간단하게 설명을 '꼭' 부탁드립니다.
+## Skill
 
-## 코드 리뷰
-
-코드 리뷰를 2개 이상 받은 코드만 머지하기로 한 만큼 다들 코드 리뷰를 적극 참여 부탁드립니다.
-코드 리뷰에 딱히 간단한 기능이면 고생하셨습니다. 혹은 이모지 정도 달아주시면 감사하겠습니다.
-(코드 리뷰가 적극적으로 이루어져야 개발에 속도가 붙습니다.)
+Framework : Next.js (App Router)<br/>
+Language : TypeScript<br/>
+Library : Axios | React-Hook-Form | React-Query | Zustand | Swiper | Sonner<br/>
+Styling : Tailwind CSS | SCSS Module | shadcn/ui (기반: Radix UI)<br/>
+Git: 3-way merge<br/>
+협업 : Discord | Flow
